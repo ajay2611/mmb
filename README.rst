@@ -1,8 +1,5 @@
-mmb
+makemyband - mmb
 ==============================
-
-make my band
-
 
 LICENSE: BSD
 
