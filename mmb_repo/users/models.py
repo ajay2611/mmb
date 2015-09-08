@@ -18,3 +18,22 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse('users:detail', kwargs={'username': self.username})
+
+
+class Genre(models.Model):
+    genre = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return '{}'.format(self.genre)
+
+
+class Instrument(models.Model):
+    instrument = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return '{}'.format(self.instrument)
+
+
+class Profile(models.Model):
+    phone = models.IntegerField(max_length=10)
+    school = models.CharField(max_length=100)

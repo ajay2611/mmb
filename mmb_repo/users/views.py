@@ -3,11 +3,12 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
+from django.shortcuts import render_to_response
 
 from braces.views import LoginRequiredMixin
 
-from .forms import UserForm
-from .models import User
+from .forms import UserForm, CustProfileForm, ProfileForm
+from .models import User, Genre
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -47,3 +48,9 @@ class UserListView(LoginRequiredMixin, ListView):
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
+
+
+def edit_profile(request):
+    template = 'users/profile_form.html'
+    form = CustProfileForm()
+    return render_to_response(template, {'form': form})
