@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response
 
 from braces.views import LoginRequiredMixin
 
-from .forms import UserForm, CustProfileForm, ProfileForm
+from .forms import UserForm, ProfileForm
 from .models import User, Genre
 
 
@@ -52,5 +52,5 @@ class UserListView(LoginRequiredMixin, ListView):
 
 def edit_profile(request):
     template = 'users/profile_form.html'
-    form = CustProfileForm()
+    form = ProfileForm()
     return render_to_response(template, {'form': form})

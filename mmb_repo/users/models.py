@@ -8,10 +8,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
-    name = models.CharField("Name of User", blank=True, max_length=255)
+    name = models.CharField(blank=True, max_length=255)
 
     def __unicode__(self):
         return self.username
@@ -35,5 +32,13 @@ class Instrument(models.Model):
 
 
 class Profile(models.Model):
-    phone = models.IntegerField(max_length=10)
-    school = models.CharField(max_length=100)
+    genre = models.ForeignKey(Genre)
+    instrument = models.ForeignKey(Instrument)
+    # todo - need list of all colleges if possible
+    school = models.CharField(blank=True, max_length=100, null=True)
+    # todo - update with indian cities using inbuilt django package
+    current_city = models.CharField(blank=True, max_length=255, null=True)
+    phone = models.IntegerField(blank=True, null=True)
+    website = models.CharField(blank=True, max_length=100, null=True)
+    about_me = models.CharField(blank=True, max_length=255, null=True)
+

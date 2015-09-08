@@ -17,11 +17,8 @@ class UserForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
+    # about_me = forms.CharField(widget=forms.Textarea)
+
     class Meta:
         model = Profile
-        fields = ['phone', 'school']
-
-
-class CustProfileForm(ProfileForm):
-    genre = forms.ModelChoiceField(queryset=Genre.objects.all())
-    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all())
+        fields = ("genre", "instrument", "school", "current_city", "phone", "website", "about_me", )
