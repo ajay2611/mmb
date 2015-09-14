@@ -56,3 +56,4 @@ node_modules/
 .env
 
 mmb_repo/users/migrations/
+mmb_repo/mmb_data/migrations/

@@ -2,14 +2,17 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.utils.timezone
-import django.core.validators
 import django.contrib.auth.models
+from django.conf import settings
+import django.utils.timezone
+import mmb_repo.mmb_data.utils
+import django.core.validators
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('mmb_data', '__first__'),
         ('auth', '0006_require_contenttypes_0002'),
     ]
 
@@ -42,30 +45,18 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Genre',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('genre', models.CharField(max_length=30)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Instrument',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('instrument', models.CharField(max_length=30)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Profile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('school', models.CharField(max_length=100, null=True, blank=True)),
+                ('college', models.CharField(max_length=100, null=True, blank=True)),
                 ('current_city', models.CharField(max_length=255, null=True, blank=True)),
                 ('phone', models.IntegerField(null=True, blank=True)),
                 ('website', models.CharField(max_length=100, null=True, blank=True)),
                 ('about_me', models.CharField(max_length=255, null=True, blank=True)),
-                ('genre', models.ForeignKey(to='users.Genre')),
-                ('instrument', models.ForeignKey(to='users.Instrument')),
+                ('profile_pic', models.ImageField(null=True, upload_to=mmb_repo.mmb_data.utils.get_image_path, blank=True)),
+                ('genre', models.ForeignKey(to='mmb_data.Genre')),
+                ('instrument', models.ForeignKey(to='mmb_data.Instrument')),
+                ('user', models.ForeignKey(default=1, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

@@ -45,7 +45,8 @@ THIRD_PARTY_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'mmb_repo.users',  # custom users app
+    'mmb_repo.users',
+    'mmb_repo.mmb_data',  # custom users app
     # Your stuff: custom apps go here
 )
 

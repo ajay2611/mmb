@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django import forms
 
-from .models import User, Genre, Instrument, Profile
+from .models import User, Profile
 
 
 class UserForm(forms.ModelForm):
@@ -21,4 +21,4 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ("genre", "instrument", "school", "current_city", "phone", "website", "about_me", )
+        fields = ("genre", "instrument", "college", "current_city", "phone", "website", "about_me", )

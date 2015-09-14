@@ -1,6 +1,6 @@
 from django.db import models
 
-from mmb_repo.users.models import User
+# from mmb_repo.users.models import User
 
 
 class Genre(models.Model):
@@ -18,23 +18,23 @@ class Instrument(models.Model):
         return '{}'.format(self.instrument)
 
 
-class Band(models.Model):
-    name = models.CharField(blank=True, max_length=255)
-    desc = models.CharField(blank=True, max_length=255)
-    users = models.ManyToManyField(User)
-    band_genre = models.ForeignKey(Genre)
-    #tags - can't remember
+# class Band(models.Model):
+#     name = models.CharField(blank=True, max_length=255)
+#     desc = models.CharField(blank=True, max_length=255)
+#     users = models.ManyToManyField(User)
+#     band_genre = models.ForeignKey(Genre)
+#     #tags - can't remember
+#
+#
+# class Followers(models.Model):
+#     follower = models.ForeignKey(User)
+#     follower_is_user = models.BooleanField()
+#     following = models.ForeignKey(User)
+#     following_is_user = models.BooleanField()
 
-
-class Followers(models.Model):
-    follower = models.ForeignKey(User)
-    follower_is_user = models.BooleanField()
-    following = models.ForeignKey(User)
-    following_is_user = models.BooleanField()
-
-class Songs(models.Model):
+# class Songs(models.Model):
     # type = models.CharField(choices=SONG_TYPES, default='Audio')
     # tags = models.CharField(choices=SONG_TAGS)
-    uploaded_by = models.CharField(max_length=255)
-    singer = models.CharField(blank=True, max_length=255)
-    lebel = models.CharField(blank=True, max_length=255)
+    # uploaded_by = models.CharField(max_length=255)
+    # singer = models.CharField(blank=True, max_length=255)
+    # lebel = models.CharField(blank=True, max_length=255)
