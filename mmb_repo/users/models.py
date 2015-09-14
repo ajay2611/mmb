@@ -32,3 +32,6 @@ class Profile(models.Model):
     website = models.CharField(blank=True, max_length=100, null=True)
     about_me = models.CharField(blank=True, max_length=255, null=True)
     profile_pic = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.user

@@ -7,11 +7,11 @@ from . import views
 
 urlpatterns = [
     # URL pattern for the UserListView
-    # url(
-    #     regex=r'^edit-profile$',
-    #     view=views.edit_profile,
-    #     name='edit_profile'
-    # ),
+    url(
+        regex=r'^edit-profile/$',
+        view=views.edit_profile,
+        name='edit_profile'
+    ),
 
     # URL pattern for the UserRedirectView
     url(
