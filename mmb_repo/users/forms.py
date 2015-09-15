@@ -16,7 +16,7 @@ class UserForm(forms.ModelForm):
         fields = ("name", )
 
 
-class ProfileForm(forms.ModelForm):
+class ProfileDataForm(forms.ModelForm):
     # about_me = forms.CharField(widget=forms.Textarea)
 
     class Meta:
