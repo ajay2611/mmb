@@ -4,6 +4,8 @@ from __future__ import absolute_import, unicode_literals
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.core.exceptions import ValidationError
 
 from braces.views import LoginRequiredMixin
 
@@ -51,12 +53,25 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 def edit_profile(request):
+    success = False
     template = 'users/profile_form.html'
-    form = ProfileDataForm()
-    return render_to_response(template, {'form': form})
+    if request.method == 'POST':
+        profile_data_form = ProfileDataForm(request.POST)
+        if profile_data_form.is_valid():
+            profile_data_form.save()
+            success = True
+    else:
+        form = ProfileDataForm()
+    return render_to_response(template,
+                              {'form': form, 'success': success},
+                              context_instance=RequestContext(request)
+                              )
 
 
-def show_profile(request):
+def view_profile(request, user_id):
     template = 'users/profile.html'
-    # form = ProfileDataForm()
-    return render_to_response(template)
+    if request.method == 'GET':
+        data = User.objects.filter(id=1) #replace with user_id
+    else:
+        template = '404.html'
+    return render_to_response(template, {'data': data})
