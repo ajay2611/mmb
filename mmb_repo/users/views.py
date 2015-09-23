@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -54,14 +55,27 @@ class UserListView(LoginRequiredMixin, ListView):
 
 def edit_profile(request):
     success = False
+    form = ProfileDataForm()
     template = 'users/profile_form.html'
     if request.method == 'POST':
-        profile_data_form = ProfileDataForm(request.POST)
-        if profile_data_form.is_valid():
-            profile_data_form.save()
-            success = True
-    else:
-        form = ProfileDataForm()
+        form = ProfileDataForm(request.POST)
+        if form.is_valid():
+            # import pdb;pdb.set_trace()
+            # profile_data_form.save()
+
+            # data = request.data
+            # user = User.objects.create_user(username=username,
+            #                                 password=password,
+            #                                 first_name=first_name,
+            #                                 last_name=last_name)
+            #we have save the user here
+            # success = True
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            render_to_response(template,{
+                'form': form},context_instance=RequestContext(request)
+            )
+
     return render_to_response(template,
                               {'form': form, 'success': success},
                               context_instance=RequestContext(request)
