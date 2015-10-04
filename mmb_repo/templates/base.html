@@ -19,7 +19,11 @@
     <script src=" {% static 'js/ie/excanvas.js' %}"></script>
   <![endif]-->
 </head>
+{% block customize_background %}
 <body class="">
+{% endblock %}
+
+{% block vbox %}
   <section class="vbox">
     <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
       <div class="navbar-header aside bg-info nav-xs">
@@ -52,6 +56,11 @@
           </div>
         </div>
       </form>
+      
+
+      <!-- to be shown when user is logged in -->
+
+      {% if request.user.is_authenticated %}
       <div class="navbar-right ">
         <ul class="nav navbar-nav m-n hidden-xs nav-user user">
           <li class="hidden-xs">
@@ -93,7 +102,7 @@
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
                 <img src="{% static 'images/a0.png' %}" alt="...">
               </span>
-              John.Smith <b class="caret"></b>
+              {{ request.user }} <b class="caret"></b>
             </a>
             <ul class="dropdown-menu animated fadeInRight">            
               <li>
@@ -119,7 +128,41 @@
             </ul>
           </li>
         </ul>
-      </div>      
+      </div> 
+      {% else %}
+        <div class="navbar-right ">
+          <ul class="nav navbar-nav m-n hidden-xs nav-user user">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
+                  <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                    <img src="{% static 'images/a0.png' %}" alt="...">
+                  </span>
+                  Guest User <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu animated fadeInRight">            
+                  <li>
+                    <span class="arrow top"></span>
+                    <a href="{% url 'account_signup' %}">Sign Up</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'account_login' %}">Sign In</a>
+                  </li>
+                 
+                  <li>
+                    <a href="docs.html">Help</a>
+                  </li>
+                  
+                  
+                </ul>
+            </li>
+            </ul>
+            </div>
+
+
+      {% endif %}
+
+  
+
     </header>
     <section>
       <section class="hbox stretch">
@@ -441,7 +484,12 @@
         </aside>
         <!-- /.aside -->
 
-{% block content %} {% endblock %}
+{% endblock %}
+
+{% block content %} 
+
+
+{% endblock %}
       </section>
     </section>    
   </section>

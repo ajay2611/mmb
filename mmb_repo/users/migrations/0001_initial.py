@@ -12,7 +12,7 @@ import django.core.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mmb_data', '__first__'),
+        ('mmb_data', '0001_initial'),
         ('auth', '0006_require_contenttypes_0002'),
     ]
 
