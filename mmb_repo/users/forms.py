@@ -2,31 +2,30 @@
 from __future__ import absolute_import, unicode_literals
 
 from django import forms
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset,HTML,MultiField ,Div,Field
 from django.core.exceptions import ValidationError
+
 import validators
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, MultiField, Div, Field
 
 from .models import User, Profile
 
 
-
 class UserForm(forms.ModelForm):
-
     class Meta:
         # Set this form to use the User model
         model = User
 
         # Constrain the UserForm to just the name field.
-        fields = ("name", )
+        fields = ("username", )
 
 
-class ProfileDataForm(forms.ModelForm):
+class ProfileDataForm(UserForm):
     # about_me = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = Profile
-        fields = ("user", "genre", "instrument", "college", "current_city", "phone", "website", "about_me", )
+        fields = ("genre", "instrument", "college", "current_city", "phone", "website", "about_me",)
 
     def __init__(self, *args, **kwargs):
         super(ProfileDataForm, self).__init__(*args, **kwargs)
@@ -35,19 +34,19 @@ class ProfileDataForm(forms.ModelForm):
         # self.helper.filed_class = 'col-lg-5'
         # self.helper.form_class =  'form-horizontal'
         self.helper.layout = Layout(
-                'user',
-                'genre',
-                'instrument',
-                'college',
-                'current_city',
-                'phone',
-                'website',
-                'about_me',
+            'genre',
+            'instrument',
+            'college',
+            'current_city',
+            'phone',
+            'website',
+            'about_me',
 
             ButtonHolder(
                 Submit('submit', 'Submit', css_class='button white')
             )
         )
+
     def clean(self):
         cleaned_data = super(ProfileDataForm, self).clean()
         phone = cleaned_data['phone']
@@ -57,10 +56,8 @@ class ProfileDataForm(forms.ModelForm):
                 int(phone)
             except (ValueError, TypeError):
                 raise forms.ValidationError('Please enter a valid phone number')
-        if website:
-            if validators.url(website) == True:
-                pass
-            else:
-                 self._errors['website'] = self.error_class(
-                    ["Please enter a valid website. For example 'http://makemyband.in'"])
+
+        if website and not validators.url(website):
+            self._errors['website'] = self.error_class(
+                ["Please enter a valid website. For example 'http://makemyband.in'"])
         return cleaned_data

@@ -55,7 +55,6 @@ class UserListView(LoginRequiredMixin, ListView):
 
 def edit_profile(request):
     success = False
-    form = ProfileDataForm()
     template = 'users/profile_form.html'
     if request.method == 'POST':
         form = ProfileDataForm(request.POST)
@@ -72,12 +71,13 @@ def edit_profile(request):
             # success = True
             return HttpResponseRedirect(reverse('home'))
         else:
-            render_to_response(template,{
-                'form': form},context_instance=RequestContext(request)
-            )
+            print ('Invalid form')
+    else:
+        form = ProfileDataForm()
+        userform = UserForm()
 
     return render_to_response(template,
-                              {'form': form, 'success': success},
+                              {'form': form, 'userform': userform, 'success': success},
                               context_instance=RequestContext(request)
                               )
 
