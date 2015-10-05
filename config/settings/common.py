@@ -225,7 +225,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # Custom user app defaults
 # Select the correct user model
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = 'users:redirect'
+LOGIN_REDIRECT_URL = 'users:edit_profile'
 LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
@@ -271,6 +271,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'public_profile', 'user_friends'],
-        'METHOD': 'js_sdk'  # instead of 'oauth2'
+        'METHOD': 'js_sdk',  # instead of 'oauth2'
+        'VERIFIED_EMAIL': True
   }
 }
