@@ -20,8 +20,10 @@ class UserForm(forms.ModelForm):
         fields = ("username", )
 
 
-class ProfileDataForm(UserForm):
-    # about_me = forms.CharField(widget=forms.Textarea)
+class ProfileDataForm(forms.ModelForm):
+    username = forms.RegexField(regex=r'^[\w.@+-]+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)),
+                                label="Username", error_messages={
+                                'invalid': "This value must contain only letters, numbers and underscores."})
 
     class Meta:
         model = Profile
@@ -34,6 +36,7 @@ class ProfileDataForm(UserForm):
         # self.helper.filed_class = 'col-lg-5'
         # self.helper.form_class =  'form-horizontal'
         self.helper.layout = Layout(
+            'username',
             'genre',
             'instrument',
             'college',

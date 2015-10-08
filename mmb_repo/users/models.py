@@ -21,7 +21,7 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, default=1)
+    user = models.ForeignKey(User)
     genre = models.ForeignKey(Genre)
     instrument = models.ForeignKey(Instrument)
     # todo - need list of all colleges if possible

@@ -7,11 +7,10 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth import get_user_model
 from braces.views import LoginRequiredMixin
-
 from .forms import UserForm, ProfileDataForm
-from .models import User, Genre
+from .models import User, Genre, Profile
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -55,37 +54,37 @@ class UserListView(LoginRequiredMixin, ListView):
 
 def edit_profile(request):
     success = False
+    import pdb;pdb.set_trace()
     template = 'users/profile_form.html'
     if request.method == 'POST':
-        form = ProfileDataForm(request.POST)
+        pk = request.user.pk
+        try:
+            instance = Profile.objects.get(user__id = pk)
+            form = ProfileDataForm(request.POST,instance=instance)
+        except:
+            form= ProfileDataForm(request.POST)
         if form.is_valid():
-            # import pdb;pdb.set_trace()
-            # profile_data_form.save()
-
-            # data = request.data
-            # user = User.objects.create_user(username=username,
-            #                                 password=password,
-            #                                 first_name=first_name,
-            #                                 last_name=last_name)
-            #we have save the user here
-            # success = True
-            return HttpResponseRedirect(reverse('home'))
-        else:
-            print ('Invalid form')
+            username = form.cleaned_data['username']
+            user = get_user_model().objects.get(id=pk)
+            user.username = username
+            user.save()
+            return HttpResponseRedirect('/users/profile/'+str(username))
     else:
         form = ProfileDataForm()
-        userform = UserForm()
 
     return render_to_response(template,
-                              {'form': form, 'userform': userform, 'success': success},
+                              {'form': form, 'success': success},
                               context_instance=RequestContext(request)
                               )
 
 
-def view_profile(request, user_id):
+def view_profile(request, username):
     template = 'users/profile.html'
+    pk = request.user.pk
+    import pdb;pdb.set_trace()
     if request.method == 'GET':
-        data = User.objects.filter(id=1) #replace with user_id
+        user = User.objects.get(username=username)
+        details = Profile.objects.filter(user__id = user.id)
     else:
         template = '404.html'
-    return render_to_response(template, {'data': data})
+    return render_to_response(template, {'user': user ,'details':details})

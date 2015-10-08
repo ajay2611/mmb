@@ -8,10 +8,6 @@
 {% block content %}
     <div class="container">
         <div class="col-md-8">
-            {% crispy userform  %}
-            <div class="hidden">{{ userform.errors }}</div>
-        </div>
-        <div class="col-md-8">
             {% crispy form  %}
             <div class="hidden">{{ form.errors }}</div>
         </div>
