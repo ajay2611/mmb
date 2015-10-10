@@ -52,7 +52,10 @@
             <span class="input-group-btn">
               <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
             </span>
-            <input type="text" class="form-control input-sm no-border rounded" placeholder="Search songs, albums...">
+            <!-- <input id = "search" type="text" class="form-control input-sm no-border rounded" placeholder="Search songs, albums..."> -->
+            <div class="form-group">
+              <a data-toggle = "ajaxModal" href="{% url 'search' %}" class="btn btn-md btn-default btn-block btn-rounded" >We will be glad to help <i class = "fa fa-search"> </i></a>
+            </div>
           </div>
         </div>
       </form>
@@ -498,6 +501,7 @@
   <script src=" {% static 'js/bootstrap.js' %}"></script>
   <!-- App -->
   <script src=" {% static 'js/app.js' %}"></script>  
+  <script src=" {% static 'js/project.js' %}"></script>  
   <script src=" {% static 'js/slimscroll/jquery.slimscroll.min.js' %}"></script>
     <script src=" {% static 'js/app.plugin.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>

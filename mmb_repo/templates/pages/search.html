@@ -1,4 +1,4 @@
-{% extends "account/base.html" %}
+{% extends "base.html" %}
 {% load i18n %}
 {% load account %}
 {% load url from future %}
@@ -22,19 +22,18 @@
     <div class="container aside-xl">
       <a class="navbar-brand block" href="{% url 'home' %}"><span class="h1 font-bold">Make My Band</span></a>
       <section class="m-b-lg">
-        <header class="wrapper text-center">
-          <strong style = "">Log Out</strong>
-        </header>
-        <form action="{% url 'account_logout' %}" method="POST">
+        <form action="" method="POST">
           {% csrf_token %}
           {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
           {% endif %}
-          <div class="form-group navbar-brand block">
-            <h3 class="text-center "><span style = "color:white">Are You sure you want to logout? </span></h3>
+          <div class="form-group">
+            <input type="text" placeholder="I a looking for Guitarist" class="form-control rounded input-lg text-center no-border" name="search_key">
           </div>
-         
-          <button type="submit" class="btn btn-lg btn-danger lt b-white b-2x btn-block btn-rounded"><i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Log Out</span></button>
+          <div class="form-group">
+             <input type="text" placeholder="in Gurgaon" name="search_location" class="form-control rounded input-lg text-center no-border">
+          </div>
+          <button type="submit" class="btn btn-lg btn-success lt b-white b-2x btn-block btn-rounded"><i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Search</span></button>
           
         </form>
       </section>
