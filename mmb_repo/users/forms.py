@@ -61,3 +61,25 @@ class ProfileDataForm(UserForm):
             self._errors['website'] = self.error_class(
                 ["Please enter a valid website. For example 'http://makemyband.in'"])
         return cleaned_data
+
+
+
+
+class ChangePasswordForm(forms.Form):
+    password1 = forms.CharField(label="Password", required=False,
+                            widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Password confirmation",
+                            widget=forms.PasswordInput, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'password1',
+            'password2',
+            ButtonHolder(
+                Submit('submit', 'Submit', css_class='button white')
+            )
+        )
+
+

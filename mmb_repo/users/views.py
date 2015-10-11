@@ -7,11 +7,11 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth import get_user_model
 from braces.views import LoginRequiredMixin
+from .forms import UserForm, ProfileDataForm, ChangePasswordForm
+from .models import User, Genre, Profile
 
-from .forms import UserForm, ProfileDataForm
-from .models import User, Genre
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -54,38 +54,67 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 def edit_profile(request):
-    success = False
     template = 'users/profile_form.html'
+    pk = request.user.pk
+    form= ProfileDataForm()
+    user = request.user.username
+    try:
+        instance = Profile.objects.get(user__id = pk)
+        form= ProfileDataForm(request.POST,instance=instance)
+    except:
+        pass
     if request.method == 'POST':
-        form = ProfileDataForm(request.POST)
         if form.is_valid():
-            # import pdb;pdb.set_trace()
-            # profile_data_form.save()
+            username = form.cleaned_data['username']
+            user = get_user_model().objects.get(id=pk)
+            user.username = username
+            form.save()
+            user.save()
+            return HttpResponseRedirect('/users/profile/'+str(username))
+    if instance:
+        form = ProfileDataForm(initial={'username':instance.user.username,
+                                        'genre':instance.genre,
+                                        'instrument':instance.instrument,
+                                        'website':instance.website,
+                                        'about_me':instance.about_me,
+                                        'phone':instance.phone,
+                                        'college':instance.college,
+                                        'current_city':instance.current_city})
 
-            # data = request.data
-            # user = User.objects.create_user(username=username,
-            #                                 password=password,
-            #                                 first_name=first_name,
-            #                                 last_name=last_name)
-            #we have save the user here
-            # success = True
-            return HttpResponseRedirect(reverse('home'))
-        else:
-            print ('Invalid form')
-    else:
-        form = ProfileDataForm()
-        userform = UserForm()
 
     return render_to_response(template,
-                              {'form': form, 'userform': userform, 'success': success},
+                              {'form': form, 'edit_profile': "active"},
                               context_instance=RequestContext(request)
                               )
 
 
-def view_profile(request, user_id):
+def view_profile(request, username):
     template = 'users/profile.html'
     if request.method == 'GET':
-        data = User.objects.filter(id=1) #replace with user_id
+        user = User.objects.get(username=username)
+        details = Profile.objects.get(user__id = user.id)
     else:
         template = '404.html'
-    return render_to_response(template, {'data': data})
+    return render_to_response(template, {'user': user ,'details':details})
+
+
+def change_password(request):
+    template = 'users/profile_form.html'
+    form = ChangePasswordForm()
+    if request.method == 'POST':
+        pk = request.user.pk
+        if form.is_valid():
+            password = form.cleaned_data['passwrord']
+            user = get_user_model().objects.get(id=pk)
+            username = user.username
+            user.set_password = password
+            user.save()
+            return HttpResponseRedirect('/users/profile/'+str(username))
+    else:
+        form = ChangePasswordForm()
+
+    return render_to_response(template,
+                              {'form': form, 'change_password': "active"},
+                              context_instance=RequestContext(request)
+                              )
+

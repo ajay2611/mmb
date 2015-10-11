@@ -6,6 +6,10 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+    <ul id="tabs" class="nav nav-tabs">
+        <li class={{ edit_profile }}><a href="/users/edit-profile">Edit Profile</a></li>
+        <li class={{ change_password }}><a href="/users/change-password">Change Password</a></li>
+    </ul>
     <div class="container">
         <div class="col-md-8">
             {% crispy userform  %}
