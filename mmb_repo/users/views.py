@@ -60,9 +60,9 @@ def edit_profile(request):
     user = request.user.username
     try:
         instance = Profile.objects.get(user__id = pk)
-        form= ProfileDataForm(request.POST,instance=instance)
     except:
-        pass
+        instance = None
+    form= ProfileDataForm(request.POST,instance=instance)
     if request.method == 'POST':
         if form.is_valid():
             username = form.cleaned_data['username']
