@@ -616,7 +616,6 @@ body.container {
   .app,
   .app body {
     height: 100%;
-    overflow: hidden;
   }
   .app .hbox.stretch {
     height: 100%;
