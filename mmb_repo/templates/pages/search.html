@@ -24,16 +24,18 @@
       <section class="m-b-lg">
         <form action="" method="POST">
           {% csrf_token %}
-          {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-          {% endif %}
+{#          {% if redirect_field_value %}#}
+{#            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />#}
+{#          {% endif %}#}
           <div class="form-group">
-            <input type="text" placeholder="I a looking for Guitarist" class="form-control rounded input-lg text-center no-border" name="search_key">
+            <input type="text" placeholder="I'm a looking for Guitarist" class="form-control rounded input-lg text-center no-border" name="search_key">
           </div>
           <div class="form-group">
              <input type="text" placeholder="in Gurgaon" name="search_location" class="form-control rounded input-lg text-center no-border">
           </div>
-          <button type="submit" class="btn btn-lg btn-success lt b-white b-2x btn-block btn-rounded"><i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Search</span></button>
+          <button type="submit" class="btn btn-lg btn-success lt b-white b-2x btn-block btn-rounded"><i class="icon-arrow-right pull-right"></i>
+              <span class="m-r-n-lg">Search</span>
+          </button>
           
         </form>
       </section>
