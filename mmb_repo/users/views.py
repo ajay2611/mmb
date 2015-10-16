@@ -57,9 +57,7 @@ class UserListView(LoginRequiredMixin, ListView):
 def edit_profile(request):
     template = 'users/profile_form.html'
     pk = request.user.pk
-    form= ProfileDataForm()
     user = request.user
-    import pdb;pdb.set_trace()
     try:
         instance = Profile.objects.get(user__id = pk)
     except:
@@ -77,10 +75,12 @@ def edit_profile(request):
             current_city = form.cleaned_data['current_city']
             instruments = form.cleaned_data['instrument']
             genres = form.cleaned_data['genre']
+            kwargs = {'college':college, 'website':website, 'phone':phone, \
+                      'about_me':about_me, 'current_city':current_city}
             if instance:
                 instance.genre.clear()
                 instance.instrument.clear()
-                instance.update(user=user,website=website,phone=phone,about_me=about_me,college=college,current_city=current_city)
+                instance.update(**kwargs)
                 for i in genres:
                     obj=Genre.objects.get(genre=i)
                     instance.genre.add(obj)
@@ -89,7 +89,8 @@ def edit_profile(request):
                     instance.instrument.add(it)
             else:
 
-                profile_obj=Profile(user=user,website=website,phone=phone,about_me=about_me,college=college,current_city=current_city)
+                profile_obj=Profile(user=user,website=website,phone=phone,\
+                                    about_me=about_me,college=college,current_city=current_city)
                 profile_obj.save()
                 for i in genres:
                     obj=Genre.objects.get(genre=i)
@@ -102,15 +103,16 @@ def edit_profile(request):
             user.save()
 
             return HttpResponseRedirect('/users/profile/'+str(username))
-    if instance:
-        form = ProfileDataForm(initial={'username':instance.user.username,
-                                        'genre':instance.genre,
-                                        'instrument':instance.instrument,
-                                        'website':instance.website,
-                                        'about_me':instance.about_me,
-                                        'phone':instance.phone,
-                                        'college':instance.college,
-                                        'current_city':instance.current_city})
+    else:
+        if instance:
+            form = ProfileDataForm(initial={'username':instance.user.username,
+                                            'website':instance.website,
+                                            'about_me':instance.about_me,
+                                            'phone':instance.phone,
+                                            'college':instance.college,
+                                            'current_city':instance.current_city})
+        else:
+            form= ProfileDataForm()
 
 
     return render_to_response(template,

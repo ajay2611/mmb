@@ -34,4 +34,13 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __unicode__(self):
-        return self.user
+        return unicode(self.user)
+
+    def update(self,*args,**kwargs):
+        self.college = kwargs.get('college')
+        import pdb;pdb.set_trace()
+        self.current_city = kwargs.get('current_city')
+        self.phone = kwargs.get('phone')
+        self.website = kwargs.get('website')
+        self.about_me = kwargs.get('about_me')
+        self.save()
