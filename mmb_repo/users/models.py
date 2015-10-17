@@ -22,8 +22,8 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.ForeignKey(User, default=1)
-    genre = models.ForeignKey(Genre)
-    instrument = models.ForeignKey(Instrument)
+    genre = models.ManyToManyField(Genre)
+    instrument = models.ManyToManyField(Instrument)
     # todo - need list of all colleges if possible
     college = models.CharField(blank=True, max_length=100, null=True)
     # todo - update with indian cities using inbuilt django package
@@ -34,4 +34,13 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __unicode__(self):
-        return self.user
+        return unicode(self.user)
+
+    def update(self,*args,**kwargs):
+        self.college = kwargs.get('college')
+        import pdb;pdb.set_trace()
+        self.current_city = kwargs.get('current_city')
+        self.phone = kwargs.get('phone')
+        self.website = kwargs.get('website')
+        self.about_me = kwargs.get('about_me')
+        self.save()

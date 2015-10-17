@@ -10,7 +10,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from braces.views import LoginRequiredMixin
 from .forms import UserForm, ProfileDataForm, ChangePasswordForm
-from .models import User, Genre, Profile
+from .models import User,Profile
+from mmb_repo.mmb_data.models import Genre, Instrument
 
 
 
@@ -56,30 +57,62 @@ class UserListView(LoginRequiredMixin, ListView):
 def edit_profile(request):
     template = 'users/profile_form.html'
     pk = request.user.pk
-    form= ProfileDataForm()
-    user = request.user.username
+    user = request.user
     try:
         instance = Profile.objects.get(user__id = pk)
     except:
         instance = None
-    form= ProfileDataForm(request.POST,instance=instance)
+
     if request.method == 'POST':
+        form= ProfileDataForm(request.POST,instance=instance)
         if form.is_valid():
-            username = form.cleaned_data['username']
             user = get_user_model().objects.get(id=pk)
+            username = form.cleaned_data['username']
+            website = form.cleaned_data['website']
+            phone = form.cleaned_data['phone']
+            about_me = form.cleaned_data['about_me']
+            college = form.cleaned_data['college']
+            current_city = form.cleaned_data['current_city']
+            instruments = form.cleaned_data['instrument']
+            genres = form.cleaned_data['genre']
+            kwargs = {'college':college, 'website':website, 'phone':phone, \
+                      'about_me':about_me, 'current_city':current_city}
+            if instance:
+                instance.genre.clear()
+                instance.instrument.clear()
+                instance.update(**kwargs)
+                for i in genres:
+                    obj=Genre.objects.get(genre=i)
+                    instance.genre.add(obj)
+                for i in instruments:
+                    it=Instrument.objects.get(instrument=i)
+                    instance.instrument.add(it)
+            else:
+
+                profile_obj=Profile(user=user,website=website,phone=phone,\
+                                    about_me=about_me,college=college,current_city=current_city)
+                profile_obj.save()
+                for i in genres:
+                    obj=Genre.objects.get(genre=i)
+                    profile_obj.genre.add(obj)
+                for i in instruments:
+                    it=Instrument.objects.get(instrument=i)
+                    profile_obj.instrument.add(it)
+
             user.username = username
-            form.save()
             user.save()
+
             return HttpResponseRedirect('/users/profile/'+str(username))
-    if instance:
-        form = ProfileDataForm(initial={'username':instance.user.username,
-                                        'genre':instance.genre,
-                                        'instrument':instance.instrument,
-                                        'website':instance.website,
-                                        'about_me':instance.about_me,
-                                        'phone':instance.phone,
-                                        'college':instance.college,
-                                        'current_city':instance.current_city})
+    else:
+        if instance:
+            form = ProfileDataForm(initial={'username':instance.user.username,
+                                            'website':instance.website,
+                                            'about_me':instance.about_me,
+                                            'phone':instance.phone,
+                                            'college':instance.college,
+                                            'current_city':instance.current_city})
+        else:
+            form= ProfileDataForm()
 
 
     return render_to_response(template,

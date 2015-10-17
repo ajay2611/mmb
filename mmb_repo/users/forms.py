@@ -9,7 +9,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, MultiField, Div, Field
 
 from .models import User, Profile
-
+from mmb_repo.mmb_data.models import Genre,Instrument
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -20,14 +20,20 @@ class UserForm(forms.ModelForm):
         fields = ("username", )
 
 
-class ProfileDataForm(UserForm):
+class ProfileDataForm(forms.ModelForm):
     username = forms.RegexField(regex=r'^[\w.@+-]+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)),
                                 label="Username", error_messages={
                                 'invalid': "This value must contain only letters, numbers and underscores."})
 
+    genre = forms.MultipleChoiceField(label='Genre',
+        choices=[(i.genre,i.genre) for i in Genre.objects.all()],widget=forms.SelectMultiple())
+
+    instrument = forms.MultipleChoiceField(label='Instrument',
+        choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],widget=forms.SelectMultiple()   )
+
     class Meta:
         model = Profile
-        fields = ("genre", "instrument", "college", "current_city", "phone", "website", "about_me",)
+        fields = ("college", "current_city", "phone", "website", "about_me",)
 
     def __init__(self, *args, **kwargs):
         super(ProfileDataForm, self).__init__(*args, **kwargs)
