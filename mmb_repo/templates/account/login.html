@@ -42,7 +42,7 @@
            <a data-toggle = "ajaxModal" href="{% url 'account_signup' %}" class="btn btn-lg btn-info btn-block rounded">Create an account</a>
          </div>
        </form> -->
-        
+        {% include "socialaccount/snippets/login_extra.html" %}
         {% load socialaccount %}
         {% providers_media_js %}
 
