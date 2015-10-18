@@ -69,7 +69,7 @@
           <div class="line line-dashed"></div>
           <p class="text-muted text-center"><small>Already have an account?</small></p>
          <div class="form-group">
-         	 <a href="{% url 'account_login' %}" class="btn btn-lg btn-info btn-block btn-rounded">Sign in</a>
+         	 <a data-toggle = "ajaxModal" href="{% url 'account_login' %}" class="btn btn-lg btn-info btn-block btn-rounded">Sign in</a>
          </div>
         </form>
 		{% load socialaccount %}
