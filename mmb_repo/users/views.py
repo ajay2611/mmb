@@ -12,6 +12,7 @@ from braces.views import LoginRequiredMixin
 from .forms import UserForm, ProfileDataForm, ChangePasswordForm
 from .models import User,Profile
 from mmb_repo.mmb_data.models import Genre, Instrument
+from config.settings.common import STATIC_URL
 
 
 
@@ -103,9 +104,13 @@ def edit_profile(request):
             user.save()
 
             return HttpResponseRedirect('/users/profile/'+str(username))
+
     else:
+
         if instance:
             form = ProfileDataForm(initial={'username':instance.user.username,
+                                            'instrument':instance.instrument.get_queryset(),
+                                            'genre':instance.genre.get_queryset(),
                                             'website':instance.website,
                                             'about_me':instance.about_me,
                                             'phone':instance.phone,
@@ -128,7 +133,8 @@ def view_profile(request, username):
         details = Profile.objects.get(user__id = user.id)
     else:
         template = '404.html'
-    return render_to_response(template, {'user': user ,'details':details})
+    return render_to_response(template, {'my_audio':"active", 'user': user ,\
+                                         'details':details, 'STATIC_URL':STATIC_URL})
 
 
 def change_password(request):
@@ -150,4 +156,11 @@ def change_password(request):
                               {'form': form, 'change_password': "active"},
                               context_instance=RequestContext(request)
                               )
+
+
+
+
+# def show_audio(request):
+#     template = 'users/profile.html'
+#     return render_to_response(template, {'STATIC_URL':STATIC_URL})
 

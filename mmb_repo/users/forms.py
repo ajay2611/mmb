@@ -26,10 +26,10 @@ class ProfileDataForm(forms.ModelForm):
                                 'invalid': "This value must contain only letters, numbers and underscores."})
 
     genre = forms.MultipleChoiceField(label='Genre',
-        choices=[(i.genre,i.genre) for i in Genre.objects.all()],widget=forms.SelectMultiple())
+        choices=[(i.genre,i.genre) for i in Genre.objects.all()],widget=forms.SelectMultiple(attrs={'class':'genre'}))
 
     instrument = forms.MultipleChoiceField(label='Instrument',
-        choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],widget=forms.SelectMultiple()   )
+        choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],widget=forms.SelectMultiple(attrs={'class':'instrument'})   )
 
     class Meta:
         model = Profile
