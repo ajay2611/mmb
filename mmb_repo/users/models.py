@@ -38,7 +38,6 @@ class Profile(models.Model):
 
     def update(self,*args,**kwargs):
         self.college = kwargs.get('college')
-        import pdb;pdb.set_trace()
         self.current_city = kwargs.get('current_city')
         self.phone = kwargs.get('phone')
         self.website = kwargs.get('website')

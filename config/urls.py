@@ -6,14 +6,12 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
-from . import views
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),
     url(r'^index/$', TemplateView.as_view(template_name='pages/home.html'), name="index"),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
     url(r'^search/$', TemplateView.as_view(template_name='pages/search.html'), name="search"),
-    url(r'^test/$', view=views.search, name="search"),
 
     # Django Admin
     url(r'^admin/', include(admin.site.urls)),

@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
     # URL pattern for the UserListView
     url(regex=r'^edit-profile/$', view=views.edit_profile, name='edit_profile'),
-    url(regex=r'^(?P<username>.+)/$', view=views.view_profile, name='show_profile'),
+    url(regex=r'^profile/(?P<username>.+)/$', view=views.view_profile, name='view_profile'),
     url(regex=r'^change-password/$', view=views.change_password, name='change_password'),
 
     # URL pattern for the UserRedirectView

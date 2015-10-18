@@ -12,7 +12,9 @@
   <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'css/simple-line-icons.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'css/font.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/app.css' %}" type="text/css">  
+  <link rel="stylesheet" href="{% static 'css/app.css' %}" type="text/css">
+
+
     <!--[if lt IE 9]>
     <script src=" {% static 'js/ie/html5shiv.js' %}"></script>
     <script src=" {% static 'js/ie/respond.min.js' %}"></script>
@@ -30,7 +32,7 @@
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
           <i class="icon-list"></i>
         </a>
-        <a href="/index" class="navbar-brand text-lt">
+        <a href="{% url 'home' %}" class="navbar-brand text-lt" style="height: 65px;">
           <i class="icon-earphones"></i>
           <img src="{% static 'images/logo.png' %}" alt="." class="hide">
           <span class="hidden-nav-xs m-l-sm">MakeMyBand</span>
@@ -133,9 +135,9 @@
         </ul>
       </div> 
       {% else %}
-        <div class="navbar-right ">
-          <ul class="nav navbar-nav m-n hidden-xs nav-user user">
-            <li class="dropdown">
+         <div class="navbar-form navbar-right input-s-lg m-t m-l-n-xs hidden-xs">
+          <!-- <ul class="nav navbar-nav m-n hidden-xs nav-user user">
+             <li class="dropdown">
                 <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
                   <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
                     <img src="{% static 'images/a0.png' %}" alt="...">
@@ -157,9 +159,20 @@
                   
                   
                 </ul>
-            </li>
-            </ul>
-            </div>
+            </li> 
+            </ul> -->
+           
+              <div class="form-group">
+                <div class="input-group">
+                 <!-- <input id = "search" type="text" class="form-control input-sm no-border rounded" placeholder="Search songs, albums..."> -->
+                  <div class="form-group">
+                    <a data-toggle = "ajaxModal" href="{% url 'account_login' %}" class="btn btn-md btn-default btn-block btn-rounded" >Login/Signup <i class = "fa fa-sign-in"> </i></a>
+                  </div>
+                </div>
+              </div>
+        
+           
+            </div> 
 
 
       {% endif %}
@@ -507,5 +520,6 @@
   <script type="text/javascript" src=" {% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/demo.js' %}"></script>
+  <script type="text/javascript" src=" {% static 'js/chosen.jquery.min.js' %}"></script>
 </body>
 </html>
