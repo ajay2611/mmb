@@ -6,12 +6,10 @@
 {% block title %}Profile{% endblock %}
 
 {% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/chosen.min.css' %}" type="text/css">
 {% endblock %}
 
 {% block content %}
-    
-    
-
 
     <ul id="tabs" class="nav nav-tabs">
         <li class={{ edit_profile }}><a href="/users/edit-profile">Edit Profile</a></li>
