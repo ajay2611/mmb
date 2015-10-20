@@ -13,7 +13,9 @@
   <link rel="stylesheet" href="{% static 'css/simple-line-icons.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'css/font.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'css/app.css' %}" type="text/css">
-
+  {% block custom_css %}
+  <!--   Your custom css will be here. -->
+  {% endblock %}
 
     <!--[if lt IE 9]>
     <script src=" {% static 'js/ie/html5shiv.js' %}"></script>
@@ -514,12 +516,16 @@
   <script src=" {% static 'js/bootstrap.js' %}"></script>
   <!-- App -->
   <script src=" {% static 'js/app.js' %}"></script>  
-  <script src=" {% static 'js/project.js' %}"></script>  
+ 
   <script src=" {% static 'js/slimscroll/jquery.slimscroll.min.js' %}"></script>
     <script src=" {% static 'js/app.plugin.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/demo.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/chosen.jquery.min.js' %}"></script>
+  <script src=" {% static 'js/project.js' %}"></script>  
+  {% block custom_js %}
+  <!--   Your custom js will be here. -->
+  {% endblock %}
 </body>
 </html>

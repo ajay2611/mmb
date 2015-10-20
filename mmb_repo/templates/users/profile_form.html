@@ -5,9 +5,12 @@
 
 {% block title %}Profile{% endblock %}
 
+{% block custom_css %}
+{% endblock %}
+
 {% block content %}
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/chosen.min.css' %}" type="text/css">
+    
+    
 
 
     <ul id="tabs" class="nav nav-tabs">
@@ -17,15 +20,13 @@
     <div class="container">
         <div class="col-md-8">
             {% crispy form  %}
-<div id='form-errors'>{{ form_errors }}</div>
+            <div id='form-errors'>{{ form_errors }}</div>
         </div>
     </div>
-     <script>
-        $(document).ready(function() {
-            $(".genre").chosen({search_contains:true});
-            $(".instrument").chosen({search_contains:true});
-        }); // end of document.ready
-
-    </script>
+     
 {% endblock content %}
+
+{% block custom_js %}
+
+{% endblock %}
 

@@ -1,5 +1,5 @@
 /* Project specific Javascript goes here. */
 
-$( "#search" ).click(function() {
-  
-});
+$(".genre").chosen({search_contains:true});
+$(".instrument").chosen({search_contains:true});
+
