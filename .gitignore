@@ -55,5 +55,6 @@ node_modules/
 # virtual environments
 .env
 
-mmb_repo/users/migrations/
-mmb_repo/mmb_data/migrations/
+#ignoring migrations
+mmb_repo/users/migrations/*
+mmb_repo/mmb_data/migrations/*
