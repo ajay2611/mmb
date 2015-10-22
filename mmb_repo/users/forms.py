@@ -11,6 +11,7 @@ from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, Mu
 from .models import User, Profile
 from mmb_repo.mmb_data.models import Genre,Instrument
 
+
 class UserForm(forms.ModelForm):
     class Meta:
         # Set this form to use the User model
@@ -58,20 +59,12 @@ class ProfileDataForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ProfileDataForm, self).clean()
-        phone = cleaned_data['phone']
         website = cleaned_data['website']
-        if phone:
-            try:
-                int(phone)
-            except (ValueError, TypeError):
-                raise forms.ValidationError('Please enter a valid phone number')
 
         if website and not validators.url(website):
             self._errors['website'] = self.error_class(
                 ["Please enter a valid website. For example 'http://makemyband.in'"])
         return cleaned_data
-
-
 
 
 class ChangePasswordForm(forms.Form):

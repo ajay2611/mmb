@@ -9,6 +9,7 @@ from django.db import models
 from mmb_repo.mmb_data.models import Genre, Instrument
 from mmb_repo.mmb_data.utils import get_image_path
 
+from .app_settings import CITIES, PHONE_REG
 
 class User(AbstractUser):
     name = models.CharField(blank=True, max_length=255)
@@ -21,16 +22,15 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, default=1)
+    user = models.ForeignKey(User)
     genre = models.ManyToManyField(Genre)
     instrument = models.ManyToManyField(Instrument)
     # todo - need list of all colleges if possible
-    college = models.CharField(blank=True, max_length=100, null=True)
-    # todo - update with indian cities using inbuilt django package
-    current_city = models.CharField(blank=True, max_length=255, null=True)
-    phone = models.IntegerField(blank=True, null=True)
-    website = models.CharField(blank=True, max_length=100, null=True)
-    about_me = models.CharField(blank=True, max_length=255, null=True)
+    college = models.CharField(max_length=100, blank=True, null=True)
+    current_city = models.CharField(choices=CITIES, max_length=50, blank=True, null=True)
+    phone = models.CharField(validators=[PHONE_REG], max_length=10, blank=True, null=True)
+    website = models.CharField(max_length=50, blank=True, null=True)
+    about_me = models.CharField(max_length=255, blank=True, null=True)
     profile_pic = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __unicode__(self):
