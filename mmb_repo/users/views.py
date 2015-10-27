@@ -8,14 +8,16 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth import get_user_model
+from django.views.decorators.csrf import csrf_exempt
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 
+from mmb_repo.mmb_data.models import Genre, Instrument
 from config.settings.common import STATIC_URL
 from allauth.socialaccount.models import SocialAccount
-from mmb_repo.mmb_data.models import Genre, Instrument
+from mmb_repo.mmb_data.models import Genre, Instrument, get_upload_path
 
-from .forms import UserForm, ProfileDataForm, ChangePasswordForm
+from .forms import UserForm, ProfileDataForm, ChangePasswordForm, UploadSongForm
 from .models import User,Profile
 
 
@@ -168,7 +170,24 @@ def change_password(request):
                               context_instance=RequestContext(request)
                               )
 
+@csrf_exempt
+def upload_song(request,username):
+    template = 'users/profile.html'
+    form = UploadSongForm()
+    user = User.objects.get(username=username)
+    details = Profile.objects.get(user__id = user.id)
+    if request.method == 'POST':
+        form= UploadSongForm(request.POST,request.FILES)
+        # f='212'
+        # get_upload_path(user,f)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.user = user
+            form.save()
 
-# def show_audio(request):
-#     template = 'users/profile.html'
-#     return render_to_response(template, {'STATIC_URL':STATIC_URL})
+        return HttpResponseRedirect('/users/profile/'+str(username))
+
+
+    return render_to_response(template, {'form':form,'upload_song':"active", 'user': user ,\
+                                         'details':details, 'STATIC_URL':STATIC_URL})
+

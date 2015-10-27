@@ -3,6 +3,7 @@
 {% load account %}
 {% load url from future %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <section id="content">
@@ -68,133 +69,256 @@
                 </section>
               </section>
             </aside>
-            <aside class="bg-white">
+            <aside >
               <section class="vbox">
-                <header class="header bg-light lt">
-                  <ul class="nav nav-tabs nav-white">
-                    <li class={{ my_audio }}><a href="#" data-toggle="tab">My Audios</a></li>
-                    <li class=""><a href="#events" data-toggle="tab">Messages</a></li>
-                    <li class=""><a href="#interaction" data-toggle="tab">Upload Audio</a></li>
+{#                <header class="header bg-light lt">#}
+                  <ul class="nav nav-tabs">
+                    <li class={{ my_audio }}><a href="{% url 'users:view_profile' user.username %}">My Audios</a></li>
+                    <li class=""><a href="/users/profile/{{ user.username }}/" >Messages</a></li>
+                    <li class={{ upload_audio }}><a href="{% url 'users:upload_song' user.username %}">Upload Audio</a></li>
                   </ul>
-                </header>
-                <section class="scrollable">
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="activity">
-                      <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a0.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">3 minuts ago</small>
-                            <strong class="block">Drew Wllon</strong>
-                            <small>Wellcome and play this web application template ... </small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a1.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">1 hour ago</small>
-                            <strong class="block">Jonathan George</strong>
-                            <small>Morbi nec nunc condimentum...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a2.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">2 hours ago</small>
-                            <strong class="block">Josh Long</strong>
-                            <small>Vestibulum ullamcorper sodales nisi nec...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a3.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">1 day ago</small>
-                            <strong class="block">Jack Dorsty</strong>
-                            <small>Morbi nec nunc condimentum...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a4.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">3 days ago</small>
-                            <strong class="block">Morgen Kntooh</strong>
-                            <small>Mobile first web app for startup...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a5.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">Jun 21</small>
-                            <strong class="block">Yoha Omish</strong>
-                            <small>Morbi nec nunc condimentum...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a6.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">May 10</small>
-                            <strong class="block">Gole Lido</strong>
-                            <small>Vestibulum ullamcorper sodales nisi nec...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a7.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">Jan 2</small>
-                            <strong class="block">Jonthan Snow</strong>
-                            <small>Morbi nec nunc condimentum...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item" href="#email-content" data-toggle="class:show">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a8.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">3 minuts ago</small>
-                            <strong class="block">Drew Wllon</strong>
-                            <small>Vestibulum ullamcorper sodales nisi nec sodales nisi nec sodales nisi nec...</small>
-                          </a>
-                        </li>
-                        <li class="list-group-item">
-                          <a href="#" class="thumb-sm pull-left m-r-sm">
-                            <img src="images/a9.png" class="img-circle">
-                          </a>
-                          <a href="#" class="clear">
-                            <small class="pull-right">1 hour ago</small>
-                            <strong class="block">Jonathan George</strong>
-                            <small>Morbi nec nunc condimentum...</small>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="tab-pane" id="events">
-                      <div class="text-center wrapper">
-                        <i class="fa fa-spinner fa fa-spin fa fa-large"></i>
-                      </div>
-                    </div>
-                    <div class="tab-pane" id="interaction">
-                      <div class="text-center wrapper">
-                        <i class="fa fa-spinner fa fa-spin fa fa-large"></i>
-                      </div>
-                    </div>
-                  </div>
-                </section>
+                  {% if upload_song == "active" %}
+                   <div class="col-md-8">
+                        <form action="." method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% crispy form %}
+                        <div id='form-errors'>{{ form_errors }}</div>
+
+                    </form>
+                       </div>
+                  {% endif %}
+              {% if my_audio == 'active' %}
+{#                <section class="vbox animated fadeInUp">#}
+                  <section class="scrollable" style="margin-top: 50px;">
+{#                    <div class="m-t-n-xxs item pos-rlt">#}
+{#                      <div class="top text-right">#}
+{#                        <span class="musicbar animate bg-success bg-empty inline m-r-lg m-t" style="width:25px;height:30px">#}
+{#                          <span class="bar1 a3 lter"></span>#}
+{#                          <span class="bar2 a5 lt"></span>#}
+{#                          <span class="bar3 a1 bg"></span>#}
+{#                          <span class="bar4 a4 dk"></span>#}
+{#                          <span class="bar5 a2 dker"></span>#}
+{#                        </span>#}
+{#                      </div>#}
+{#                      <div class="bottom gd bg-info wrapper-lg">#}
+{#                        <span class="pull-right text-sm">101,400 <br>Followers</span>#}
+{#                        <span class="h2 font-thin">Soph Ashe</span>#}
+{#                      </div>#}
+{#                      <img class="img-full" src="images/m43.jpg" alt="...">#}
+{#                    </div>#}
+                    <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Vestibulum id ligula porta</span>
+                          <span class="text-muted"> -- 04:15</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Praesent commodo cursus magna</span>
+                          <span class="text-muted"> -- 02:25</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Curabitur blandit tempus</span>
+                          <span class="text-muted"> -- 05:00</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Faucibus dolor auctor</span>
+                          <span class="text-muted"> -- 03:50</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Get lacinia odio sem nec elit cibus dolor auctor sed odio dui mollis ornare</span>
+                          <span class="text-muted"> -- 04:05</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Urna mollis ornare vel eu leo</span>
+                          <span class="text-muted"> -- 05:10</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+{#                </section>#}
+
+              {% endif %}
+
+
+
+
+{#                </header>#}
+{#                <section class="scrollable">#}
+{#                  <div class="tab-content">#}
+{#                    <div class="tab-pane active" id="activity">#}
+{#                      <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a0.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">3 minuts ago</small>#}
+{#                            <strong class="block">Drew Wllon</strong>#}
+{#                            <small>Wellcome and play this web application template ... </small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a1.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">1 hour ago</small>#}
+{#                            <strong class="block">Jonathan George</strong>#}
+{#                            <small>Morbi nec nunc condimentum...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a2.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">2 hours ago</small>#}
+{#                            <strong class="block">Josh Long</strong>#}
+{#                            <small>Vestibulum ullamcorper sodales nisi nec...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a3.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">1 day ago</small>#}
+{#                            <strong class="block">Jack Dorsty</strong>#}
+{#                            <small>Morbi nec nunc condimentum...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a4.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">3 days ago</small>#}
+{#                            <strong class="block">Morgen Kntooh</strong>#}
+{#                            <small>Mobile first web app for startup...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a5.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">Jun 21</small>#}
+{#                            <strong class="block">Yoha Omish</strong>#}
+{#                            <small>Morbi nec nunc condimentum...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a6.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">May 10</small>#}
+{#                            <strong class="block">Gole Lido</strong>#}
+{#                            <small>Vestibulum ullamcorper sodales nisi nec...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a7.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">Jan 2</small>#}
+{#                            <strong class="block">Jonthan Snow</strong>#}
+{#                            <small>Morbi nec nunc condimentum...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item" href="#email-content" data-toggle="class:show">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a8.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">3 minuts ago</small>#}
+{#                            <strong class="block">Drew Wllon</strong>#}
+{#                            <small>Vestibulum ullamcorper sodales nisi nec sodales nisi nec sodales nisi nec...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                        <li class="list-group-item">#}
+{#                          <a href="#" class="thumb-sm pull-left m-r-sm">#}
+{#                            <img src="images/a9.png" class="img-circle">#}
+{#                          </a>#}
+{#                          <a href="#" class="clear">#}
+{#                            <small class="pull-right">1 hour ago</small>#}
+{#                            <strong class="block">Jonathan George</strong>#}
+{#                            <small>Morbi nec nunc condimentum...</small>#}
+{#                          </a>#}
+{#                        </li>#}
+{#                      </ul>#}
+{#                    </div>#}
+{#                    <div class="tab-pane" id="events">#}
+{#                      <div class="text-center wrapper">#}
+{#                        <i class="fa fa-spinner fa fa-spin fa fa-large"></i>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                    <div class="tab-pane" id="interaction">#}
+{#                      <div class="text-center wrapper">#}
+{#                        <i class="fa fa-spinner fa fa-spin fa fa-large"></i>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                </section>#}
               </section>
             </aside>
             <aside class="col-lg-3 b-l">
