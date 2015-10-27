@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import urllib
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from braces.views import LoginRequiredMixin
+from django.core.exceptions import ValidationError
+
+from config.settings.common import STATIC_URL
+from allauth.socialaccount.models import SocialAccount
+from mmb_repo.mmb_data.models import Genre, Instrument
+
 from .forms import UserForm, ProfileDataForm, ChangePasswordForm
 from .models import User,Profile
-from mmb_repo.mmb_data.models import Genre, Instrument
-from config.settings.common import STATIC_URL
-
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -58,7 +61,10 @@ class UserListView(LoginRequiredMixin, ListView):
 def edit_profile(request):
     template = 'users/profile_form.html'
     pk = request.user.pk
-    user = request.user
+    socialaccount_obj = SocialAccount.objects.filter(user_id=pk)
+    picture_url = socialaccount_obj[0].get_provider_account().get_avatar_url()
+    urllib.urlretrieve(picture_url, 'mmb_repo/static/images/profile/'+str(pk))
+
     try:
         instance = Profile.objects.get(user__id = pk)
     except:

@@ -4,12 +4,11 @@ from __future__ import unicode_literals, absolute_import
 from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.db import models
-# from django.utils.translation import ugettext_lazy as _
 
 from mmb_repo.mmb_data.models import Genre, Instrument
 from mmb_repo.mmb_data.utils import get_image_path
-
 from .app_settings import CITIES, PHONE_REG
+
 
 class User(AbstractUser):
     name = models.CharField(blank=True, max_length=255)
@@ -31,7 +30,7 @@ class Profile(models.Model):
     phone = models.CharField(validators=[PHONE_REG], max_length=10, blank=True, null=True)
     website = models.CharField(max_length=50, blank=True, null=True)
     about_me = models.CharField(max_length=255, blank=True, null=True)
-    profile_pic = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    other_link = models.CharField(max_length=255, blank=True, null=True)    #This is the link which user updates
 
     def __unicode__(self):
         return unicode(self.user)
