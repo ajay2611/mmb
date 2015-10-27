@@ -105,7 +105,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                <img src="{% static 'images/a0.png' %}" alt="...">
+                <img src="{{ STATIC_URL }}images/profile/{{ user.pk }}" alt="...">
               </span>
               {{ request.user }} <b class="caret"></b>
             </a>

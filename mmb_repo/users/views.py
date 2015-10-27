@@ -59,7 +59,6 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 def edit_profile(request):
-    import pdb;pdb.set_trace()
     template = 'users/profile_form.html'
     pk = request.user.pk
     socialaccount_obj = SocialAccount.objects.filter(user_id=pk)
@@ -136,7 +135,6 @@ def edit_profile(request):
 
 
 def view_profile(request, username):
-    import pdb;pdb.set_trace()
     template = 'users/profile.html'
     if request.method == 'GET':
         user = User.objects.get(username=username)
@@ -174,4 +172,3 @@ def change_password(request):
 # def show_audio(request):
 #     template = 'users/profile.html'
 #     return render_to_response(template, {'STATIC_URL':STATIC_URL})
-
