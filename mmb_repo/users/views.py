@@ -59,19 +59,23 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 def edit_profile(request):
+    import pdb;pdb.set_trace()
     template = 'users/profile_form.html'
     pk = request.user.pk
     socialaccount_obj = SocialAccount.objects.filter(user_id=pk)
     picture_url = socialaccount_obj[0].get_provider_account().get_avatar_url()
-    urllib.urlretrieve(picture_url, 'mmb_repo/static/images/profile/'+str(pk))
+    try:
+        urllib.urlretrieve(picture_url, 'mmb_repo/static/images/profile/'+str(pk))
+    except:
+        pass
 
     try:
-        instance = Profile.objects.get(user__id = pk)
+        instance = Profile.objects.get(user__id=pk)
     except:
         instance = None
 
     if request.method == 'POST':
-        form= ProfileDataForm(request.POST,instance=instance)
+        form = ProfileDataForm(request.POST, instance=instance)
         if form.is_valid():
             user = get_user_model().objects.get(id=pk)
             username = form.cleaned_data['username']
@@ -123,8 +127,7 @@ def edit_profile(request):
                                             'college':instance.college,
                                             'current_city':instance.current_city})
         else:
-            form= ProfileDataForm()
-
+            form = ProfileDataForm()
 
     return render_to_response(template,
                               {'form': form, 'edit_profile': "active"},
@@ -133,14 +136,18 @@ def edit_profile(request):
 
 
 def view_profile(request, username):
+    import pdb;pdb.set_trace()
     template = 'users/profile.html'
     if request.method == 'GET':
         user = User.objects.get(username=username)
-        details = Profile.objects.get(user__id = user.id)
+        details = Profile.objects.get(user__id=user.id)
     else:
         template = '404.html'
-    return render_to_response(template, {'my_audio':"active", 'user': user ,\
-                                         'details':details, 'STATIC_URL':STATIC_URL})
+    return render_to_response(template,
+                              {'my_audio':"active", 'user': user ,\
+                               'details':details, 'STATIC_URL':STATIC_URL},
+                               context_instance=RequestContext(request)
+                              )
 
 
 def change_password(request):
@@ -162,8 +169,6 @@ def change_password(request):
                               {'form': form, 'change_password': "active"},
                               context_instance=RequestContext(request)
                               )
-
-
 
 
 # def show_audio(request):

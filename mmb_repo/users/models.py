@@ -6,7 +6,6 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from mmb_repo.mmb_data.models import Genre, Instrument
-from mmb_repo.mmb_data.utils import get_image_path
 from .app_settings import CITIES, PHONE_REG
 
 
