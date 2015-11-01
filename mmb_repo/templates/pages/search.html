@@ -24,16 +24,16 @@
       <section class="m-b-lg">
         <form action="" method="POST">
           {% csrf_token %}
-{#          {% if redirect_field_value %}#}
-{#            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />#}
-{#          {% endif %}#}
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
           <div class="form-group">
-            <input type="text" placeholder="I'm a looking for Guitarist" class="form-control rounded input-lg text-center no-border" name="search_key">
+            <input id = "user_category" type="text" placeholder="I'm a looking for Guitarist" class="form-control rounded input-lg text-center no-border" name="search_key">
           </div>
           <div class="form-group">
-             <input type="text" placeholder="in Gurgaon" name="search_location" class="form-control rounded input-lg text-center no-border">
+             <input id = "location" type="text" placeholder="in Gurgaon" name="search_location" class="form-control rounded input-lg text-center no-border">
           </div>
-          <button type="submit" class="btn btn-lg btn-success lt b-white b-2x btn-block btn-rounded"><i class="icon-arrow-right pull-right"></i>
+          <button id = "search_submit" type="submit" class="btn btn-lg btn-success lt b-white b-2x btn-block btn-rounded"><i class="icon-arrow-right pull-right"></i>
               <span class="m-r-n-lg">Search</span>
           </button>
           
@@ -43,5 +43,51 @@
   </section>
 
 
+
+{% endblock %}
+
+{% block custom_js %}
+
+<script type="text/javascript">
+  $(function() {
+
+      var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+
+
+
+
+    $("#user_category").autocomplete({
+      source: "/logic/api/get-user-category/",
+    });
+
+    $("#location").autocomplete({
+      source: "{% url 'get_location' %}",
+    });
+});
+
+</script>
 
 {% endblock %}

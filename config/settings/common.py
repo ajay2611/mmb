@@ -46,7 +46,8 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'mmb_repo.users',
-    'mmb_repo.mmb_data',  # custom users app
+    'mmb_repo.mmb_data',
+    'mmb_repo.mmb_logic',  # custom users app
     # Your stuff: custom apps go here
 )
 
@@ -227,6 +228,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'users:edit_profile'
 LOGIN_URL = 'account_login'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'users:edit_profile'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
@@ -272,6 +274,10 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'public_profile', 'user_friends'],
         'METHOD': 'js_sdk',  # instead of 'oauth2'
+        'VERIFIED_EMAIL': True
+  },
+  'google': {
+        'SCOPE': ['email', 'profile'],
         'VERIFIED_EMAIL': True
   }
 }

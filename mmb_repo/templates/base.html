@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="{% static 'css/simple-line-icons.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'css/font.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'css/app.css' %}" type="text/css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" media="all" />
+
   {% block custom_css %}
   <!--   Your custom css will be here. -->
   {% endblock %}
@@ -58,7 +60,8 @@
             </span>
             <!-- <input id = "search" type="text" class="form-control input-sm no-border rounded" placeholder="Search songs, albums..."> -->
             <div class="form-group">
-              <a data-toggle = "ajaxModal" href="{% url 'search' %}" class="btn btn-md btn-default btn-block btn-rounded" >We will be glad to help <i class = "fa fa-search"> </i></a>
+              <!-- data-toggle = "ajaxModal"-->
+              <a href="{% url 'search' %}" class="btn btn-md btn-default btn-block btn-rounded" >We will be glad to help <i class = "fa fa-search"> </i></a>
             </div>
           </div>
         </div>
@@ -512,11 +515,13 @@
   <script src=" {% static 'js/jquery.min.js' %}"></script>
   <!-- Bootstrap -->
   <script src=" {% static 'js/bootstrap.js' %}"></script>
+
   <!-- App -->
   <script src=" {% static 'js/app.js' %}"></script>  
  
   <script src=" {% static 'js/slimscroll/jquery.slimscroll.min.js' %}"></script>
     <script src=" {% static 'js/app.plugin.js' %}"></script>
+    <script src=" {% static 'js/jquery-ui-min.js' %}"></script>  
   <script type="text/javascript" src=" {% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>
   <script type="text/javascript" src=" {% static 'js/jPlayer/demo.js' %}"></script>

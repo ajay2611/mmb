@@ -21,6 +21,9 @@ urlpatterns = [
 
     url(r'^accounts/', include('allauth.urls')),
 
+    url(r'^logic/', include('mmb_repo.mmb_logic.urls')),
+
+
     # Your stuff: custom urls includes go here
 
 

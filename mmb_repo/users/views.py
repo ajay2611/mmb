@@ -62,7 +62,11 @@ def edit_profile(request):
     template = 'users/profile_form.html'
     pk = request.user.pk
     socialaccount_obj = SocialAccount.objects.filter(user_id=pk)
-    picture_url = socialaccount_obj[0].get_provider_account().get_avatar_url()
+    picture_url = None
+    try:
+        picture_url = socialaccount_obj[0].get_provider_account().get_avatar_url()
+    except:
+        pass
     try:
         urllib.urlretrieve(picture_url, 'mmb_repo/static/images/profile/'+str(pk))
     except:
