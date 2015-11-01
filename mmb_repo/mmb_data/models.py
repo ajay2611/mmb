@@ -17,9 +17,6 @@ class Instrument(models.Model):
 
     def __unicode__(self):
         return '{}'.format(self.instrument)
-#
-def get_upload_path(instance,f):
-    return "audio/{}/{}/".format(instance.id,f)
 
 
 # class Band(models.Model):
@@ -41,7 +38,8 @@ class Songs(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL)
     tags = models.CharField(choices=SONG_TAGS, max_length=255)
     name = models.CharField(max_length=255)
-    upload = models.FileField(upload_to="audio/")
+    upload = models.FileField()
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     # singer = models.CharField(blank=True, max_length=255)
     # label = models.CharField(blank=True, max_length=255)
     def __unicode__(self):

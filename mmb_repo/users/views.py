@@ -15,10 +15,11 @@ from django.core.exceptions import ValidationError
 from mmb_repo.mmb_data.models import Genre, Instrument
 from config.settings.common import STATIC_URL
 from allauth.socialaccount.models import SocialAccount
-from mmb_repo.mmb_data.models import Genre, Instrument, get_upload_path
+from mmb_repo.mmb_data.models import Genre, Instrument, Songs
 
 from .forms import UserForm, ProfileDataForm, ChangePasswordForm, UploadSongForm
 from .models import User,Profile
+from .utils import handle_uploaded_file
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -141,18 +142,27 @@ def view_profile(request, username):
     if request.method == 'GET':
         user = User.objects.get(username=username)
         details = Profile.objects.get(user__id=user.id)
+        try:
+            playlist = Songs.objects.filter(user__id=user.id)
+        except:
+            playlist = None
     else:
         template = '404.html'
     return render_to_response(template,
-                              {'my_audio':"active", 'user': user ,\
+                              {'my_audio':"active", 'user': user ,'playlist':playlist,\
                                'details':details, 'STATIC_URL':STATIC_URL},
                                context_instance=RequestContext(request)
                               )
 
 
 def change_password(request):
+    """
+    :param request:
+    :return:
+    """
     template = 'users/profile_form.html'
     form = ChangePasswordForm()
+
     if request.method == 'POST':
         pk = request.user.pk
         if form.is_valid():
@@ -162,6 +172,7 @@ def change_password(request):
             user.set_password = password
             user.save()
             return HttpResponseRedirect('/users/profile/'+str(username))
+
     else:
         form = ChangePasswordForm()
 
@@ -172,22 +183,28 @@ def change_password(request):
 
 @csrf_exempt
 def upload_song(request,username):
+    """
+    :param request:
+    :param username:
+    :return:
+    """
     template = 'users/profile.html'
-    form = UploadSongForm()
     user = User.objects.get(username=username)
     details = Profile.objects.get(user__id = user.id)
+
     if request.method == 'POST':
         form= UploadSongForm(request.POST,request.FILES)
-        # f='212'
-        # get_upload_path(user,f)
         if form.is_valid():
+            handle_uploaded_file(request.FILES['upload'],user.pk)
             form = form.save(commit=False)
             form.user = user
             form.save()
+            return HttpResponseRedirect('/users/profile/'+str(username))
 
-        return HttpResponseRedirect('/users/profile/'+str(username))
-
+    else:
+        form= UploadSongForm()
 
     return render_to_response(template, {'form':form,'upload_song':"active", 'user': user ,\
-                                         'details':details, 'STATIC_URL':STATIC_URL})
+                                         'details':details, 'STATIC_URL':STATIC_URL},
+                                         context_instance=RequestContext(request))
 
