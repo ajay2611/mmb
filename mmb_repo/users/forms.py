@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-
+import os
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -9,7 +9,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, MultiField, Div, Field
 
 from .models import User, Profile
-from mmb_repo.mmb_data.models import Genre,Instrument
+from mmb_repo.mmb_data.models import Genre, Instrument, Songs
 
 
 class UserForm(forms.ModelForm):
@@ -83,5 +83,48 @@ class ChangePasswordForm(forms.Form):
                 Submit('submit', 'Submit', css_class='button white')
             )
         )
+
+
+class UploadSongForm(forms.ModelForm):
+
+    class Meta:
+        model = Songs
+        fields = ("tags", "name", "upload",)
+
+    def __init__(self, *args, **kwargs):
+        super(UploadSongForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+           Field('upload', css_class="btn btn-success form-control "),
+             HTML("""
+             <br>
+            <p>
+            Name must be relevant to song, <strong>please set name accordingly.</strong></p>
+        """),
+           Field('name'),
+           Field('tags'),
+            ButtonHolder(
+                Submit('submit', 'Submit', css_class='button white')
+            )
+        )
+
+    def clean_upload(self):
+        cleaned_data = super(UploadSongForm, self).clean()
+        file = cleaned_data.get('upload',False)
+        if file:
+            if file._size > 10*1024*1024:
+                raise ValidationError("Audio file too large ( > 4mb )")
+            if not file.content_type in ["audio/mpeg","video/mp4","audio/mp3"]:
+                raise ValidationError("Content-Type is not mpeg")
+            if not os.path.splitext(file.name)[-1] in [".mp3",".wav",".mp4"]:
+                raise ValidationError("Doesn't have proper extension")
+             # Here we need to now to read the file and see if it's actually
+             # a valid audio file. I don't know what the best library is to
+             # to do this
+            # if not some_lib.is_audio(file.content):
+            #     raise ValidationError("Not a valid audio file")
+            return file
+        else:
+            raise ValidationError("Couldn't read uploaded file")
 
 
