@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="scrollable">
     <ul id="tabs" class="nav nav-tabs">
         <li class={{ edit_profile }}><a href="/users/edit-profile">Edit Profile</a></li>
         <li class={{ change_password }}><a href="/users/change-password">Change Password</a></li>
@@ -17,8 +17,11 @@
     <div class="container">
         <div class="col-md-8">
             {% crispy form  %}
+            <br><br><br><br><br><br>
             <div id='form-errors'>{{ form_errors }}</div>
         </div>
+
+    </div>
     </div>
      
 {% endblock content %}
