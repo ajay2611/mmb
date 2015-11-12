@@ -13,7 +13,7 @@ $(document).ready(function(){
     {
       title:"Chucked Knuckles",
       artist:"3studios",
-      mp3:"Lana_Del_Rey_-_Dark_Paradise.mp3",
+      mp3:"/media/Lana_Del_Rey_-_Dark_Paradise.mp3",
       poster: "/static/images/m0.jpg"
     },
     {
@@ -69,6 +69,7 @@ $(document).ready(function(){
   });
 
   $(document).on('click', '.jp-play-me', function(e){
+    alert('bc chal ja');
     e && e.preventDefault();
     var $this = $(e.target);
     if (!$this.is('a')) $this = $this.closest('a');
@@ -82,7 +83,7 @@ $(document).ready(function(){
       myPlaylist.pause();
     }else{
       var i = Math.floor(Math.random() * (1 + 7 - 1));
-      myPlaylist.play(i);
+      myPlaylist.play(1);
     }
     
   });
