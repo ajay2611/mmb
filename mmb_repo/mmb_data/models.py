@@ -4,6 +4,7 @@ from config.settings.common import AUTH_USER_MODEL
 # from mmb_repo.users.models import User
 from .app_settings import SONG_TAGS
 
+
 class Genre(models.Model):
     genre = models.CharField(max_length=30)
 

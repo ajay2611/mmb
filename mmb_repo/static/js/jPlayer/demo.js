@@ -7,14 +7,14 @@ $(document).ready(function(){
     {
       title:"Busted Chump",
       artist:"ADG3",
-      mp3:"http://flatfull.com/themes/assets/musics/adg3com_bustedchump.mp3",
-      poster: "images/m0.jpg"
+      mp3:"/media/Aashiqi_2_Mashup.mp3",
+      poster: "/static/images/m0.jpg"
     },
     {
       title:"Chucked Knuckles",
       artist:"3studios",
-      mp3:"http://flatfull.com/themes/assets/musics/adg3com_chuckedknuckles.mp3",
-      poster: "images/m0.jpg"
+      mp3:"Lana_Del_Rey_-_Dark_Paradise.mp3",
+      poster: "/static/images/m0.jpg"
     },
     {
       title:"Cloudless Days",
@@ -49,7 +49,7 @@ $(document).ready(function(){
   ], {
     playlistOptions: {
       enableRemoveControls: true,
-      autoPlay: true
+      autoPlay: false
     },
     swfPath: "js/jPlayer",
     supplied: "webmv, ogv, m4v, oga, mp3",

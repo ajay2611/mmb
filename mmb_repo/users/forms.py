@@ -112,8 +112,8 @@ class UploadSongForm(forms.ModelForm):
         cleaned_data = super(UploadSongForm, self).clean()
         file = cleaned_data.get('upload',False)
         if file:
-            if file._size > 10*1024*1024:
-                raise ValidationError("Audio file too large ( > 4mb )")
+            if file._size > 15*1024*1024:
+                raise ValidationError("Audio file too large ( > 15mb )")
             if not file.content_type in ["audio/mpeg","video/mp4","audio/mp3"]:
                 raise ValidationError("Content-Type is not mpeg")
             if not os.path.splitext(file.name)[-1] in [".mp3",".wav",".mp4"]:

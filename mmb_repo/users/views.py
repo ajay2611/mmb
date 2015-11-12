@@ -18,7 +18,7 @@ from allauth.socialaccount.models import SocialAccount
 from mmb_repo.mmb_data.models import Genre, Instrument, Songs
 
 from .forms import UserForm, ProfileDataForm, ChangePasswordForm, UploadSongForm
-from .models import User,Profile
+from .models import User, Profile
 from .utils import handle_uploaded_file
 
 
@@ -38,7 +38,6 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-
     form_class = UserForm
 
     # we already imported User in the view code above, remember?
@@ -71,7 +70,7 @@ def edit_profile(request):
     except:
         pass
     try:
-        urllib.urlretrieve(picture_url, 'mmb_repo/static/images/profile/'+str(pk))
+        urllib.urlretrieve(picture_url, 'mmb_repo/static/images/profile/' + str(pk))
     except:
         pass
 
@@ -92,46 +91,46 @@ def edit_profile(request):
             current_city = form.cleaned_data['current_city']
             instruments = form.cleaned_data['instrument']
             genres = form.cleaned_data['genre']
-            kwargs = {'college':college, 'website':website, 'phone':phone, \
-                      'about_me':about_me, 'current_city':current_city}
+            kwargs = {'college': college, 'website': website, 'phone': phone, \
+                      'about_me': about_me, 'current_city': current_city}
             if instance:
                 instance.genre.clear()
                 instance.instrument.clear()
                 instance.update(**kwargs)
                 for i in genres:
-                    obj=Genre.objects.get(genre=i)
+                    obj = Genre.objects.get(genre=i)
                     instance.genre.add(obj)
                 for i in instruments:
-                    it=Instrument.objects.get(instrument=i)
+                    it = Instrument.objects.get(instrument=i)
                     instance.instrument.add(it)
             else:
 
-                profile_obj=Profile(user=user,website=website,phone=phone,\
-                                    about_me=about_me,college=college,current_city=current_city)
+                profile_obj = Profile(user=user, website=website, phone=phone, \
+                                      about_me=about_me, college=college, current_city=current_city)
                 profile_obj.save()
                 for i in genres:
-                    obj=Genre.objects.get(genre=i)
+                    obj = Genre.objects.get(genre=i)
                     profile_obj.genre.add(obj)
                 for i in instruments:
-                    it=Instrument.objects.get(instrument=i)
+                    it = Instrument.objects.get(instrument=i)
                     profile_obj.instrument.add(it)
 
             user.username = username
             user.save()
 
-            return HttpResponseRedirect('/users/profile/'+str(username))
+            return HttpResponseRedirect('/users/profile/' + str(username))
 
     else:
 
         if instance:
-            form = ProfileDataForm(initial={'username':instance.user.username,
-                                            'instrument':instance.instrument.get_queryset(),
-                                            'genre':instance.genre.get_queryset(),
-                                            'website':instance.website,
-                                            'about_me':instance.about_me,
-                                            'phone':instance.phone,
-                                            'college':instance.college,
-                                            'current_city':instance.current_city})
+            form = ProfileDataForm(initial={'username': instance.user.username,
+                                            'instrument': instance.instrument.get_queryset(),
+                                            'genre': instance.genre.get_queryset(),
+                                            'website': instance.website,
+                                            'about_me': instance.about_me,
+                                            'phone': instance.phone,
+                                            'college': instance.college,
+                                            'current_city': instance.current_city})
         else:
             form = ProfileDataForm()
 
@@ -152,10 +151,11 @@ def view_profile(request, username):
             playlist = None
     else:
         template = '404.html'
+    # import ipdb;ipdb.set_trace()
     return render_to_response(template,
-                              {'my_audio':"active", 'user': user ,'playlist':playlist,\
-                               'details':details, 'STATIC_URL':STATIC_URL},
-                               context_instance=RequestContext(request)
+                              {'my_audio': "active", 'user': user, 'playlist': playlist, \
+                               'details': details, 'STATIC_URL': STATIC_URL},
+                              context_instance=RequestContext(request)
                               )
 
 
@@ -175,7 +175,7 @@ def change_password(request):
             username = user.username
             user.set_password = password
             user.save()
-            return HttpResponseRedirect('/users/profile/'+str(username))
+            return HttpResponseRedirect('/users/profile/' + str(username))
 
     else:
         form = ChangePasswordForm()
@@ -185,8 +185,9 @@ def change_password(request):
                               context_instance=RequestContext(request)
                               )
 
+
 @csrf_exempt
-def upload_song(request,username):
+def upload_song(request, username):
     """
     :param request:
     :param username:
@@ -194,21 +195,20 @@ def upload_song(request,username):
     """
     template = 'users/profile.html'
     user = User.objects.get(username=username)
-    details = Profile.objects.get(user__id = user.id)
+    details = Profile.objects.get(user__id=user.id)
 
     if request.method == 'POST':
-        form= UploadSongForm(request.POST,request.FILES)
+        form = UploadSongForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['upload'],user.pk)
+            handle_uploaded_file(request.FILES['upload'], user.pk)
             form = form.save(commit=False)
             form.user = user
             form.save()
-            return HttpResponseRedirect('/users/profile/'+str(username))
+            return HttpResponseRedirect('/users/profile/' + str(username))
 
     else:
-        form= UploadSongForm()
+        form = UploadSongForm()
 
-    return render_to_response(template, {'form':form,'upload_song':"active", 'user': user ,\
-                                         'details':details, 'STATIC_URL':STATIC_URL},
-                                         context_instance=RequestContext(request))
-
+    return render_to_response(template, {'form': form, 'upload_song': "active", 'user': user, \
+                                         'details': details, 'STATIC_URL': STATIC_URL},
+                              context_instance=RequestContext(request))
