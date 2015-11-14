@@ -5,46 +5,10 @@ $(document).ready(function(){
     cssSelectorAncestor: "#jp_container_N"
   }, [
     {
-      title:"Busted Chump",
-      artist:"ADG3",
-      mp3:"/media/Aashiqi_2_Mashup.mp3",
+      title:"jackpot",
+      artist:"Arikit Singh",
+      mp3:"/media/2/jackpot.mp3",
       poster: "/static/images/m0.jpg"
-    },
-    {
-      title:"Chucked Knuckles",
-      artist:"3studios",
-      mp3:"/media/Lana_Del_Rey_-_Dark_Paradise.mp3",
-      poster: "/static/images/m0.jpg"
-    },
-    {
-      title:"Cloudless Days",
-      artist:"ADG3 Studios",
-      mp3:"http://flatfull.com/themes/assets/musics/adg3com_cloudlessdays.mp3",
-      poster: "images/m0.jpg"
-    },
-    {
-      title:"Core Issues",
-      artist:"Studios",
-      mp3:"http://flatfull.com/themes/assets/musics/adg3com_coreissues.mp3",
-      poster: "images/m0.jpg"
-    },
-    {
-      title:"Cryptic Psyche",
-      artist:"ADG3",
-      mp3:"http://flatfull.com/themes/assets/musics/adg3com_crypticpsyche.mp3",
-      poster: "images/m0.jpg"
-    },
-    {
-      title:"Electro Freak",
-      artist:"Studios",
-      mp3:"http://flatfull.com/themes/assets/musics/adg3com_electrofreak.mp3",
-      poster: "images/m0.jpg"
-    },
-    {
-      title:"Freeform",
-      artist:"ADG",
-      mp3:"http://flatfull.com/themes/assets/musics/adg3com_freeform.mp3",
-      poster: "images/m0.jpg"
     }
   ], {
     playlistOptions: {
@@ -58,33 +22,54 @@ $(document).ready(function(){
     audioFullScreen: false
   });
   
+
+var currentsong = "";
+
   $(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer,  function(){
+    
     $('.musicbar').removeClass('animate');
     $('.jp-play-me').removeClass('active');
     $('.jp-play-me').parent('li').removeClass('active');
+    
   });
 
   $(document).on($.jPlayer.event.play, myPlaylist.cssSelector.jPlayer,  function(){
+    console.log("play event triggered");  
     $('.musicbar').addClass('animate');
   });
 
   $(document).on('click', '.jp-play-me', function(e){
-    alert('bc chal ja');
     e && e.preventDefault();
     var $this = $(e.target);
     if (!$this.is('a')) $this = $this.closest('a');
-
     $('.jp-play-me').not($this).removeClass('active');
     $('.jp-play-me').parent('li').not($this.parent('li')).removeClass('active');
-
     $this.toggleClass('active');
     $this.parent('li').toggleClass('active');
     if( !$this.hasClass('active') ){
-      myPlaylist.pause();
-    }else{
-      var i = Math.floor(Math.random() * (1 + 7 - 1));
-      myPlaylist.play(1);
+      $("#jplayer_N").jPlayer("pause");
     }
+    else
+    {
+      
+      if(currentsong == $(this).attr("data-mp3"))
+      {
+        console.log("yes same song is repeating again");
+        $("#jplayer_N").jPlayer("play");
+      }
+      else
+      {
+        $("#jplayer_N").jPlayer("setMedia", 
+          { 
+              mp3: $(this).attr("data-mp3"), 
+              title: $(this).attr("name"), 
+          });
+        currentsong = $(this).attr("data-mp3");
+        $("#jplayer_N").jPlayer("play");
+      }
+    }
+
+    
     
   });
 
