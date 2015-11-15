@@ -1,13 +1,15 @@
 $(document).ready(function(){
 
+  var currentsong = "";
+
   var myPlaylist = new jPlayerPlaylist({
     jPlayer: "#jplayer_N",
     cssSelectorAncestor: "#jp_container_N"
   }, [
     {
-      title:"jackpot",
-      artist:"Arikit Singh",
-      mp3:"/media/2/jackpot.mp3",
+      title:"Awari",
+      artist:"iit Singh",
+      mp3:"/media/Awari.mp3",
       poster: "/static/images/m0.jpg"
     }
   ], {
@@ -21,12 +23,8 @@ $(document).ready(function(){
     keyEnabled: true,
     audioFullScreen: false
   });
-  
-
-var currentsong = "";
 
   $(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer,  function(){
-    
     $('.musicbar').removeClass('animate');
     $('.jp-play-me').removeClass('active');
     $('.jp-play-me').parent('li').removeClass('active');
@@ -34,7 +32,6 @@ var currentsong = "";
   });
 
   $(document).on($.jPlayer.event.play, myPlaylist.cssSelector.jPlayer,  function(){
-    console.log("play event triggered");  
     $('.musicbar').addClass('animate');
   });
 
@@ -49,31 +46,34 @@ var currentsong = "";
     if( !$this.hasClass('active') ){
       $("#jplayer_N").jPlayer("pause");
     }
-    else
-    {
-      
-      if(currentsong == $(this).attr("data-mp3"))
-      {
-        console.log("yes same song is repeating again");
+    else {
+      if(currentsong == $(this).attr("data-mp3")) {
         $("#jplayer_N").jPlayer("play");
       }
-      else
-      {
-        $("#jplayer_N").jPlayer("setMedia", 
-          { 
+      else {
+        $("#jplayer_N").jPlayer("setMedia", {
               mp3: $(this).attr("data-mp3"), 
-              title: $(this).attr("name"), 
+              title: $(this).attr("name"),
           });
         currentsong = $(this).attr("data-mp3");
         $("#jplayer_N").jPlayer("play");
       }
     }
-
-    
-    
   });
 
-
+  $(document).on('click', '.icon-plus', function(e) {
+    e && e.preventDefault();
+    var $this = $(e.target);
+    if (!$this.is('a')) $this = $this.closest('a');
+    alert('adding to playlist');
+    myPlaylist.add({
+      title: $(this).attr("name"),
+      artist: "test artist",
+      mp3: $(this).attr("data-mp3"),
+      poster: ""
+    });
+    alert('added');
+  });
 
   // video
 
