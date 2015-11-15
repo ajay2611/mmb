@@ -200,7 +200,6 @@ def upload_song(request, username):
     if request.method == 'POST':
         form = UploadSongForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['upload'], user.pk)
             form = form.save(commit=False)
             form.user = user
             form.save()

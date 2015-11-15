@@ -1,9 +1,12 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from config.settings.common import AUTH_USER_MODEL
 
 # from mmb_repo.users.models import User
 from .app_settings import SONG_TAGS
 
+def get_upload_file_name(instance, filename):
+    return 'audio/{0}_{1}/{2}'.format(slugify(instance.user_id), instance.user.username, filename)
 
 class Genre(models.Model):
     genre = models.CharField(max_length=30)
@@ -39,7 +42,7 @@ class Songs(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL)
     tags = models.CharField(choices=SONG_TAGS, max_length=255)
     name = models.CharField(max_length=255)
-    upload = models.FileField()
+    upload = models.FileField(upload_to=get_upload_file_name)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     # singer = models.CharField(blank=True, max_length=255)
     # label = models.CharField(blank=True, max_length=255)
