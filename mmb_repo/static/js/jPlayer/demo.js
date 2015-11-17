@@ -61,18 +61,15 @@ $(document).ready(function(){
     }
   });
 
-  $(document).on('click', '.icon-plus', function(e) {
+  $(document).on('click', '.fa-plus-circle', function(e) {
     e && e.preventDefault();
     var $this = $(e.target);
-    if (!$this.is('a')) $this = $this.closest('a');
-    alert('adding to playlist');
     myPlaylist.add({
       title: $(this).attr("name"),
       artist: "test artist",
       mp3: $(this).attr("data-mp3"),
       poster: ""
     });
-    alert('added');
   });
 
   // video
