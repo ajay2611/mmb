@@ -12,10 +12,15 @@ urlpatterns = [
         view=category_search,
         name='category_search'
     ),
-     url(
+    url(
         regex=r'^api/get_location/$',
         view=get_location,
         name='get_location'
+    ),
+    url(
+        regex=r'^api/inc-likes/$',
+        view=inc_likes,
+        name='inc_likes'
     ),
 ]
 

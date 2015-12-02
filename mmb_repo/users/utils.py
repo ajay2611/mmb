@@ -16,16 +16,17 @@ def handle_uploaded_file(f, pk):
     """
     pk = unicode(pk)
     folder = pk
-
+    audio = "audio"
     try:
-        os.mkdir(os.path.join(MEDIA_ROOT, folder))
+        os.mkdir(os.path.join(MEDIA_ROOT, audio))
+        os.mkdir(os.path.join(MEDIA_ROOT, audio, folder))
     except:
         pass
 
     name_list = os.path.splitext(f.name)
     ext = name_list[-1]
     name = name_list[0]
-    full_path = os.path.join(MEDIA_ROOT, folder)
+    full_path = os.path.join(MEDIA_ROOT, audio, folder)
 
     destination = open('{0}/{1}{2}'.format(full_path, name, ext), 'wb+')
     for chunk in f.chunks():
