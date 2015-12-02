@@ -1,9 +1,12 @@
-from django.shortcuts import render,render_to_response
-from mmb_repo.users.models import *
-from django.http import *
-from django.template import RequestContext, loader
 import json
-# Create your views here.
+
+from django.http import *
+from django.shortcuts import render,render_to_response
+from django.template import RequestContext, loader
+
+from mmb_repo.users.models import *
+
+
 def category_search(request):
     data = None
     if request.is_ajax():
@@ -27,7 +30,6 @@ def category_search(request):
     return HttpResponse(data, mimetype)
 
 
-
 def get_location(request):
     data = None
     if request.is_ajax():
@@ -49,3 +51,12 @@ def get_location(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+
+def inc_likes(request):
+    if request.is_ajax():
+        pass
+    msg = 'done'
+    mimetype = 'application/json'
+
+    return HttpResponse(msg, mimetype)

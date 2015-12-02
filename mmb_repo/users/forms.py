@@ -9,7 +9,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, MultiField, Div, Field
 
 from .models import User, Profile
-from mmb_repo.mmb_data.models import Genre, Instrument, Songs
+from mmb_repo.mmb_data.models import Genre, Instrument, Song
 
 
 class UserForm(forms.ModelForm):
@@ -88,7 +88,7 @@ class ChangePasswordForm(forms.Form):
 class UploadSongForm(forms.ModelForm):
 
     class Meta:
-        model = Songs
+        model = Song
         fields = ("tags", "name", "upload",)
 
     def __init__(self, *args, **kwargs):
