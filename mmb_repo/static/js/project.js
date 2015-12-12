@@ -4,7 +4,8 @@ $(".genre").chosen({search_contains:true});
 
 $(".instrument").chosen({search_contains:true});
 
-$("button").click(function(){
+$(".fa-heart-o").click(function(){
+    alert('bitch please');
     $.ajax({
         type: "POST",
         url: '/api/inc-likes/',
