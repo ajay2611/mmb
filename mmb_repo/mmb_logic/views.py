@@ -54,6 +54,7 @@ def get_location(request):
 
 
 def inc_likes(request):
+    print 'yes i m  liked'
     if request.is_ajax():
         pass
     msg = 'done'
