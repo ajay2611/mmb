@@ -5,6 +5,7 @@ from django.shortcuts import render,render_to_response
 from django.template import RequestContext, loader
 
 from mmb_repo.users.models import *
+from mmb_repo.mmb_data.models import *
 
 
 def category_search(request):
@@ -54,10 +55,15 @@ def get_location(request):
 
 
 def inc_likes(request):
-    print 'yes i m  liked'
-    if request.is_ajax():
-        pass
-    msg = 'done'
+    # import ipdb;ipdb.set_trace();
+    success = False
     mimetype = 'application/json'
+    print request.POST.get('song_id')
+    print request.GET.get('song_id')
+    if request.is_ajax():
+        song_id = request.GET.get('song_id').split('_')[1]
+        song_obj = Song.objects.get(id=song_id)
+        SongLike.objects.create(user=request.user, song=song_obj)
+        success = True
 
-    return HttpResponse(msg, mimetype)
+    return HttpResponse(json.dumps({'success': success}), mimetype)

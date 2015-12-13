@@ -35,14 +35,23 @@ $(".genre").chosen({search_contains:true});
 $(".instrument").chosen({search_contains:true});
 
 $(".fa-heart-o").click(function(){
+    var song_id = $(this).parent('a').attr('id');
+    console.log(song_id);
     $.ajax({
-        type: "POST",
+        type: "GET", //should be post
         url: '/logic/api/inc-likes/',
-        data: JSON.stringify({'data' : 'data'}),
+        data: {song_id : song_id},
         dataType: 'json',
         contentType: 'application/json',
         success: function(data){
-            alert(data)
+            console.log(data);
+            $(this).toggleClass("fa-heart-o fa-heart");
+        },
+        error : function(xhr,errmsg,err) {
+            // Show an error
+            //$('#results').html("<div class='alert-box alert radius' data-alert>"+
+            //"Oops! We have encountered an error. <a href='#' class='close'>&times;</a></div>");
+            console.log(xhr.status + ": " + xhr.responseText);
         }
     });
 });

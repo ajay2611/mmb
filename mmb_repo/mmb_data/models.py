@@ -60,4 +60,4 @@ class SongLike(models.Model):
     song = models.ForeignKey(Song)
 
     def __unicode__(self):
-        return '{} - {}'.format(self.user.name, self.song.name)
+        return '{} - {}'.format(self.user.username, self.song.name)
