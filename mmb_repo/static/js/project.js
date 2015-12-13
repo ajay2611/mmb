@@ -45,7 +45,8 @@ $(".fa-heart-o").click(function(){
         contentType: 'application/json',
         success: function(data){
             console.log(data);
-            $(this).toggleClass("fa-heart-o fa-heart");
+            $("#like_count_1").html(data['like_count']);
+            $(this).toggleClass("fa-heart-o fa-heart text-active text-danger");
         },
         error : function(xhr,errmsg,err) {
             // Show an error

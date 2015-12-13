@@ -63,7 +63,9 @@ def inc_likes(request):
     if request.is_ajax():
         song_id = request.GET.get('song_id').split('_')[1]
         song_obj = Song.objects.get(id=song_id)
+        song_obj.likes += 1
+        song_obj.save()
         SongLike.objects.create(user=request.user, song=song_obj)
         success = True
 
-    return HttpResponse(json.dumps({'success': success}), mimetype)
+    return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
