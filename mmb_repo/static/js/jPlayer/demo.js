@@ -70,7 +70,7 @@ $(document).ready(function(){
       mp3: $(this).attr("data-mp3"),
       poster: ""
     });
-    $(this).toggleClass("fa-plus-circle fa-check-circle text-info");
+    $(this).toggleClass("fa-plus-circle fa-check-circle text-info", 200);
   });
 
   // video

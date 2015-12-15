@@ -34,7 +34,9 @@ $(".genre").chosen({search_contains:true});
 
 $(".instrument").chosen({search_contains:true});
 
-$(".fa-heart-o").click(function(){
+$(".fa-heart-o").click(function(e){
+    e && e.preventDefault();
+    var $this = $(e.target);
     var song_id = $(this).parent('a').attr('id');
     console.log(song_id);
     $.ajax({
@@ -44,11 +46,15 @@ $(".fa-heart-o").click(function(){
         dataType: 'json',
         contentType: 'application/json',
         success: function(data){
+            if (data.not_authenticated){
+                alert('Not authorized.');
+                return;
+            }
             console.log(data);
             $("#like_count_1").html(data['like_count']);
-            $(this).toggleClass("fa-heart-o fa-heart text-active text-danger");
+            $this.toggleClass("fa-heart-o fa-heart text-active text-danger", 200);
         },
-        error : function(xhr,errmsg,err) {
+        error : function(xhr, errmsg, err){
             // Show an error
             //$('#results').html("<div class='alert-box alert radius' data-alert>"+
             //"Oops! We have encountered an error. <a href='#' class='close'>&times;</a></div>");
