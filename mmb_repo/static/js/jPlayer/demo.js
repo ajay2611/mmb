@@ -9,7 +9,7 @@ $(document).ready(function(){
     {
       title:"Awari",
       artist:"iit Singh",
-      mp3:"/media/Awari.mp3",
+      mp3:"http://localhost/media/Awari.mp3",
       poster: "/static/images/m0.jpg"
     }
   ], {
@@ -28,7 +28,7 @@ $(document).ready(function(){
     $('.musicbar').removeClass('animate');
     $('.jp-play-me').removeClass('active');
     $('.jp-play-me').parent('li').removeClass('active');
-    
+
   });
 
   $(document).on($.jPlayer.event.play, myPlaylist.cssSelector.jPlayer,  function(){
