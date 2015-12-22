@@ -22,5 +22,15 @@ urlpatterns = [
         view=inc_likes,
         name='inc_likes'
     ),
+    url(
+        regex=r'^api/follow/$',
+        view=follow,
+        name='follow'
+    ),
+    url(
+        regex=r'^api/unfollow/$',
+        view=unfollow,
+        name='unfollow'
+    ),
 ]
 

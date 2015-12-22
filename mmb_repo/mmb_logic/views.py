@@ -1,9 +1,10 @@
 import json
 
-from django.http import *
+from django.http import HttpResponse
 from functools import wraps
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext, loader
+from django.contrib.auth import get_user_model
 
 from mmb_repo.users.models import *
 from mmb_repo.mmb_data.models import *
@@ -80,3 +81,45 @@ def inc_likes(request):
         success = True
 
     return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
+
+
+def follow(request):
+    mimetype = 'application/json'
+    user = request.user
+    success = False
+    if request.is_ajax():
+        user_2_id = request.GET.get('user_2_id')
+        user_2_obj = get_user_model().objects.get(id =user_2_id)
+        try:
+            UserFollowers.objects.create(follower=user, following=user_2_obj)
+            # user_2_obj.Profile.followed_by_count += 1
+            # user.Profile.following_count += 1
+            user.save()
+            user_2_obj.save()
+            success = True
+        except:
+            pass
+
+    return HttpResponse(json.dumps({'success': success}), mimetype)
+
+def unfollow(request):
+    mimetype = 'application/json'
+    user = request.user
+    success = False
+    if request.is_ajax():
+        user_2_id = request.GET.get('user_2_id')
+        user_2_obj = get_user_model().objects.get(id =user_2_id)
+        try:
+            UserFollowers.objects.get(follower=user, following=user_2_obj).delete()
+            # user_2_obj.Profile.followed_by_count -= 1
+            # user.Profile.following_count -= 1
+            user.save()
+            user_2_obj.save()
+            success = True
+        except:
+            pass
+
+    return HttpResponse(json.dumps({'success': success}), mimetype)
+
+
+
