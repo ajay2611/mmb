@@ -59,6 +59,7 @@ node_modules/
 mmb_repo/users/migrations/*
 mmb_repo/mmb_data/migrations/*
 mmb_repo/mmb_logic/migrations/*
+mmb_repo/bands/migrations/*
 mmb_repo/media/songs/*
 mmb_repo/media/audio/*
 

@@ -26,6 +26,7 @@
   <![endif]-->
 </head>
 {% block customize_background %}
+
 <body class="">
 {% endblock %}
 
@@ -66,9 +67,30 @@
           </div>
         </div>
       </form>
+
       <div class="navbar-brand">
-          <a href="#" class="btn btn-s-md btn-info">MakeMyBand</a>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#makemyband">MakeMyBand</button>
+          <!-- Modal -->
+            <div id ='makemyband' class="modal fade">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Create Your Band&hellip;</h4>
+                  </div>
+                  <div class="modal-body">
+{#                    #}
+                    </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Create</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div>
+          <a href="{% url 'search' %}" data-toggle="ajaxModal" class="btn  btn-info">MakeMyBand</a>
       </div>
+
       <!-- to be shown when user is logged in -->
       {% if request.user.is_authenticated %}
       <div class="navbar-right ">
@@ -576,7 +598,7 @@
               </div>
               <div class="jp-no-solution hide">
                 <span>Update Required</span>
-                To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                To play the media you  will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
               </div>
             </div>
           </div>

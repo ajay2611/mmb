@@ -1,10 +1,8 @@
-from datetime import datetime
 from django.db import models
-from django.utils.translation import gettext as _
 from django.template.defaultfilters import slugify
 
 from config.settings.common import AUTH_USER_MODEL
-from .app_settings import SONG_TAGS, CITIES, YEAR_CHOICES, MEMBER_TYPE
+from .app_settings import SONG_TAGS
 
 
 def get_upload_file_name(instance, filename):
@@ -24,29 +22,6 @@ class Instrument(models.Model):
 
     def __unicode__(self):
         return '{}'.format(self.instrument)
-
-
-class Band(models.Model):
-    name = models.CharField(unique=True, max_length=255)
-    genre = models.ManyToManyField(Genre)
-    vacancy = models.ManyToManyField(Instrument)
-    location = models.CharField(choices=CITIES, max_length=50, blank=True, null=True)
-    label = models.CharField(max_length=50, blank=True, null=True)
-    year = models.IntegerField(_('year'), choices=YEAR_CHOICES, default=datetime.now().year)
-    about_me = models.CharField(max_length=255, blank=True, null=True)
-
-    def __unicode__(self):
-        return '{}'.format(self.name)
-
-
-class BandMember(models.Model):
-    band = models.ForeignKey(Band)
-    member = models.ManyToManyField(AUTH_USER_MODEL)
-    instrument = models.ForeignKey(Instrument)
-    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='temp')
-
-    def __unicode__(self):
-        return '{} - {}'.format(self.band, self.instrument)
 
 
 # class Followers(models.Model):
