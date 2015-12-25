@@ -6,5 +6,5 @@ from django.conf.urls import url
 from .views import *
 
 urlpatterns = [
-    url(regex=r'^edit-profile/$', view=create_band, name='create_band'),
+    url(regex=r'^create/$', view=create_band, name='create_band'),
 ]
