@@ -15,7 +15,9 @@ class Band(models.Model):
     location = models.CharField(choices=CITIES, max_length=50, blank=True, null=True)
     label = models.CharField(max_length=50, blank=True, null=True)
     year = models.IntegerField(_('year'), choices=YEAR_CHOICES, default=datetime.now().year)
-    about_me = models.CharField(max_length=255, blank=True, null=True)
+    desc = models.CharField(verbose_name='Band Description', max_length=255, blank=True, null=True)
+    created_by = models.ForeignKey(AUTH_USER_MODEL, related_name='band_admin')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return '{}'.format(self.name)
