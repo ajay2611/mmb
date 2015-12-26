@@ -109,7 +109,6 @@ $(".unfollow").click(function(e){
         return;
         }
         $(".follow").html("Follow");
-        alert(data.followed_by_count)
         $(".mybutton").css("display","none");
         $("#followed_by_count").html(data['followed_by_count']);
         $("#following_count").html(data['following_count']);
