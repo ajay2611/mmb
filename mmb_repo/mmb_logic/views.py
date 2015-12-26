@@ -88,38 +88,44 @@ def follow(request):
     user = request.user
     success = False
     if request.is_ajax():
-        user_2_id = request.GET.get('user_2_id')
-        user_2_obj = get_user_model().objects.get(id =user_2_id)
+        followed_user_id = int(request.GET.get('user_id'))
+        followed_user = get_user_model().objects.get(id =followed_user_id)
+        user_followed_profile = Profile.objects.get(user=followed_user)
+        user_profile = Profile.objects.get(user=user)
         try:
-            UserFollowers.objects.create(follower=user, following=user_2_obj)
-            # user_2_obj.Profile.followed_by_count += 1
-            # user.Profile.following_count += 1
-            user.save()
-            user_2_obj.save()
+            UserFollowers.objects.create(follower=user, following=followed_user)
+            user_followed_profile.followed_by_count += 1
+            user_profile.following_count += 1
+            user_profile.save()
+            user_followed_profile.save()
             success = True
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success}), mimetype)
+    return HttpResponse(json.dumps({'success': success,'followed_by_count': user_followed_profile.followed_by_count,
+                                    'following_count': user_followed_profile.following_count}), mimetype)
 
 def unfollow(request):
     mimetype = 'application/json'
     user = request.user
     success = False
     if request.is_ajax():
-        user_2_id = request.GET.get('user_2_id')
-        user_2_obj = get_user_model().objects.get(id =user_2_id)
+        followed_user_id = request.GET.get('user_id')
+        followed_user = get_user_model().objects.get(id =followed_user_id)
+        user_followed_profile = Profile.objects.get(user=followed_user)
+        user_profile = Profile.objects.get(user=user)
         try:
-            UserFollowers.objects.get(follower=user, following=user_2_obj).delete()
-            # user_2_obj.Profile.followed_by_count -= 1
-            # user.Profile.following_count -= 1
-            user.save()
-            user_2_obj.save()
+            UserFollowers.objects.filter(follower=user, following=followed_user).delete()
+            user_followed_profile.followed_by_count -= 1
+            user_profile.following_count -= 1
+            user_profile.save()
+            user_followed_profile.save()
             success = True
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success}), mimetype)
+    return HttpResponse(json.dumps({'success': success, 'followed_by_count': user_followed_profile.followed_by_count,
+                                    'following_count': user_followed_profile.following_count}), mimetype)
 
 
 

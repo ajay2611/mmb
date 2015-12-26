@@ -28,10 +28,10 @@ class Profile(models.Model):
     current_city = models.CharField(choices=CITIES, max_length=50, blank=True, null=True)
     phone = models.CharField(max_length=10, blank=True, null=True)
     website = models.CharField(max_length=50, blank=True, null=True)
-    # following_count = models.IntegerField(default=0, blank=True, null=True)
-    # followed_by_count = models.IntegerField(default=0, blank=True, null=True)
+    following_count = models.IntegerField(default=0)
+    followed_by_count = models.IntegerField(default=0)
     about_me = models.CharField(max_length=255, blank=True, null=True)
-    # other_link = models.CharField(max_length=255, blank=True, null=True)    #This is the link which user updates
+    other_link = models.CharField(max_length=255, blank=True, null=True)    #This is the link which user updates
 
     def __unicode__(self):
         return unicode(self.user)
