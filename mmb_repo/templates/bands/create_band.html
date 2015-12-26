@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block vbox %}{% endblock %}
+
+{% block content %}
+  <a class="navbar-brand block" href="{% url 'home' %}"><span class="h1 font-bold">Make My Band</span></a>
+  <section class="m-b-lg">
+    <div class="container">
+        <div class="col-md-8">
+            {% crispy form  %}
+            <br><br><br><br><br><br>
+            <div id='form-errors'>{{ form_errors }}</div>
+        </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block custom_js %}
+    <script type="text/javascript"></script>
+{% endblock %}
