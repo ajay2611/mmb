@@ -91,9 +91,6 @@ def edit_profile(request):
             current_city = form.cleaned_data['current_city']
             instruments = form.cleaned_data['instrument']
             genres = form.cleaned_data['genre']
-            following_count = 0
-            followed_by_count = 0
-            import ipdb;ipdb.set_trace()
             kwargs = {'college': college, 'website': website, 'phone': phone, \
                       'about_me': about_me, 'current_city': current_city}
             if instance:
@@ -155,10 +152,11 @@ def view_profile(request, username):
             playlist = None
     else:
         template = '404.html'
+    active_user = request.user
     # import ipdb;ipdb.set_trace()
     return render_to_response(template,
                               {'my_audio': "active", 'user': user, 'playlist': playlist, \
-                               'details': details, 'STATIC_URL': STATIC_URL},
+                               'details': details, 'active_user': active_user,'STATIC_URL': STATIC_URL},
                               context_instance=RequestContext(request)
                               )
 
