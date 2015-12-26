@@ -35,7 +35,10 @@ $(".genre").chosen({search_contains:true});
 $(".instrument").chosen({search_contains:true});
 
  $(function(){
-    $(".mybutton").css("display","none");
+    check_follow = $("#check_follow").val();
+    if(check_follow == "False"){
+        $(".mybutton").css("display","none");
+        };
 
 
 

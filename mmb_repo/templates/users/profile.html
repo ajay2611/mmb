@@ -4,6 +4,7 @@
 {% load url from future %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
+{% load check_follow %}
 
 {% block content %}
     <section id="content">
@@ -53,6 +54,9 @@
                         <i class="fa fa-comment-o"></i> Available
                       </a>
                     </div>
+                      <input id='check_follow' type="hidden" name="check_follow"
+                                       value={% check_follow active_user user  %}>
+
                       <a class="btn btn-info btn-rounded mybutton" style="margin-left:90px;" id= {{user.pk}}>
                           <b class="unfollow">Unfollow
                           </b>
