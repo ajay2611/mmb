@@ -55,9 +55,6 @@ node_modules/
 # virtual environments
 .env
 
-#local/prod
-config/wsgi.py
-
 #ignoring migrations
 mmb_repo/users/migrations/*
 mmb_repo/mmb_data/migrations/*
