@@ -5,6 +5,8 @@ from functools import wraps
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext, loader
 from django.contrib.auth import get_user_model
+from django.template.loader import render_to_string
+
 
 from mmb_repo.users.models import *
 from mmb_repo.mmb_data.models import *
@@ -65,6 +67,12 @@ def get_location(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+
+def return_player(request):
+    if request.is_ajax():
+        html = render_to_string('pages/player.html')
+    return HttpResponse(html)
 
 
 @ajax_login_required

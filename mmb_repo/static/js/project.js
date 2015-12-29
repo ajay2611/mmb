@@ -34,7 +34,27 @@ $(".genre").chosen({search_contains:true});
 
 $(".instrument").chosen({search_contains:true});
 
- $(function(){
+jQuery(document).ready(function($){
+ $("#player").on('click',function(e){
+    e && e.preventDefault();
+    $.ajax({
+    type: 'GET',
+    async: false,
+    url: "/logic/api/return_player/",
+//    dataType: 'json',
+//    contentType : "application/json",
+    success: function(data){
+        if(data.non_not_authenticated){
+        alert("Not authorized");
+        return;
+        }
+//        alert(data)
+        $("#myplayer").html(data)
+//        $this.toggleClass("fa-eye, 200);
+        }
+    });
+});
+
     check_follow = $("#check_follow").val();
     $(".follow").html("Following");
     $(".unlike").hide();

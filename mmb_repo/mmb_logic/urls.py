@@ -37,5 +37,10 @@ urlpatterns = [
         view=unfollow,
         name='unfollow'
     ),
+    url(
+        regex=r'^api/return_player/$',
+        view=return_player,
+        name='return_player'
+    ),
 ]
 
