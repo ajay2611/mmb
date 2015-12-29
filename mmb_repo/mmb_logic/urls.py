@@ -23,6 +23,11 @@ urlpatterns = [
         name='inc_likes'
     ),
     url(
+        regex=r'^api/dec-likes/$',
+        view=dec_likes,
+        name='dec_likes'
+    ),
+    url(
         regex=r'^api/follow/$',
         view=follow,
         name='follow'
