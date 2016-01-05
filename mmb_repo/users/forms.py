@@ -30,7 +30,7 @@ class ProfileDataForm(forms.ModelForm):
         choices=[(i.genre,i.genre) for i in Genre.objects.all()],widget=forms.SelectMultiple(attrs={'class':'genre'}))
 
     instrument = forms.MultipleChoiceField(label='Instrument',
-        choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],widget=forms.SelectMultiple(attrs={'class':'instrument'})   )
+        choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],widget=forms.SelectMultiple(attrs={'class':'instrument'}))
 
     class Meta:
         model = Profile

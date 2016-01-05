@@ -5,20 +5,25 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.exceptions import ValidationError
+from django.forms.formsets import BaseFormSet
 from django.contrib.auth import get_user_model
-
+from django.forms.formsets import formset_factory
+from config.settings.common import STATIC_URL
 from mmb_repo.mmb_data.models import Genre, Instrument, Song
 from .models import Band, BandMember
-from .forms import BandForm, BandMemberForm
+from .forms import BandForm, BandMemberForm, BaseBandFormset
 
 
 def create_band(request):
     template = 'bands/create_band.html'
     pk = request.user.pk
+    Memberformset = formset_factory(BandMemberForm, formset=BaseBandFormset)
+    # members = Band.objects.get
     if request.method == 'POST':
         import ipdb;ipdb.set_trace()
         band_form = BandForm(request.POST)
-        if band_form.is_valid():
+        memberformset = Memberformset(request.POST)
+        if band_form.is_valid() and memberformset.is_valid():
             band_obj = Band.objects.create(name=band_form.cleaned_data['name'],
                                            location=band_form.cleaned_data['location'],
                                            label=band_form.cleaned_data['label'],
@@ -30,12 +35,15 @@ def create_band(request):
             for genre in band_form.cleaned_data['genre']:
                 genre_obj = Genre.objects.get(genre=genre)
                 band_obj.genre.add(genre_obj)
+            # for mem in memberformset:
+            #     mem_obj =
+        return HttpResponse("Do something")
 
     else:
         band_form = BandForm()
 
-    return render_to_response(template, {'form': band_form}, context_instance=RequestContext(request))
 
+    return render_to_response(template, {'form': band_form, 'memberformset': Memberformset, 'STATIC_URL': STATIC_URL}, context_instance=RequestContext(request))
 
 def view_band(request, band_id):
     template = 'bands/band_profile.html'
@@ -49,3 +57,4 @@ def view_band(request, band_id):
                               {'band': band, 'band_members': band_members},
                               context_instance=RequestContext(request)
                               )
+

@@ -1,25 +1,119 @@
 {% extends "base.html" %}
+{% load static %}
 {% load i18n %}
 {% load account %}
 {% load url from future %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
 
-{% block vbox %}{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/chosen.min.css' %}" type="text/css">
+{% endblock %}
 
 {% block content %}
-  <a class="navbar-brand block" href="{% url 'home' %}"><span class="h1 font-bold">Make My Band</span></a>
-  <section class="m-b-lg">
     <div class="container">
         <div class="col-md-8">
-            {% crispy form  %}
-            <br><br><br><br><br><br>
-            <div id='form-errors'>{{ form_errors }}</div>
+            <br><br><br>
+            <form method="POST" action=".">
+                {% csrf_token %}
+                <label>Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    {% for error in form.name.errors %}
+                        {{ error|escape }}
+                    {% endfor %}
+                {% endif %}
+                <label>Genre</label>
+                {{ form.genre }}
+                {% if form.genre.errors %}
+                    {% for error in form.genre.errors %}
+                        {{ error|escape }}
+                    {% endfor %}
+                {% endif %}
+                {{ memberformset.management_form }}
+                <div class="container"><br>
+                <b style="color:#545ca6">Adding members to the Band: </b>
+                {% for m in memberformset %}
+                    <div class="link-formset form-inline col-md-12">
+                        <br><br><br>
+                        <b style="color:#188188">Member</b>
+                        <div class="form-group" >
+                        {{ m.member }}
+                        {% if m.member.errors %}
+                            {% for error in m.member.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        {% endif %}
+                            </div>
+                        <b style="color:#188111;margin-left:20px">Instrument</b>
+                        <div class="form-group">
+                        {{ m.instrument }}
+                        {% if m.instrument.errors %}
+                            {% for error in m.instrument.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        {% endif %}
+                            </div>
+                        <b style="color:#188111;margin-left:20px;margin-right:0px">Type</b>
+                        <div class="form-group">
+                        {{ m.type }}
+                        {% if m.type.errors %}
+                            {% for error in m.type.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        {% endif %}
+                            </div>
+                              <!--<p style=""><a class="delete" href="#">Delete</a></p>-->
+
+                    </div>
+                {%endfor%}
+                </div>
+                  <!--<p><a id="add" href="#">Add another item</a></p>-->
+                <br>
+                <label>Location</label>
+                {{ form.location }}
+                {% if form.location.errors %}
+                    {% for error in form.location.errors %}
+                        {{ error|escape }}
+                    {% endfor %}
+                {% endif %}
+                <label>Label</label>
+                {{ form.label }}
+                {% if form.label.errors %}
+                    {% for error in form.label.errors %}
+                        {{ error|escape }}
+                    {% endfor %}
+                {% endif %}
+                <label>Year</label>
+                {{ form.year }}
+                {% if form.year.errors %}
+                    {% for error in form.year.errors %}
+                        {{ error|escape }}
+                    {% endfor %}
+                {% endif %}
+                <label>Description</label>
+                {{ form.desc }}
+                {% if form.desc.errors %}
+                    {% for error in form.desc.errors %}
+                        {{ error|escape }}
+                    {% endfor %}
+                {% endif %}
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            <br><br><br><br><br><br><br><br>
+            </form>
         </div>
     </div>
-  </section>
 {% endblock %}
 
 {% block custom_js %}
-    <script type="text/javascript"></script>
+<script type = "text/javascript" src = "//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" ></script>
+<script src=" {% static 'js/jquery.formset.js' %}"></script>
+<script>
+    $('.link-formset').formset({
+        addText: 'Add Member',
+        deleteText: 'Remove Member'
+    });
+</script>
 {% endblock %}
