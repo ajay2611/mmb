@@ -35,3 +35,17 @@ def create_band(request):
         band_form = BandForm()
 
     return render_to_response(template, {'form': band_form}, context_instance=RequestContext(request))
+
+
+def view_band(request, band_id):
+    template = 'bands/band_profile.html'
+    if request.method == 'GET':
+        band = Band.objects.get(id=band_id)
+        band_members = BandMember.objects.get(band=band_id)
+    else:
+        template = '404.html'
+
+    return render_to_response(template,
+                              {'band': band, 'band_members': band_members},
+                              context_instance=RequestContext(request)
+                              )

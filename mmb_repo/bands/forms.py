@@ -18,13 +18,11 @@ class BandMemberForm(forms.ModelForm):
 
 
 class BandForm(forms.ModelForm):
-    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all())
     genre = forms.MultipleChoiceField(label='Genre',
                                       choices=[(i.genre, i.genre) for i in Genre.objects.all()],
                                       widget=forms.SelectMultiple(attrs={'class': 'genre'}))
 
     class Meta():
-        # import ipdb;ipdb.set_trace()
         model = Band
         fields = ('name', 'member', 'location', 'label', 'year', 'desc')
 
@@ -35,7 +33,6 @@ class BandForm(forms.ModelForm):
             'name',
             'genre',
             'member',
-            'instrument',
             'location',
             'label',
             'year',
