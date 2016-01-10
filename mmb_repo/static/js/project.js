@@ -34,6 +34,8 @@ $(".genre").chosen({search_contains:true});
 
 $(".instrument").chosen({search_contains:true});
 
+$(".member").chosen({search_contains:true});
+
 $(".fa-heart-o").click(function(e){
     e && e.preventDefault();
     var $this = $(e.target);

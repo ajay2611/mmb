@@ -6,7 +6,6 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.formsets import BaseFormSet
 from crispy_forms.helper import FormHelper
-from djangoformsetjs.utils import formset_media_js
 from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, MultiField, Div, Field
 from django.contrib.auth import get_user_model
 
@@ -21,7 +20,7 @@ class BandMemberForm(forms.ModelForm):
 
     member = forms.ChoiceField(label="member",
                                choices=[(i.username, i.username) for i in get_user_model().objects.all()],
-                               widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control col-md-3 genre'}))
+                               widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control col-md-3 member'}))
 
     class Meta:
         model = BandMember

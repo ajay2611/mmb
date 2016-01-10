@@ -33,3 +33,10 @@ class BandMember(models.Model):
         return '{} - {}'.format(self.band, self.member)
 
 
+class BandVacancy(models.Model):
+    band = models.ForeignKey(Band)
+    instrument = models.ForeignKey(Instrument)
+    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='temp')
+
+    def __unicode__(self):
+        return '{} - {}'.format(self.band, self.instrument)
