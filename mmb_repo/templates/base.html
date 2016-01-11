@@ -96,7 +96,8 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div>
-          <a href="{% url 'bands:create_band' %}" class="btn  btn-info">MakeMyBand</a>
+          <a href="{% url 'bands:create_band' %}" class="btn  btn-info">MyBand</a>
+          <a href="{% url 'mmb_logic:change_profile' %}" class="btn  btn-info">As Band</a>
       </div>
 
       <!-- to be shown when user is logged in -->
@@ -619,7 +620,6 @@
 
   <!-- App -->
   <script src=" {% static 'js/app.js' %}"></script>
-
   <script src=" {% static 'js/slimscroll/jquery.slimscroll.min.js' %}"></script>
   <script src=" {% static 'js/app.plugin.js' %}"></script>
   <script src=" {% static 'js/jquery-ui-min.js' %}"></script>

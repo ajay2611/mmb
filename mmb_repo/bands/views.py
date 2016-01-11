@@ -10,8 +10,8 @@ from django.contrib.auth import get_user_model
 from django.forms.formsets import formset_factory
 from config.settings.common import STATIC_URL
 from mmb_repo.mmb_data.models import Genre, Instrument, Song
-from .models import Band, BandMember
-from .forms import BandForm, BandMemberForm, BaseBandFormset
+from .models import Band, BandMember, BandVacancy
+from .forms import BandForm, BandMemberForm, BaseBandFormset, BandVacancyForm
 
 
 def create_band(request):
@@ -42,8 +42,8 @@ def create_band(request):
     else:
         band_form = BandForm()
 
-
     return render_to_response(template, {'form': band_form, 'memberformset': Memberformset, 'STATIC_URL': STATIC_URL}, context_instance=RequestContext(request))
+
 
 def view_band(request, band_id):
     template = 'bands/band_profile.html'
@@ -55,6 +55,27 @@ def view_band(request, band_id):
 
     return render_to_response(template,
                               {'band': band, 'band_members': band_members},
+                              context_instance=RequestContext(request))
+
+
+def create_vacancy(request, band_id):
+    template = 'bands/create_vacancy.html'
+    if request.method == 'GET':
+        vacancy_form = BandVacancyForm()
+        # band = Band.objects.get(id=band_id)
+    else:
+        vacancy_form = BandVacancyForm(request.POST)
+        if vacancy_form.is_valid():
+            vacancy_obj = BandVacancy.objects.create(name=band_id,
+                                                     instrument=vacancy_form.cleaned_data['instrument'],
+                                                     type=vacancy_form.cleaned_data['type']
+                                                     )
+            vacancy_obj.save()
+
+    return render_to_response(template,
+                              {'form': vacancy_form},
                               context_instance=RequestContext(request)
                               )
 
+def invite_user(request, band_id):
+    pass

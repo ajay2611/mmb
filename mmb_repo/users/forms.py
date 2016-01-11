@@ -126,5 +126,3 @@ class UploadSongForm(forms.ModelForm):
             return file
         else:
             raise ValidationError("Couldn't read uploaded file")
-
-

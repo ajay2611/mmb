@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/chosen.min.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-md-8">
+            <br><br><br>
+            <form method="POST" action="">
+                <div class="link-formset form-inline col-md-12">
+                    {% csrf_token %}
+                    {% crispy form  %}
+                    <div id='form-errors'>{{ form_errors }}</div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+{#<script type = "text/javascript" src = "//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" ></script>#}
+<script src=" {% static 'js/jquery.min.js' %}"></script>
+<script src=" {% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript" src=" {% static 'js/chosen.jquery.min.js' %}"></script>
+<script>
+{#    function doChosen() {#}
+{#        console.log('123');#}
+{#        $('.member').chosen({search_contains:true});#}
+{#        $('.member').trigger("chosen:updated");#}
+{#    }#}
+    $('.link-formset').formset({
+        addText: 'Add Member',
+        deleteText: 'Remove Member'
+    });
+</script>
+{% endblock %}

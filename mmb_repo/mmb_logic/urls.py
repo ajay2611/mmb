@@ -22,5 +22,9 @@ urlpatterns = [
         view=inc_likes,
         name='inc_likes'
     ),
+    url(
+        regex=r'^api/change-profile/$',
+        view=change_profile,
+        name='change_profile'
+    ),
 ]
-

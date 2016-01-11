@@ -28,6 +28,12 @@ EMAIL_PORT = 1025
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
                     default='django.core.mail.backends.console.EmailBackend')
 
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'ajay.singh1@delhivery.com'
+# EMAIL_HOST_PASSWORD = 'ajay@123'
+
 # CACHING
 # ------------------------------------------------------------------------------
 CACHES = {

@@ -38,5 +38,8 @@ class BandVacancy(models.Model):
     instrument = models.ForeignKey(Instrument)
     type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='temp')
 
+    class Meta:
+        verbose_name_plural = 'Band vacancies'
+
     def __unicode__(self):
         return '{} - {}'.format(self.band, self.instrument)

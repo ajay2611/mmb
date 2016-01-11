@@ -10,13 +10,35 @@ from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, Mu
 from django.contrib.auth import get_user_model
 
 from mmb_repo.mmb_data.models import Genre, Instrument
-from .models import Band, BandMember
+from .models import Band, BandMember, BandVacancy
+
+
+class BandVacancyForm(forms.ModelForm):
+    instrument = forms.ChoiceField(label='Instrument',
+                                   choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],
+                                   widget=forms.SelectMultiple(attrs={'class': 'instrument'}))
+
+    class Meta:
+        model = BandMember
+        fields = ('type', )
+
+    def __init__(self, *args, **kwargs):
+        super(BandVacancyForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'instrument',
+            'type',
+
+            ButtonHolder(
+                Submit('submit', 'Submit', css_class='button white')
+            )
+        )
 
 
 class BandMemberForm(forms.ModelForm):
     instrument = forms.MultipleChoiceField(label='Instrument',
-                                      choices=[(i.instrument, i.instrument) for i in Instrument.objects.all()],
-                                      widget=forms.SelectMultiple(attrs={'class': 'form-control col-md-6 instrument'}))
+                                           choices=[(i.instrument, i.instrument) for i in Instrument.objects.all()],
+                                           widget=forms.SelectMultiple(attrs={'class': 'form-control col-md-6 instrument'}))
 
     member = forms.ChoiceField(label="member",
                                choices=[(i.username, i.username) for i in get_user_model().objects.all()],
@@ -37,11 +59,9 @@ class BandForm(forms.ModelForm):
                                       choices=[(i.genre, i.genre) for i in Genre.objects.all()],
                                       widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control genre'}))
 
-
-    class Meta():
+    class Meta:
         model = Band
         fields = ('name', 'location', 'label', 'year', 'desc')
-
 
     def __init__(self, *args, **kwargs):
         super(BandForm, self).__init__(*args, **kwargs)
@@ -57,5 +77,3 @@ class BaseBandFormset(BaseFormSet):
     def clean(self):
         if any(self.errors):
             return
-
-

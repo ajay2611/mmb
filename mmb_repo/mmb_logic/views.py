@@ -80,3 +80,13 @@ def inc_likes(request):
         success = True
 
     return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
+
+
+def change_profile(request):
+    success = False
+    mimetype = 'application/json'
+    if request.is_ajax():
+        request.session['id'] = 2
+        request.session['is_band'] = True
+
+    return HttpResponse(json.dumps({'success': success}), mimetype)
