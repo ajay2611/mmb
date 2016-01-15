@@ -1,8 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from config.settings.common import AUTH_USER_MODEL
 
-# from mmb_repo.users.models import User
+from config.settings.common import AUTH_USER_MODEL
 from .app_settings import SONG_TAGS
 
 
@@ -25,14 +24,6 @@ class Instrument(models.Model):
         return '{}'.format(self.instrument)
 
 
-# class Band(models.Model):
-#     name = models.CharField(blank=True, max_length=255)
-#     desc = models.CharField(blank=True, max_length=255)
-#     users = models.ManyToManyField(User)
-#     band_genre = models.ForeignKey(Genre)
-#     #tags - can't remember
-#
-#
 class UserFollowers(models.Model):
     follower = models.ForeignKey(AUTH_USER_MODEL, related_name='follower')
     # follower_is_user = models.BooleanField()

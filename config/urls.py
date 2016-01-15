@@ -17,15 +17,16 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # User management
+
     url(r'^users/', include("mmb_repo.users.urls", namespace="users")),
+    #Bands
+    url(r'^bands/', include("mmb_repo.bands.urls", namespace="bands")),
 
     url(r'^accounts/', include('allauth.urls')),
 
-    url(r'^logic/', include('mmb_repo.mmb_logic.urls')),
-
+    url(r'^logic/', include('mmb_repo.mmb_logic.urls', namespace='mmb_logic')),
 
     # Your stuff: custom urls includes go here
-
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

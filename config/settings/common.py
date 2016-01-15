@@ -46,8 +46,9 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'mmb_repo.users',
+    'mmb_repo.bands',
     'mmb_repo.mmb_data',
-    'mmb_repo.mmb_logic',  # custom users app
+    'mmb_repo.mmb_logic',
     # Your stuff: custom apps go here
 )
 

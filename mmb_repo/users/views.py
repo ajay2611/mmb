@@ -12,7 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 
-from mmb_repo.mmb_data.models import Genre, Instrument
 from config.settings.common import STATIC_URL
 from allauth.socialaccount.models import SocialAccount
 from mmb_repo.mmb_data.models import Genre, Instrument, Song

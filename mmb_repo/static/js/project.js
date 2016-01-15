@@ -1,5 +1,11 @@
 /* Project specific Javascript goes here. */
 
+$( window ).load(function() {
+    $(".genre").chosen({search_contains:true});
+    $(".member").chosen({search_contains:true});
+    $(".instrument").chosen({search_contains:true});
+});
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -30,9 +36,6 @@ $.ajaxSetup({
     }
 });
 
-$(".genre").chosen({search_contains:true});
-
-$(".instrument").chosen({search_contains:true});
 
  $(function(){
     $(".mybutton").css("display","none");
