@@ -38,7 +38,13 @@ $.ajaxSetup({
 
 
  $(function(){
-    $(".mybutton").css("display","none");
+    check_follow = $("#check_follow").val();
+    $(".follow").html("Following");
+    $(".unlike").hide();
+    if(check_follow == "False"){
+        $(".mybutton").css("display","none");
+        $(".follow").html("Follow");
+        };
 
 
 
@@ -60,7 +66,38 @@ $(".fa-heart-o").click(function(e){
             }
             console.log(data);
             $("#like_count_1").html(data['like_count']);
-            $this.toggleClass("fa-heart-o fa-heart text-active text-danger", 200);
+            $(".like").hide();
+            $(".unlike").show();
+//            $this.toggleClass("fa-heart-o fa-heart text-active text-danger", 200);
+        },
+        error : function(xhr, errmsg, err){
+            // Show an error
+            //$('#results').html("<div class='alert-box alert radius' data-alert>"+
+            //"Oops! We have encountered an error. <a href='#' class='close'>&times;</a></div>");
+            console.log(xhr.status + ": " + xhr.responseText);
+        }
+    });
+});
+$(".fa-heart").click(function(e){
+    e && e.preventDefault();
+    var $this = $(e.target);
+    var song_id = $(this).parent('a').attr('id');
+    $.ajax({
+        type: "GET", //should be post
+        url: '/logic/api/dec-likes/',
+        data: {song_id : song_id},
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(data){
+            if (data.not_authenticated){
+                alert('Not authorized.');
+                return;
+            }
+            console.log(data);
+            $("#like_count_1").html(data['like_count']);
+            $(".unlike").hide();
+            $(".like").show();
+//            $this.toggleClass("fa-heart-o fa-heart text-active text-danger", 200);
         },
         error : function(xhr, errmsg, err){
             // Show an error

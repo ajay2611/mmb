@@ -71,12 +71,29 @@ def inc_likes(request):
     mimetype = 'application/json'
     print request.POST.get('song_id')
     if request.is_ajax():
-        song_id = request.GET.get('song_id').split('_')[1]
+        song_id = request.GET.get('song_id')
         song_obj = Song.objects.get(id=song_id)
         song_obj.likes += 1
         song_obj.save()
         SongLike.objects.create(user=request.user, song=song_obj)
         success = True
+
+    return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
+
+@ajax_login_required
+def dec_likes(request):
+    success = False
+    mimetype = 'application/json'
+    if request.is_ajax():
+        song_id = request.GET.get('song_id')
+        try:
+            song_obj = Song.objects.get(id=song_id)
+            SongLike.objects.filter(user=request.user, song=song_obj).delete()
+            song_obj.likes -= 1
+            song_obj.save()
+            success = True
+        except:
+            pass
 
     return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
 
@@ -90,7 +107,7 @@ def change_profile(request):
 
     return HttpResponse(json.dumps({'success': success}), mimetype)
 
-
+@ajax_login_required
 def follow(request):
     mimetype = 'application/json'
     user = request.user
@@ -116,6 +133,7 @@ def follow(request):
                         mimetype)
 
 
+@ajax_login_required
 def unfollow(request):
     mimetype = 'application/json'
     user = request.user
