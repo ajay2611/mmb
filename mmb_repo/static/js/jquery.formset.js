@@ -146,13 +146,14 @@
                 });
                 $('#id_' + options.prefix + '-TOTAL_FORMS').val(formCount + 1);
                 // If a post-add callback was supplied, call it with the added form:
+                $(".member").chosen({search_contains:true});
                 if (options.added) options.added(row);
                 return false;
             });
         }
 
         return $$;
-    }
+    };
 
     /* Setup plugin defaults */
     $.fn.formset.defaults = {
@@ -167,4 +168,4 @@
         added: null,                     // Function called each time a new form is added
         removed: null                    // Function called each time a form is deleted
     };
-})(jQuery)
+})(jQuery);

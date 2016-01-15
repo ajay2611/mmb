@@ -2,12 +2,11 @@ from __future__ import absolute_import, unicode_literals
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.core.exceptions import ValidationError
-from django.forms.formsets import BaseFormSet
 from django.contrib.auth import get_user_model
 from django.forms.formsets import formset_factory
+from django.core.mail import send_mail
+
 from config.settings.common import STATIC_URL
 from mmb_repo.mmb_data.models import Genre, Instrument, Song
 from .models import Band, BandMember, BandVacancy
@@ -77,5 +76,6 @@ def create_vacancy(request, band_id):
                               context_instance=RequestContext(request)
                               )
 
+
 def invite_user(request, band_id):
-    pass
+    send_mail('Subject here', 'Here is the message.', 'ajay.singh1@delhivery.com', ['ajayk40@gmail.com'])

@@ -1,5 +1,8 @@
 /* Project specific Javascript goes here. */
 
+$(".genre").chosen({search_contains:true});
+$(".instrument").chosen({search_contains:true});
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -30,11 +33,6 @@ $.ajaxSetup({
     }
 });
 
-$(".genre").chosen({search_contains:true});
-
-$(".instrument").chosen({search_contains:true});
-
-$(".member").chosen({search_contains:true});
 
 $(".fa-heart-o").click(function(e){
     e && e.preventDefault();
