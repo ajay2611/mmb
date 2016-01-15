@@ -37,6 +37,11 @@ $.ajaxSetup({
 });
 
 
+ $(function(){
+    $(".mybutton").css("display","none");
+
+
+
 $(".fa-heart-o").click(function(e){
     e && e.preventDefault();
     var $this = $(e.target);
@@ -64,4 +69,55 @@ $(".fa-heart-o").click(function(e){
             console.log(xhr.status + ": " + xhr.responseText);
         }
     });
+});
+
+$(".follow").click(function(e){
+    e && e.preventDefault();
+    var $this = $(e.target);
+    var user_id = $(this).parent('a').attr('id');
+    $.ajax({
+    type: 'GET',
+    url: "/logic/api/follow/",
+    data: {user_id: user_id},
+    dataType: 'json',
+    contentType : "application/json",
+    success: function(data){
+        if(data.non_not_authenticated){
+        alert("Not authorized");
+        return;
+        }
+        $(".follow").html("Following");
+        $(".mybutton").css("display","inline-table");
+        $("#following_count").html(data['following_count']);
+        $("#followed_by_count").html(data['followed_by_count']);
+//        $this.toggleClass("fa-eye, 200);
+
+        }
+    });
+});
+
+$(".unfollow").click(function(e){
+    e && e.preventDefault();
+    var $this = $(e.target);
+    var user_id = $(this).parent('a').attr('id');
+    $.ajax({
+    type: 'GET',
+    url: "/logic/api/unfollow/",
+    data: {user_id: user_id},
+    dataType: 'json',
+    contentType : "application/json",
+    success: function(data){
+        if(data.non_not_authenticated){
+        alert("Not authorized");
+        return;
+        }
+        $(".follow").html("Follow");
+        $(".mybutton").css("display","none");
+        $("#followed_by_count").html(data['followed_by_count']);
+        $("#following_count").html(data['following_count']);
+//        $this.toggleClass("fa-eye, 200);
+        }
+    });
+});
+
 });

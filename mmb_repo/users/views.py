@@ -90,6 +90,9 @@ def edit_profile(request):
             current_city = form.cleaned_data['current_city']
             instruments = form.cleaned_data['instrument']
             genres = form.cleaned_data['genre']
+            following_count = 0
+            followed_by_count = 0
+            import ipdb;ipdb.set_trace()
             kwargs = {'college': college, 'website': website, 'phone': phone, \
                       'about_me': about_me, 'current_city': current_city}
             if instance:
@@ -105,7 +108,8 @@ def edit_profile(request):
             else:
 
                 profile_obj = Profile(user=user, website=website, phone=phone, \
-                                      about_me=about_me, college=college, current_city=current_city)
+                                      about_me=about_me, college=college, current_city=current_city,
+                                      )
                 profile_obj.save()
                 for i in genres:
                     obj = Genre.objects.get(genre=i)

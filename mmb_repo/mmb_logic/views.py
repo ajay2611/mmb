@@ -1,9 +1,8 @@
 import json
 
-from django.http import *
+from django.http import HttpResponse
 from functools import wraps
-from django.shortcuts import render, render_to_response
-from django.template import RequestContext, loader
+from django.contrib.auth import get_user_model
 
 from mmb_repo.users.models import *
 from mmb_repo.mmb_data.models import *
@@ -90,3 +89,53 @@ def change_profile(request):
         request.session['is_band'] = True
 
     return HttpResponse(json.dumps({'success': success}), mimetype)
+
+
+def follow(request):
+    mimetype = 'application/json'
+    user = request.user
+    success = False
+    if request.is_ajax():
+        followed_user_id = int(request.GET.get('user_id'))
+        followed_user = get_user_model().objects.get(id =followed_user_id)
+        user_followed_profile = Profile.objects.get(user=followed_user)
+        user_profile = Profile.objects.get(user=user)
+        try:
+            UserFollowers.objects.create(follower=user, following=followed_user)
+            user_followed_profile.followed_by_count += 1
+            user_profile.following_count += 1
+            user_profile.save()
+            user_followed_profile.save()
+            success = True
+        except:
+            pass
+
+    return HttpResponse(json.dumps({'success': success,
+                                    'followed_by_count': user_followed_profile.followed_by_count,
+                                    'following_count': user_followed_profile.following_count}),
+                        mimetype)
+
+
+def unfollow(request):
+    mimetype = 'application/json'
+    user = request.user
+    success = False
+    if request.is_ajax():
+        followed_user_id = request.GET.get('user_id')
+        followed_user = get_user_model().objects.get(id =followed_user_id)
+        user_followed_profile = Profile.objects.get(user=followed_user)
+        user_profile = Profile.objects.get(user=user)
+        try:
+            UserFollowers.objects.filter(follower=user, following=followed_user).delete()
+            user_followed_profile.followed_by_count -= 1
+            user_profile.following_count -= 1
+            user_profile.save()
+            user_followed_profile.save()
+            success = True
+        except:
+            pass
+
+    return HttpResponse(json.dumps({'success': success,
+                                    'followed_by_count': user_followed_profile.followed_by_count,
+                                    'following_count': user_followed_profile.following_count}),
+                        mimetype)

@@ -27,31 +27,36 @@
                       <div class="row text-center">
                         <div class="col-xs-6">
                           <a href="#">
-                            <span class="m-b-xs h4 block">245</span>
+                            <span class="m-b-xs h4 block" id="following_count">{{ details.following_count }}</span>
                             <small class="text-muted">Followers</small>
                           </a>
                         </div>
                         <div class="col-xs-6">
                           <a href="#">
-                            <span class="m-b-xs h4 block">55</span>
+                            <span class="m-b-xs h4 block" id="followed_by_count">{{ details.followed_by_count }}</span>
                             <small class="text-muted">Following</small>
                           </a>
                         </div>
                       </div>
                     </div>
                     <div class="btn-group btn-group-justified m-b">
-                      <a class="btn btn-success btn-rounded" data-toggle="button">
-                        <span class="text">
-                          <i class="fa fa-eye"></i> Follow
-                        </span>
-                        <span class="text-active">
-                          <i class="fa fa-eye"></i> Following
-                        </span>
+                      <a class="btn btn-success btn-rounded" id = {{user.pk}} >
+                          <i class="fa fa-eye"></i>
+                        <b class="text follow">
+                           Follow
+                        </b>
+                        <!--<span class="text-active unfollow">-->
+                          <!--<i class="fa fa-eye"></i>-->
+                        <!--</span>-->
                       </a>
                       <a class="btn btn-dark btn-rounded">
                         <i class="fa fa-comment-o"></i> Available
                       </a>
                     </div>
+                      <a class="btn btn-info btn-rounded mybutton" style="margin-left:90px;" id= {{user.pk}}>
+                          <b class="unfollow">Unfollow
+                          </b>
+                      </a>
                     <div>
                       <small class="text-uc text-xs text-muted">about me</small>
                       <p>{{ details.about_me }}</p>

@@ -24,11 +24,13 @@ class Instrument(models.Model):
         return '{}'.format(self.instrument)
 
 
-# class Followers(models.Model):
-#     follower = models.ForeignKey(User)
-#     follower_is_user = models.BooleanField()
-#     following = models.ForeignKey(User)
-#     following_is_user = models.BooleanField()
+class UserFollowers(models.Model):
+    follower = models.ForeignKey(AUTH_USER_MODEL, related_name='follower')
+    # follower_is_user = models.BooleanField()
+    following = models.ForeignKey(AUTH_USER_MODEL, related_name='following')
+    # following_is_user = models.BooleanField()
+    def __unicode__(self):
+        return '{} - {}'.format(self.follower.username, self.following.name)
 
 
 class Song(models.Model):
@@ -51,4 +53,4 @@ class SongLike(models.Model):
     song = models.ForeignKey(Song)
 
     def __unicode__(self):
-        return '{} - {}'.format(self.user, self.song.name)
+        return '{} - {}'.format(self.user.username, self.song.name)
