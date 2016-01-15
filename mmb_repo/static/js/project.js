@@ -1,7 +1,10 @@
 /* Project specific Javascript goes here. */
 
-$(".genre").chosen({search_contains:true});
-$(".instrument").chosen({search_contains:true});
+$( window ).load(function() {
+    $(".genre").chosen({search_contains:true});
+    $(".member").chosen({search_contains:true});
+    $(".instrument").chosen({search_contains:true});
+});
 
 function getCookie(name) {
     var cookieValue = null;
