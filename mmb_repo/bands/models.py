@@ -15,7 +15,7 @@ class Band(models.Model):
     location = models.CharField(choices=CITIES, max_length=50, blank=True, null=True)
     label = models.CharField(max_length=50, blank=True, null=True)
     year = models.IntegerField(_('year'), choices=YEAR_CHOICES, default=datetime.now().year)
-    desc = models.CharField(verbose_name='Band Description', max_length=255, blank=True, null=True)
+    desc = models.CharField(max_length=255, blank=True, null=True)
     created_by = models.ForeignKey(AUTH_USER_MODEL, related_name='band_admin')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -27,7 +27,7 @@ class BandMember(models.Model):
     band = models.ForeignKey(Band)
     member = models.ForeignKey(AUTH_USER_MODEL)
     instrument = models.ForeignKey(Instrument)
-    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='temp')
+    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='perm')
 
     def __unicode__(self):
         return '{} - {}'.format(self.band, self.member)
@@ -36,7 +36,7 @@ class BandMember(models.Model):
 class BandVacancy(models.Model):
     band = models.ForeignKey(Band)
     instrument = models.ForeignKey(Instrument)
-    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='temp')
+    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='perm')
 
     class Meta:
         verbose_name_plural = 'Band vacancies'

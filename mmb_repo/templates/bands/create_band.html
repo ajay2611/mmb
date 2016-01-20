@@ -17,7 +17,7 @@
             <br><br><br>
             <form method="POST" action=".">
                 {% csrf_token %}
-                <label>Name</label>
+                <label>Band's name</label>
                 {{ form.name }}
                 {% if form.name.errors %}
                     {% for error in form.name.errors %}
@@ -37,7 +37,7 @@
                 {% for m in memberformset %}
                     <div class="link-formset form-inline col-md-12">
                         <br><br><br>
-                        <b style="color:#188188">Member</b>
+                        <b style="color:#188188">Member:</b>
                         <div class="form-group" >
                         {{ m.member }}
                         {% if m.member.errors %}
@@ -46,7 +46,7 @@
                             {% endfor %}
                         {% endif %}
                             </div>
-                        <b style="color:#188111;margin-left:20px">Instrument</b>
+                        <b style="color:#188111;margin-left:20px">Instrument:</b>
                         <div class="form-group">
                         {{ m.instrument }}
                         {% if m.instrument.errors %}
@@ -55,7 +55,7 @@
                             {% endfor %}
                         {% endif %}
                             </div>
-                        <b style="color:#188111;margin-left:20px;margin-right:0px">Type</b>
+                        <b style="color:#188111;margin-left:20px;margin-right:0px">Type:</b>
                         <div class="form-group">
                         {{ m.type }}
                         {% if m.type.errors %}

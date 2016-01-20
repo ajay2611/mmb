@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 
 from mmb_repo.mmb_data.models import Genre, Instrument
 from .models import Band, BandMember, BandVacancy
+from .app_settings import MEMBER_TYPE, RELEVANCE_CHOICES
 
 
 class BandVacancyForm(forms.ModelForm):
@@ -35,23 +36,13 @@ class BandVacancyForm(forms.ModelForm):
         )
 
 
-class BandMemberForm(forms.ModelForm):
-    instrument = forms.MultipleChoiceField(label='Instrument',
-                                           choices=[(i.instrument, i.instrument) for i in Instrument.objects.all()],
-                                           widget=forms.SelectMultiple(attrs={'class': 'form-control col-md-6 instrument'}))
-
-    member = forms.ChoiceField(label="member",
-                               choices=[(i.username, i.username) for i in get_user_model().objects.all()],
+class BandMemberForm(forms.Form):
+    member = forms.ChoiceField(choices=[(i.username, i.username) for i in get_user_model().objects.all()],
                                widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control col-md-3 member'}))
-
-    class Meta:
-        model = BandMember
-        fields = ('type', )
-
-    def __init__(self, *args, **kwargs):
-        super(BandMemberForm, self).__init__(*args, **kwargs)
-        # self.fields['member'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control col-md-3'})
-        self.fields['type'].widget = forms.TextInput(attrs={'class': 'from-control col-md-1'})
+    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all(),
+                                        widget=forms.SelectMultiple(attrs={'class': 'form-control col-md-6 instrument'}))
+    type = forms.ChoiceField(choices=MEMBER_TYPE,
+                             widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control col-md-3 member'}))
 
 
 class BandForm(forms.ModelForm):

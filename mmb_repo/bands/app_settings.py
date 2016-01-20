@@ -7,9 +7,7 @@ MEMBER_TYPE = [
     ('perm', 'Permanent')
 ]
 
-YEAR_CHOICES = []
-for r in range(1980, (datetime.now().year+1)):
-    YEAR_CHOICES.append((r,r))
+YEAR_CHOICES = [(r,r) for r in range(1980, (datetime.now().year+1))]
 
 CITIES = (
     (None, '---Select Your Current City---'),
