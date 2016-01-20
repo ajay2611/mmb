@@ -19,7 +19,6 @@ def create_band(request):
     Memberformset = formset_factory(BandMemberForm, formset=BaseBandFormset)
     # members = Band.objects.get
     if request.method == 'POST':
-        import ipdb;ipdb.set_trace()
         band_form = BandForm(request.POST)
         memberformset = Memberformset(request.POST)
         if band_form.is_valid() and memberformset.is_valid():
