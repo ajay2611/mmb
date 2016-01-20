@@ -1,0 +1,50 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/animate.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/simple-line-icons.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/font.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" type="text/css" media="all" />
+</head>
+<body>
+  <section class="vbox">
+    <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
+      <div class="navbar-header aside bg-info ">
+          <a class="navbar-brand text-lt" style="height: 65px;">
+              <i class="icon-earphones"></i>
+              <img src="{% static 'images/logo.png' %}" alt="." class="hide">
+              <span class="hidden-nav-xs m-l-sm">MakeMyBand</span>
+            </a>
+      </div>
+              <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-sm bg-white btn-icon rounded"></button>
+            </span>
+            <div class="form-group">
+              <a href="https://docs.google.com/forms/d/1YI3kcqW26FoPy0qLZbKApNCX5tSjFV_09b040Rp--fY/viewform" class="btn btn-md btn-default btn-block btn-rounded" target="_blank">
+                  Fill this form...
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </header>
+  </section>
+<div style="width:900px; height:600px;">
+    <img src="{% static 'images/coming-soon.jpg' %}" alt="Coming Soon" style="max-width:100%;max-height:100%;">
+</div>
+{#<div>#}
+{#    <iframe src="https://docs.google.com/forms/d/1YI3kcqW26FoPy0qLZbKApNCX5tSjFV_09b040Rp--fY/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>#}
+{#</div>#}
+</body>
+</html>

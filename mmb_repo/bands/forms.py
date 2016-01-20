@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 
 from mmb_repo.mmb_data.models import Genre, Instrument
 from .models import Band, BandMember, BandVacancy
-from .app_settings import MEMBER_TYPE, RELEVANCE_CHOICES
+from .app_settings import MEMBER_TYPE
 
 
 class BandVacancyForm(forms.ModelForm):
