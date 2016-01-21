@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 
 from mmb_repo.mmb_data.models import Genre, Instrument
 from .models import Band, BandMember, BandVacancy
-from .app_settings import MEMBER_TYPE, RELEVANCE_CHOICES
+from .app_settings import MEMBER_TYPE
 
 
 class BandVacancyForm(forms.ModelForm):
@@ -37,12 +37,15 @@ class BandVacancyForm(forms.ModelForm):
 
 
 class BandMemberForm(forms.Form):
-    member = forms.ChoiceField(choices=[(i.username, i.username) for i in get_user_model().objects.all()],
-                               widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control col-md-3 member'}))
-    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all(),
-                                        widget=forms.SelectMultiple(attrs={'class': 'form-control col-md-6 instrument'}))
-    type = forms.ChoiceField(choices=MEMBER_TYPE,
-                             widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control col-md-3 member'}))
+    member = forms.ChoiceField(choices=[(i.username, i.username) for i in get_user_model().objects.all()])
+    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all())
+    type = forms.ChoiceField(choices=MEMBER_TYPE)
+
+    def __init__(self, *args, **kwargs):
+        super(BandMemberForm, self).__init__(*args, **kwargs)
+        self.fields['member'].widget.attrs['class'] = 'controls textInput form-control member'
+        self.fields['instrument'].widget.attrs['class'] = 'controls textInput form-control instrument'
+        self.fields['type'].widget.attrs['class'] = 'controls textInput form-control member'
 
 
 class BandForm(forms.ModelForm):
