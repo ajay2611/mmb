@@ -4,47 +4,172 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/animate.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/simple-line-icons.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/font.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/app.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" type="text/css" media="all" />
+    <title>MakeMyBand - Musicians | Bands | Blogs</title>
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        -moz-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	body {
+		width: 100%;
+		height: 100%;
+		font-family: "helvetica neue", helvetica, arial, sans-serif;
+		font-size: 13px;
+		text-align: center;
+{#		background: #333 url('http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/low_contrast_linen.png');#}
+{#        background: url("static/images/coming_soon.gif") no-repeat center;#}
+	}
+
+
+	li {
+		list-style: none;
+		position: relative;
+		display: inline-block;
+		width: 100px;
+		height: 100px;
+	}
+
+	@-moz-keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	@-webkit-keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	@-o-keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	@keyframes rotate {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(-360deg);}
+	}
+
+	.round {
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		padding-top: 30px;
+		text-decoration: none;
+		text-align: center;
+		font-size: 25px;
+		text-shadow: 0 1px 0 rgba(255,255,255,.7);
+		letter-spacing: -.065em;
+		font-family: "Hammersmith One", sans-serif;
+		-webkit-transition: all .25s ease-in-out;
+		-o-transition: all .25s ease-in-out;
+		-moz-transition: all .25s ease-in-out;
+		transition: all .25s ease-in-out;
+		box-shadow: 2px 2px 7px rgba(0,0,0,.2);
+		border-radius: 300px;
+		z-index: 1;
+		border-width: 4px;
+		border-style: solid;
+	}
+
+	.round:hover {
+		width: 130%;
+		height: 130%;
+		left: -15%;
+		top: -15%;
+		font-size: 33px;
+		padding-top: 38px;
+		-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		-o-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		-moz-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		z-index: 2;
+		border-size: 10px;
+		-webkit-transform: rotate(-360deg);
+		-moz-transform: rotate(-360deg);
+		-o-transform: rotate(-360deg);
+		transform: rotate(-360deg);
+	}
+
+	a.red {
+		background-color: rgba(239,57,50,1);
+		color: rgba(133,32,28,1);
+		border-color: rgba(133,32,28,.2);
+	}
+
+	a.red:hover {
+		color: rgba(239,57,50,1);
+	}
+
+	a.green {
+		background-color: rgba(1,151,171,1);
+		color: rgba(0,63,71,1);
+		border-color: rgba(0,63,71,.2);
+	}
+
+	a.green:hover {
+		color: rgba(1,151,171,1);
+	}
+
+	a.yellow {
+		background-color: rgba(252,227,1,1);
+		color: rgba(153,38,0,1);
+		border-color: rgba(153,38,0,.2);
+	}
+
+	a.yellow:hover {
+		color: rgba(252,227,1,1);
+	}
+
+	.round span.round {
+		display: block;
+		opacity: 0;
+		-webkit-transition: all .5s ease-in-out;
+		-moz-transition: all .5s ease-in-out;
+		-o-transition: all .5s ease-in-out;
+		transition: all .5s ease-in-out;
+		font-size: 1px;
+		border: none;
+		padding: 40% 20% 0 20%;
+		color: #fff;
+	}
+
+	.round span:hover {
+		opacity: .85;
+		font-size: 16px;
+		-webkit-text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		-moz-text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		-o-text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		text-shadow: 0 1px 1px rgba(0,0,0,.5);
+	}
+
+    </style>
 </head>
 <body>
-  <section class="vbox">
-    <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
-      <div class="navbar-header aside bg-info ">
-          <a class="navbar-brand text-lt" style="height: 65px;">
-              <i class="icon-earphones"></i>
-              <img src="{% static 'images/logo.png' %}" alt="." class="hide">
-              <span class="hidden-nav-xs m-l-sm">MakeMyBand</span>
-            </a>
-      </div>
-              <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search">
-        <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-sm bg-white btn-icon rounded"></button>
-            </span>
-            <div class="form-group">
-              <a href="https://docs.google.com/forms/d/1YI3kcqW26FoPy0qLZbKApNCX5tSjFV_09b040Rp--fY/viewform" class="btn btn-md btn-default btn-block btn-rounded" target="_blank">
-                  Fill this form...
-              </a>
-            </div>
-          </div>
-        </div>
-      </form>
 
-    </header>
-  </section>
-<div style="width:900px; height:600px;">
-    <img src="{% static 'images/coming-soon.jpg' %}" alt="Coming Soon" style="max-width:100%;max-height:100%;">
+<div>
+
+    <img src="{% static 'images/coming_soon.gif' %}" alt="Coming Soon" align="center"  width="40%" height="40%"
+            style="display: block; margin-left: auto; margin-right: auto;">
+    <span style="margin-top: 200px">
+    <ul>
+  <li><a href="#" class="round green">Login<span class="round">That is, if you already have an account.</span></a></li>
+  <li><a href="#" class="round red">Sign Up<span class="round">But only if you really, really want to. </span></a></li>
+  <li><a href="#" class="round yellow">Demo<span class="round">Take a look. This product is totally rad!</span></a></li>
+</ul>
+        </span>
 </div>
+
 {#<div>#}
 {#    <iframe src="https://docs.google.com/forms/d/1YI3kcqW26FoPy0qLZbKApNCX5tSjFV_09b040Rp--fY/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>#}
 {#</div>#}
+
 </body>
 </html>
