@@ -42,6 +42,7 @@ class ProfileDataForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProfileDataForm, self).__init__(*args, **kwargs)
+        self.fields['about_me'].widget = forms.Textarea(attrs={'rows': 4})
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'username',

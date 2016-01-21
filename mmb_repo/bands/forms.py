@@ -61,9 +61,9 @@ class BandForm(forms.ModelForm):
         super(BandForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
         self.fields['label'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
-        self.fields['desc'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
-        self.fields['location'].widget.attrs['class'] = 'controls textInput form-control chosen'
-        self.fields['year'].widget.attrs['class'] = 'controls textInput form-control chosen'
+        self.fields['desc'].widget = forms.Textarea(attrs={'class': 'controls textInput form-control', 'rows': 4})
+        self.fields['location'].widget.attrs['class'] = 'controls textInput form-control'
+        self.fields['year'].widget.attrs['class'] = 'controls textInput form-control'
 
 
 class BaseBandFormset(BaseFormSet):

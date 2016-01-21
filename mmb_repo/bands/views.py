@@ -35,7 +35,7 @@ def create_band(request):
                 band_obj.genre.add(genre_obj)
             # for mem in memberformset:
             #     mem_obj =
-        return HttpResponse("Do something")
+            return HttpResponse("Do something")
 
     else:
         band_form = BandForm()
