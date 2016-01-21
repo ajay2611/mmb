@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 
 from mmb_repo.mmb_data.models import Genre, Instrument
 from .models import Band, BandMember, BandVacancy
-from .app_settings import MEMBER_TYPE
+from .app_settings import MEMBER_TYPE, CITIES
 
 
 class BandVacancyForm(forms.ModelForm):
@@ -37,21 +37,21 @@ class BandVacancyForm(forms.ModelForm):
 
 
 class BandMemberForm(forms.Form):
-    member = forms.ChoiceField(choices=[(i.username, i.username) for i in get_user_model().objects.all()])
+    member = forms.ModelChoiceField(queryset=get_user_model().objects.all())
     instrument = forms.ModelChoiceField(queryset=Instrument.objects.all())
     type = forms.ChoiceField(choices=MEMBER_TYPE)
 
     def __init__(self, *args, **kwargs):
         super(BandMemberForm, self).__init__(*args, **kwargs)
-        self.fields['member'].widget.attrs['class'] = 'controls textInput form-control member'
-        self.fields['instrument'].widget.attrs['class'] = 'controls textInput form-control instrument'
-        self.fields['type'].widget.attrs['class'] = 'controls textInput form-control member'
+        self.fields['member'].widget.attrs['class'] = 'controls textInput form-control chosen'
+        self.fields['instrument'].widget.attrs['class'] = 'controls textInput form-control chosen'
+        self.fields['type'].widget.attrs['class'] = 'controls textInput form-control chosen'
 
 
 class BandForm(forms.ModelForm):
     genre = forms.MultipleChoiceField(label='Genre',
                                       choices=[(i.genre, i.genre) for i in Genre.objects.all()],
-                                      widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control genre'}))
+                                      widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control chosen'}))
 
     class Meta:
         model = Band
@@ -60,10 +60,10 @@ class BandForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(BandForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
-        self.fields['location'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
         self.fields['label'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
-        self.fields['year'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
         self.fields['desc'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
+        self.fields['location'].widget.attrs['class'] = 'controls textInput form-control chosen'
+        self.fields['year'].widget.attrs['class'] = 'controls textInput form-control chosen'
 
 
 class BaseBandFormset(BaseFormSet):

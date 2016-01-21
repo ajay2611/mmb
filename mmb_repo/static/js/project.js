@@ -1,10 +1,7 @@
 /* Project specific Javascript goes here. */
 
 $( window ).load(function() {
-    $(".genre").chosen({search_contains:true});
-    $(".member").chosen({search_contains:true});
-    $(".instrument").chosen({search_contains:true});
-    $(".type").chosen({search_contains:true});
+    $(".chosen").chosen({search_contains:true});
 });
 
 function getCookie(name) {

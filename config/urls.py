@@ -19,6 +19,7 @@ urlpatterns = [
     # User management
 
     url(r'^users/', include("mmb_repo.users.urls", namespace="users")),
+
     #Bands
     url(r'^bands/', include("mmb_repo.bands.urls", namespace="bands")),
 

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 import os
+import validators
+
 from django import forms
 from django.core.exceptions import ValidationError
 
-import validators
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, MultiField, Div, Field
 
@@ -16,21 +17,24 @@ class UserForm(forms.ModelForm):
     class Meta:
         # Set this form to use the User model
         model = User
-
         # Constrain the UserForm to just the name field.
         fields = ("username", )
 
 
 class ProfileDataForm(forms.ModelForm):
-    username = forms.RegexField(regex=r'^[\w.@+-]+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)),
-                                label="Username", error_messages={
-                                'invalid': "This value must contain only letters, numbers and underscores."})
+    username = forms.RegexField(regex=r'^[\w.@+-]+$',
+                                widget=forms.TextInput(attrs=dict(required=True, max_length=30)),
+                                label="Username",
+                                error_messages={
+                                    'invalid': "This value must contain only letters, numbers and underscores."})
 
     genre = forms.MultipleChoiceField(label='Genre',
-        choices=[(i.genre,i.genre) for i in Genre.objects.all()],widget=forms.SelectMultiple(attrs={'class':'genre'}))
+                                      choices=[(i.genre, i.genre) for i in Genre.objects.all()],
+                                      widget=forms.SelectMultiple(attrs={'class':'chosen'}))
 
     instrument = forms.MultipleChoiceField(label='Instrument',
-        choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],widget=forms.SelectMultiple(attrs={'class':'instrument'}))
+                                           choices=[(i.instrument, i.instrument) for i in Instrument.objects.all()],
+                                           widget=forms.SelectMultiple(attrs={'class':'chosen'}))
 
     class Meta:
         model = Profile
@@ -39,9 +43,6 @@ class ProfileDataForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileDataForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        # self.helper.label_class = 'col-lg-2'
-        # self.helper.filed_class = 'col-lg-5'
-        # self.helper.form_class =  'form-horizontal'
         self.helper.layout = Layout(
             'username',
             'genre',
@@ -97,9 +98,9 @@ class UploadSongForm(forms.ModelForm):
         self.helper.layout = Layout(
            Field('upload', css_class="btn btn-success form-control "),
              HTML("""
-             <br>
-            <p>
-            Name must be relevant to song, <strong>please set name accordingly.</strong></p>
+                 <br>
+                <p>
+                Name must be relevant to song, <strong>please set name accordingly.</strong></p>
         """),
            Field('name'),
            Field('tags'),

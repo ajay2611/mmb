@@ -146,8 +146,7 @@
                 });
                 $('#id_' + options.prefix + '-TOTAL_FORMS').val(formCount + 1);
                 // If a post-add callback was supplied, call it with the added form:
-                $(".member").chosen({search_contains:true});
-                $(".instrument").chosen({search_contains:true});
+                $(".chosen").chosen({search_contains:true});
                 if (options.added) options.added(row);
                 return false;
             });
