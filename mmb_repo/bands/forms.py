@@ -15,13 +15,12 @@ from .app_settings import MEMBER_TYPE, CITIES
 
 
 class BandVacancyForm(forms.ModelForm):
-    instrument = forms.ChoiceField(label='Instrument',
-                                   choices=[(i.instrument,i.instrument) for i in Instrument.objects.all()],
-                                   widget=forms.SelectMultiple(attrs={'class': 'instrument'}))
+    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all())
+    type = forms.ChoiceField(choices=MEMBER_TYPE)
 
     class Meta:
-        model = BandMember
-        fields = ('type', )
+        model = BandVacancy
+        fields = ('instrument', 'type')
 
     def __init__(self, *args, **kwargs):
         super(BandVacancyForm, self).__init__(*args, **kwargs)
@@ -31,7 +30,7 @@ class BandVacancyForm(forms.ModelForm):
             'type',
 
             ButtonHolder(
-                Submit('submit', 'Submit', css_class='button white')
+                Submit('submit', 'Create Vacancy', css_class='button white')
             )
         )
 

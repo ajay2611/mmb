@@ -6,7 +6,6 @@
 {% load crispy_forms_tags %}
 {% load staticfiles %}
 
-
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'css/chosen.min.css' %}" type="text/css">
 {% endblock %}
@@ -63,9 +62,7 @@
                                 {{ error|escape }}
                             {% endfor %}
                         {% endif %}
-                            </div>
-{#                        <a href="{% url 'users:invite_user' %}" class="btn  btn-info">MyBand</a>#}
-                              <!--<p style=""><a class="delete" href="#">Delete</a></p>-->
+                        </div>
 
                     </div>
                 {%endfor%}
@@ -109,7 +106,6 @@
 {% endblock %}
 
 {% block custom_js %}
-{#<script type = "text/javascript" src = "//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" ></script>#}
 <script src=" {% static 'js/jquery.min.js' %}"></script>
 <script src=" {% static 'js/jquery.formset.js' %}"></script>
 <script type="text/javascript" src=" {% static 'js/chosen.jquery.min.js' %}"></script>
