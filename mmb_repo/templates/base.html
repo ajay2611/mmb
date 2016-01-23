@@ -1,3 +1,4 @@
+<div id="content_div">
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en" class="app">
@@ -200,7 +201,7 @@
                       Discover
                     </li>
                     <li>
-                      <a href="index.html">
+                      <a href="index.htmlindex.html" class="load-content">
                         <i class="icon-disc icon text-success"></i>
                         <span class="font-bold">What's new</span>
                       </a>
@@ -511,13 +512,15 @@
 {% endblock %}
       </section>
     </section>
-<footer class="footer bg-dark"  id="myplayer" style="position: fixed"></footer>
+<footer class="footer bg-dark"  id="myplayer" style="position: fixed">
+
+</footer>
 
   </section>
-  <a href="#" id="player" class="btn btn-danger"
-       style="margin-top:10px;margin-bottom:100px;margin-left:500px">
-      player</a>
-  <script src=" {% static 'js/jquery.min.js' %}"></script>
+
+  <script src=" {% static 'js/jquery.min.js' %}"></script >
+  <script src=" {% static 'js/nav.js' %}"></script>
+
   <!-- Bootstrap -->
   <script src=" {% static 'js/bootstrap.js' %}"></script>
   <!-- App -->
@@ -532,3 +535,4 @@
   {% endblock %}
 </body>
 </html>
+</div>
