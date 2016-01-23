@@ -47,12 +47,13 @@ def create_band(request):
             for mem in memberformset:
                 to_list = []
                 inst = mem.cleaned_data['instrument']
+                member = member=mem.cleaned_data['member']
                 BandMember.objects.create(band=band_obj,
-                                          member=mem.cleaned_data['member'],
+                                          member=member,
                                           instrument=inst,
                                           type=mem.cleaned_data['type']
                                           )
-                to_list.append(request.user.email)
+                to_list.append(member.email)
                 msg = 'Hey, You are invited to join {} at MakeMyBand to play {}, Please click link to Join this band'.format(
                     band_name, inst)
                 send_multiple_mail(sub, msg, '', to_list)
@@ -77,12 +78,20 @@ def view_band(request, band_id):
             band_songs = Song.objects.filter(band__id=band_id)
         except:
             band_songs = None
+        try:
+            vacancies = BandVacancy.objects.filter(band__id=band_id)
+        except:
+            vacancies = None
     else:
         template = '404.html'
 
     return render_to_response(template,
-                              {'band': band, 'my_audio': 'active', 'band_members': band_members,
-                               'user': user, 'band_songs': band_songs},
+                              {'band': band,
+                               'user': user,
+                               'my_audio': 'active',
+                               'band_members': band_members,
+                               'band_songs': band_songs,
+                               'vacancies': vacancies},
                               context_instance=RequestContext(request))
 
 
@@ -95,10 +104,11 @@ def create_vacancy(request, band_id):
         vacancy_form = BandVacancyForm(request.POST)
         if vacancy_form.is_valid():
             band_obj = Band.objects.get(id=band_id)
-            BandVacancy.objects.create(band=band_obj,
-                                       instrument=vacancy_form.cleaned_data['instrument'],
-                                       type=vacancy_form.cleaned_data['type']
-                                      )
+            obj, created = BandVacancy.objects.get_or_create(band=band_obj,
+                                                             instrument=vacancy_form.cleaned_data['instrument'],
+                                                             type=vacancy_form.cleaned_data['type']
+                                                            )
+            return HttpResponseRedirect(reverse('bands:view_band', args=[band_id, ]))
         else:
             print vacancy_form.errors
 
@@ -110,7 +120,6 @@ def create_vacancy(request, band_id):
 
 def invite_user(request, band_id):
     pass
-    # send_mail('Subject here', 'Here is the message.', 'ajay.singh1@delhivery.com', ['ajayk40@gmail.com'])
 
 
 def band_upload_song(request, band_id):

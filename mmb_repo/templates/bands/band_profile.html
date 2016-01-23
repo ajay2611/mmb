@@ -36,8 +36,8 @@
                             </div>
                           </div>
                         </div>
-                        <div class="btn-group btn-group-justified m-b">
-                      <a class="btn btn-success btn-rounded" id = {{band.pk}} >
+                    <div class="btn-group btn-group-justified m-b">
+                        <a class="btn btn-success btn-rounded" id = {{band.pk}} >
                           <i class="fa fa-eye"></i>
                         <b class="text band_follow">
                            Follow
@@ -46,10 +46,11 @@
                           <!--<i class="fa fa-eye"></i>-->
                         <!--</span>-->
                       </a>
-                      <a class="btn btn-dark btn-rounded">
-                        <i class="fa fa-comment-o"></i> Vacant
+                      <a class="btn btn-dark btn-rounded" href="{% url 'bands:create_vacancy' band.pk %}">
+                        <i class="fa fa-comment-o"></i> Vacancies
                       </a>
                     </div>
+
                       <input id='check_band_follow' type="hidden" name="check_band_follow"
                                        value={% check_band_follow user band %}>
 
@@ -57,6 +58,16 @@
                           <b class="band_unfollow">Unfollow
                           </b>
                       </a>
+                      <div class="panel wrapper">
+                          <div class="row text-center">
+                            <div class="col-xs-12">
+                                {% for vacancy in vacancies %}
+                                  <span>{{ vacancy.instrument }} - {{ vacancy.type }}</span><br>
+                                {% endfor %}
+                            </div>
+                          </div>
+                      </div>
+
                         <div>
                           <small class="text-uc text-xs text-muted">about me</small>
                           <p>Artist</p>

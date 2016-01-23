@@ -3,8 +3,8 @@ __author__ = 'ajay'
 from datetime import datetime
 
 MEMBER_TYPE = [
-    ('perm', 'Permanent'),
-    ('temp', 'Temporary')
+    ('Permanent', 'Permanent'),
+    ('Temporary', 'Temporary')
 ]
 
 YEAR_CHOICES = [(r,r) for r in range(1980, (datetime.now().year+1))]

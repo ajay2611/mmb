@@ -33,7 +33,7 @@ class BandMember(models.Model):
     band = models.ForeignKey(Band)
     member = models.ForeignKey(AUTH_USER_MODEL)
     instrument = models.ForeignKey(Instrument)
-    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='perm')
+    type = models.CharField(max_length=9, choices=MEMBER_TYPE, default='Permanent')
 
     def __unicode__(self):
         return '{} - {}'.format(self.band, self.member)
@@ -42,7 +42,7 @@ class BandMember(models.Model):
 class BandVacancy(models.Model):
     band = models.ForeignKey(Band)
     instrument = models.ForeignKey(Instrument)
-    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='perm')
+    type = models.CharField(max_length=9, choices=MEMBER_TYPE, default='Permanent')
 
     class Meta:
         verbose_name_plural = 'Band vacancies'

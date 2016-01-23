@@ -19,6 +19,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
 var csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
@@ -83,6 +84,8 @@ $(".fa-heart-o").click(function(e){
         }
     });
 });
+
+
 $(".fa-heart").click(function(e){
     e && e.preventDefault();
     var $this = $(e.target);
@@ -112,6 +115,7 @@ $(".fa-heart").click(function(e){
         }
     });
 });
+
 
 $(".follow").click(function(e){
     e && e.preventDefault();
@@ -208,7 +212,5 @@ $(".band_unfollow").click(function(e){
         }
     });
 });
-
-
 
 });
