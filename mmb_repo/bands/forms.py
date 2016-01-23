@@ -1,7 +1,7 @@
 # __author__ = 'delhivery'
 
 from __future__ import absolute_import, unicode_literals
-
+import os
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.formsets import BaseFormSet
@@ -70,3 +70,47 @@ class BaseBandFormset(BaseFormSet):
     def clean(self):
         if any(self.errors):
             return
+
+
+# class BandUploadSongForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = BandSong
+#         fields = ("tags", "name", "upload",)
+#
+#     def __init__(self, *args, **kwargs):
+#         super(BandUploadSongForm, self).__init__(*args, **kwargs)
+#         self.helper = FormHelper()
+#         self.helper.layout = Layout(
+#            Field('upload', css_class="btn btn-success form-control "),
+#              HTML("""
+#              <br>
+#             <p>
+#             Name must be relevant to song, <strong>please set name accordingly.</strong></p>
+#         """),
+#            Field('name'),
+#            Field('tags'),
+#             ButtonHolder(
+#                 Submit('submit', 'Submit', css_class='button white')
+#             )
+#         )
+#
+#     def clean_upload(self):
+#         cleaned_data = super(BandUploadSongForm, self).clean()
+#         file = cleaned_data.get('upload',False)
+#         if file:
+#             if file._size > 15*1024*1024:
+#                 raise ValidationError("Audio file too large ( > 15mb )")
+#             if not file.content_type in ["audio/mpeg","video/mp4","audio/mp3"]:
+#                 raise ValidationError("Content-Type is not mpeg")
+#             if not os.path.splitext(file.name)[-1] in [".mp3",".wav",".mp4"]:
+#                 raise ValidationError("Doesn't have proper extension")
+#              # Here we need to now to read the file and see if it's actually
+#              # a valid audio file. I don't know what the best library is to
+#              # to do this
+#             # if not some_lib.is_audio(file.content):
+#             #     raise ValidationError("Not a valid audio file")
+#             return file
+#         else:
+#             raise ValidationError("Couldn't read uploaded file")
+
