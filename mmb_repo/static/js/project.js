@@ -148,11 +148,60 @@ $(".unfollow").click(function(e){
         }
         $(".follow").html("Follow");
         $(".mybutton").css("display","none");
-        $("#followed_by_count").html(data['followed_by_count']);
+        $("#band_follow_count").html(data['followed_by_count']);
         $("#following_count").html(data['following_count']);
 //        $this.toggleClass("fa-eye, 200);
         }
     });
 });
+
+$(".follow-band").click(function(e){
+    e && e.preventDefault();
+    var $this = $(e.target);
+    var band_id = $(this).parent('a').attr('id');
+    $.ajax({
+    type: 'GET',
+    url: "/logic/api/follow_band/",
+    data: {band_id: ban_id},
+    dataType: 'json',
+    contentType : "application/json",
+    success: function(data){
+        if(data.non_not_authenticated){
+        alert("Not authorized");
+        return;
+        }
+        $(".follow-band").html("Following");
+        $(".mybutton").css("display","inline-table");
+        $("#band_follow_count").html(data['band_follow_count']);
+//        $this.toggleClass("fa-eye, 200);
+
+        }
+    });
+});
+
+$(".unfollow-band").click(function(e){
+    e && e.preventDefault();
+    var $this = $(e.target);
+    var band_id = $(this).parent('a').attr('id');
+    $.ajax({
+    type: 'GET',
+    url: "/logic/api/unfollow_band/",
+    data: {band_id: band_id},
+    dataType: 'json',
+    contentType : "application/json",
+    success: function(data){
+        if(data.non_not_authenticated){
+        alert("Not authorized");
+        return;
+        }
+        $(".follow-band").html("Follow");
+        $(".mybutton").css("display","none");
+        $("#band_follow_count").html(data['band_follow_count']);
+//        $this.toggleClass("fa-eye, 200);
+        }
+    });
+});
+
+
 
 });

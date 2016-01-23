@@ -17,3 +17,7 @@ CITIES = (
     ('Noida', 'Noida'),
     ('Faridabad', 'Faridabad'),
 )
+
+SONG_TAGS = [
+    ('love song', 'love song'),
+]

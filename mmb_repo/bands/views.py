@@ -6,12 +6,17 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth import get_user_model
 from django.forms.formsets import formset_factory
 
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
+from mmb_repo.users.forms import UploadSongForm
 from allauth.socialaccount.models import SocialAccount
 from config.settings.common import STATIC_URL
 from mmb_repo.mmb_data.models import Genre, Instrument, Song
 from .models import Band, BandMember, BandVacancy
 from .forms import BandForm, BandMemberForm, BaseBandFormset, BandVacancyForm
 from .utils import send_multiple_mail
+# from .forms import BandUploadSongForm
+
 
 
 def create_band(request):
@@ -62,12 +67,12 @@ def view_band(request, band_id):
     template = 'bands/band_profile.html'
     if request.method == 'GET':
         band = Band.objects.get(id=band_id)
-        band_members = BandMember.objects.get(band=band_id)
+        band_members = BandMember.objects.filter(band=band_id)
     else:
         template = '404.html'
 
     return render_to_response(template,
-                              {'band': band, 'band_members': band_members},
+                              {'band': band, 'my_audio': 'active', 'band_members': band_members},
                               context_instance=RequestContext(request))
 
 
@@ -97,4 +102,32 @@ def create_vacancy(request, band_id):
 def invite_user(request, band_id):
     pass
     # send_mail('Subject here', 'Here is the message.', 'ajay.singh1@delhivery.com', ['ajayk40@gmail.com'])
+
+
+def band_upload_song(request, band_id):
+    """
+    :param request:
+    :param username:
+    :return:
+    """
+    template = 'bands/band_profile.html'
+    user = request.user
+    band = Band.objects.get(id=band_id)
+    band_members = BandMember.objects.filter(band=band_id)
+
+    if request.method == 'POST':
+        form = UploadSongForm(request.POST, request.FILES)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.user = user
+            form.band = band
+            form.save()
+            return HttpResponseRedirect('/bands/profile/' + str(id))
+
+    else:
+        form = UploadSongForm()
+
+    return render_to_response(template, {'form': form, 'upload_song': "active", 'user': user, \
+                                         'band': band, 'band_members': band_members, 'STATIC_URL': STATIC_URL},
+                              context_instance=RequestContext(request))
 

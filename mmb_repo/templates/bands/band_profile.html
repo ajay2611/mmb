@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+{% load staticfiles %}
+{% load user_detail %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<body class="">
+  <section class="vbox">
+
+    <section>
+      <section class="hbox stretch">
+        <!-- /.aside -->
+        <section id="content">
+          <section class="vbox">
+            <section class="scrollable">
+              <section class="hbox stretch">
+                <aside class="aside-lg bg-light lter b-r">
+                  <section class="vbox">
+                    <section class="scrollable">
+                      <div class="wrapper">
+                        <div class="text-center m-b m-t">
+                          <div>
+                            <div class="h3 m-t-xs m-b-xs">{{ band.name }}</div>
+                            <small class="text-muted"><i class="fa fa-map-marker"></i> {{ band.location }}</small>
+                          </div>
+                        </div>
+                        <div class="panel wrapper">
+                          <div class="row text-center">
+                            <div class="col-xs-12">
+                                <span class="m-b-xs h4 block" id="band_follow_count">{{band.follower_count}}</span>
+                                <small class="text-muted">Followers</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="btn-group btn-group-justified m-b">
+                            <a class="btn btn-success btn-rounded" id={{band.pk}}>
+                                <i class="fa fa-eye"></i>
+                                <b class="text follow-band">
+                                    Follow
+                                </b>
+                                <!--<span class="text-active unfollow">-->
+                                  <!--<i class="fa fa-eye"></i>-->
+                                <!--</span>-->
+                            </a>
+                            <a class="btn btn-dark btn-rounded">
+                                Available
+                            </a>
+                            <a class="btn btn-info btn-rounded mybutton" style="margin-left:90px;" id={{band.pk}}>
+                                <b class="unfollow-band">Unfollow
+                                </b>
+                            </a>
+                        </div>
+                        <div>
+                          <small class="text-uc text-xs text-muted">about me</small>
+                          <p>Artist</p>
+                          <small class="text-uc text-xs text-muted">info</small>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
+                          <div class="line"></div>
+                          <small class="text-uc text-xs text-muted">connection</small>
+                          <p class="m-t-sm">
+                            <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i class="fa fa-twitter"></i></a>
+                            <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i class="fa fa-facebook"></i></a>
+                            <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i class="fa fa-google-plus"></i></a>
+                          </p>
+                        </div>
+                      </div>
+                    </section>
+                  </section>
+                </aside>
+                <aside class="bg-white">
+                  <div class="row">
+                <div class="col-md-8">
+                  <div class="blog-post">
+                    <div class="post-item">
+                      <div class="post-media">
+                        <img src="{{ STATIC_URL }}images/123.jpg" class="img-full">
+                      </div>
+                    </div>
+
+
+
+                  <ul class="nav nav-tabs">
+                    <li class={{ my_audio }}><a href="{% url 'bands:view_band' band.pk %}">My Audios</a></li>
+                    <li class=""><a href="#" >Messages</a></li>
+                    <li class={{ upload_audio }}><a href="{% url 'bands:band_upload_song' band.pk %}">Upload Audio</a></li>
+                  </ul>
+                  {% if upload_song == "active" %}
+                   <div>
+                        <form action="." method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% crispy form %}
+                            <div id='form-errors'>{{ form_errors }}</div>
+                        </form>
+                     <br><br><br><br><br><br><br>
+                   </div>
+                  {% endif %}
+
+                  {% if my_audio == 'active' %}
+                      <section  style="margin-top: 50px;">
+                        <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
+                            {% for song in playlist %}
+                                  <li class="list-group-item">
+                                    <div class="pull-right m-l">
+                                      <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                                      <a href="#">
+                                        <i class="fa fa-plus-circle text" data-mp3="{{ song.upload.url }}" name="{{ song.name }}"></i>
+                                      </a>
+                                    </div>
+                                    <a href="#" id="audio_{{ song.pk }}" class="jp-play-me m-r-sm pull-left" data-mp3="{{ song.upload.url }}" name="{{ song.name }}">
+                                      <i class="icon-control-play text"></i>
+                                      <i class="icon-control-pause text-active"></i>
+                                    </a>
+                                    <div class="clear text-ellipsis">
+                                      <span>{{ song.name }}</span>
+                                      <span class="text-muted"> -- 04:15</span>
+                                    </div>
+                                  </li>
+                            {% endfor %}
+                        </ul>
+                      </section>
+                  {% endif %}
+
+
+
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <h5 class="font-bold">Members</h5>
+                  <div>
+                    {% for i in band_members%}
+                    <article class="media">
+                      <a href="{% url 'users:view_profile' i.member.username %}"
+                         class="pull-left thumb thumb-wrapper m-t-xs">
+                        <img src="{{ STATIC_URL }}images/profile/{{ i.member.pk }}">
+                      </a>
+                      <div class="media-body">
+                        <a href="{% url 'users:view_profile' i.member.username %}"
+                           class="font-semibold">
+                            {{ i.member.first_name }} {{ i.member.last_name}}</a>
+                        <div class="text-xs block m-t-xs">{{ i.instrument }}
+                            </div>
+                      </div>
+                    </article>
+                    <div class="line"></div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+                </aside>
+
+              </section>
+            </section>
+          </section>
+          <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+        </section>
+      </section>
+    </section>
+  </section>
+{% endblock %}

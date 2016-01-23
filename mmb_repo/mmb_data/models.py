@@ -32,10 +32,11 @@ class UserFollowers(models.Model):
     def __unicode__(self):
         return '{} - {}'.format(self.follower.username, self.following.name)
 
-
+from mmb_repo.bands.models import Band
 class Song(models.Model):
     # type = models.CharField(choices=SONG_TYPES, default='Audio')
-    user = models.ForeignKey(AUTH_USER_MODEL)
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, blank=True, default=None)
+    band = models.ForeignKey(Band, null=True, blank=True, default=None)
     name = models.CharField(max_length=255)
     tags = models.CharField(choices=SONG_TAGS, max_length=255)
     likes = models.IntegerField(default=0)
@@ -49,7 +50,8 @@ class Song(models.Model):
 
 
 class SongLike(models.Model):
-    user = models.ForeignKey(AUTH_USER_MODEL)
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, blank=True, default=None)
+    band = models.ForeignKey(Band, null=True, blank=True, default=None)
     song = models.ForeignKey(Song)
 
     def __unicode__(self):

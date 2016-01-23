@@ -30,6 +30,7 @@ class Profile(models.Model):
     website = models.CharField(max_length=50, blank=True, null=True)
     following_count = models.IntegerField(default=0)
     followed_by_count = models.IntegerField(default=0)
+    band_follow_count = models.IntegerField(default=0)
     about_me = models.CharField(max_length=255, blank=True, null=True)
     other_link = models.CharField(max_length=255, blank=True, null=True)    #This is the link which user updates
 
