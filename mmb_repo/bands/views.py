@@ -5,18 +5,16 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth import get_user_model
 from django.forms.formsets import formset_factory
-
-from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
-from mmb_repo.users.forms import UploadSongForm
-from allauth.socialaccount.models import SocialAccount
+
 from config.settings.common import STATIC_URL
+from mmb_repo.users.forms import UploadSongForm
 from mmb_repo.mmb_data.models import Genre, Instrument, Song
+
 from .models import Band, BandMember, BandVacancy
 from .forms import BandForm, BandMemberForm, BaseBandFormset, BandVacancyForm
 from .utils import send_multiple_mail
-# from .forms import BandUploadSongForm
-
 
 
 def create_band(request):
@@ -40,6 +38,11 @@ def create_band(request):
                 band_obj.genre.add(genre_obj)
 
             sub = 'Join {}'.format(band_name)
+            # BandMember.objects.create(band=band_obj,
+            #                           member=request.user,
+            #                           instrument='',
+            #                           type='perm'
+            #                           )
 
             for mem in memberformset:
                 to_list = []
@@ -49,11 +52,12 @@ def create_band(request):
                                           instrument=inst,
                                           type=mem.cleaned_data['type']
                                           )
-                to_list.append(SocialAccount.objects.get(user_id=mem.cleaned_data['member'].pk).extra_data['email'])
+                to_list.append(request.user.email)
                 msg = 'Hey, You are invited to join {} at MakeMyBand to play {}, Please click link to Join this band'.format(
                     band_name, inst)
                 send_multiple_mail(sub, msg, '', to_list)
-            return HttpResponse("Do something")
+
+            return HttpResponseRedirect(reverse('bands:view_band', args=[band_obj.pk, ]))
         else:
             print band_form.errors, memberformset.errors
 
@@ -135,4 +139,3 @@ def band_upload_song(request, band_id):
     return render_to_response(template, {'form': form, 'upload_song': "active", 'user': user, \
                                          'band': band, 'band_members': band_members, 'STATIC_URL': STATIC_URL},
                               context_instance=RequestContext(request))
-

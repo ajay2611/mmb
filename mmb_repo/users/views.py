@@ -2,7 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 import urllib
 
-from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.shortcuts import render_to_response
@@ -10,6 +9,7 @@ from django.template import RequestContext
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from braces.views import LoginRequiredMixin
+from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 
 from config.settings.common import STATIC_URL
@@ -118,7 +118,7 @@ def edit_profile(request):
             user.username = username
             user.save()
 
-            return HttpResponseRedirect('/users/profile/' + str(username))
+            return HttpResponseRedirect(reverse('users:view_profile', args=[str(username), ]))
 
     else:
 
