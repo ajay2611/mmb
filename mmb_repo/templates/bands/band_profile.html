@@ -4,6 +4,7 @@
 {% load url from future %}
 {% load staticfiles %}
 {% load user_detail %}
+{% load check_band_follow %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -36,23 +37,26 @@
                           </div>
                         </div>
                         <div class="btn-group btn-group-justified m-b">
-                            <a class="btn btn-success btn-rounded" id={{band.pk}}>
-                                <i class="fa fa-eye"></i>
-                                <b class="text follow-band">
-                                    Follow
-                                </b>
-                                <!--<span class="text-active unfollow">-->
-                                  <!--<i class="fa fa-eye"></i>-->
-                                <!--</span>-->
-                            </a>
-                            <a class="btn btn-dark btn-rounded">
-                                Available
-                            </a>
-                            <a class="btn btn-info btn-rounded mybutton" style="margin-left:90px;" id={{band.pk}}>
-                                <b class="unfollow-band">Unfollow
-                                </b>
-                            </a>
-                        </div>
+                      <a class="btn btn-success btn-rounded" id = {{band.pk}} >
+                          <i class="fa fa-eye"></i>
+                        <b class="text band_follow">
+                           Follow
+                        </b>
+                        <!--<span class="text-active unfollow">-->
+                          <!--<i class="fa fa-eye"></i>-->
+                        <!--</span>-->
+                      </a>
+                      <a class="btn btn-dark btn-rounded">
+                        <i class="fa fa-comment-o"></i> Vacant
+                      </a>
+                    </div>
+                      <input id='check_band_follow' type="hidden" name="check_band_follow"
+                                       value={% check_band_follow user band %}>
+
+                      <a class="btn btn-info btn-rounded mybutton" style="margin-left:90px;" id={{band.pk}}>
+                          <b class="band_unfollow">Unfollow
+                          </b>
+                      </a>
                         <div>
                           <small class="text-uc text-xs text-muted">about me</small>
                           <p>Artist</p>

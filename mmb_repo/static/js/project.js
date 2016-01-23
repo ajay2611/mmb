@@ -44,6 +44,13 @@ $.ajaxSetup({
         $(".follow").html("Follow");
         };
 
+    check_follow = $("#check_band_follow").val();
+    $(".band_follow").html("Following");
+    if(check_follow == "False"){
+        $(".mybutton").css("display","none");
+        $(".band_follow").html("Follow");
+        };
+
 
 
 $(".fa-heart-o").click(function(e){
@@ -155,22 +162,22 @@ $(".unfollow").click(function(e){
     });
 });
 
-$(".follow-band").click(function(e){
+$(".band_follow").click(function(e){
     e && e.preventDefault();
     var $this = $(e.target);
     var band_id = $(this).parent('a').attr('id');
     $.ajax({
     type: 'GET',
     url: "/logic/api/follow_band/",
-    data: {band_id: ban_id},
+    data: {band_id: band_id},
     dataType: 'json',
     contentType : "application/json",
     success: function(data){
         if(data.non_not_authenticated){
-        alert("Not authorized");
-        return;
+            alert("Not authorized");
+            return;
         }
-        $(".follow-band").html("Following");
+        $(".band_follow").html("Following");
         $(".mybutton").css("display","inline-table");
         $("#band_follow_count").html(data['band_follow_count']);
 //        $this.toggleClass("fa-eye, 200);
@@ -179,7 +186,7 @@ $(".follow-band").click(function(e){
     });
 });
 
-$(".unfollow-band").click(function(e){
+$(".band_unfollow").click(function(e){
     e && e.preventDefault();
     var $this = $(e.target);
     var band_id = $(this).parent('a').attr('id');
@@ -191,10 +198,10 @@ $(".unfollow-band").click(function(e){
     contentType : "application/json",
     success: function(data){
         if(data.non_not_authenticated){
-        alert("Not authorized");
-        return;
+            alert("Not authorized");
+            return;
         }
-        $(".follow-band").html("Follow");
+        $(".band_follow").html("Follow");
         $(".mybutton").css("display","none");
         $("#band_follow_count").html(data['band_follow_count']);
 //        $this.toggleClass("fa-eye, 200);

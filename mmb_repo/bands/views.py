@@ -66,13 +66,14 @@ def create_band(request):
 def view_band(request, band_id):
     template = 'bands/band_profile.html'
     if request.method == 'GET':
+        user = request.user
         band = Band.objects.get(id=band_id)
         band_members = BandMember.objects.filter(band=band_id)
     else:
         template = '404.html'
 
     return render_to_response(template,
-                              {'band': band, 'my_audio': 'active', 'band_members': band_members},
+                              {'band': band, 'my_audio': 'active', 'band_members': band_members, 'user': user},
                               context_instance=RequestContext(request))
 
 
@@ -83,7 +84,6 @@ def create_vacancy(request, band_id):
         # band = Band.objects.get(id=band_id)
     else:
         vacancy_form = BandVacancyForm(request.POST)
-        import ipdb;ipdb.set_trace()
         if vacancy_form.is_valid():
             band_obj = Band.objects.get(id=band_id)
             BandVacancy.objects.create(band=band_obj,

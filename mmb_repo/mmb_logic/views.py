@@ -72,7 +72,7 @@ def inc_likes(request):
     mimetype = 'application/json'
     print request.POST.get('song_id')
     is_band = request.session.get('is_band')
-    band_id = request.session.get('id') 
+    band_id = request.session.get('id')
     if request.is_ajax():
         song_id = request.GET.get('song_id')
         song_obj = Song.objects.get(id=song_id)
@@ -177,15 +177,15 @@ def unfollow_band(request):
         user_profile = Profile.objects.get(user=user)
         try:
             BandFollowers.objects.filter(follower=user, following_band=band_obj).delete()
-            Band.follower_count -= 1
+            band_obj.follower_count -= 1
             user_profile.band_follow_count -= 1
             user_profile.save()
-            Band.save()
+            band_obj.save()
             success = True
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success, 'band_follow_count': Band.follow_count}), mimetype)
+    return HttpResponse(json.dumps({'success': success, 'band_follow_count': band_obj.follower_count}), mimetype)
 
 @ajax_login_required
 def follow_band(request):
@@ -198,15 +198,15 @@ def follow_band(request):
         user_profile = Profile.objects.get(user=user)
         try:
             BandFollowers.objects.create(follower=user, following_band=band_obj)
-            Band.follower_count += 1
+            band_obj.follower_count += 1
             user_profile.band_follow_count += 1
             user_profile.save()
-            Band.save()
+            band_obj.save()
             success = True
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success,'band_follow_count': Band.follow_count}), mimetype)
+    return HttpResponse(json.dumps({'success': success,'band_follow_count': band_obj.follower_count}), mimetype)
 
 
 #
