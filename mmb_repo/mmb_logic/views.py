@@ -78,12 +78,9 @@ def inc_likes(request):
         song_obj = Song.objects.get(id=song_id)
         song_obj.likes += 1
         song_obj.save()
-        if not is_band:
-            band_obj = Band.objects.get(id=band_id)
-            SongLike.objects.create(band=band_obj, song=song_obj)
-        else:
-
-            SongLike.objects.create()
+        # if not is_band:
+        #     band_obj = Band.objects.get(id=band_id)
+        #     SongLike.objects.create(band=band_obj, song=song_obj)
         success = True
 
     return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)

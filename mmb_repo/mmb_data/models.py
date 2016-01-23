@@ -6,7 +6,15 @@ from .app_settings import SONG_TAGS
 
 
 def get_upload_file_name(instance, filename):
-    return 'audio/{0}_{1}/{2}'.format(slugify(instance.user_id), instance.user.username, filename)
+    id = None
+    name = None
+    if instance.band:
+        id = instance.band.id
+        name = instance.band.name
+    else:
+        id = instance.user.id
+        name = instance.user.username
+    return 'audio/{0}_{1}/{2}'.format(id, name, filename)
 
 
 class Genre(models.Model):
