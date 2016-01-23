@@ -122,7 +122,7 @@ def band_upload_song(request, band_id):
             form.user = user
             form.band = band
             form.save()
-            return HttpResponseRedirect('/bands/profile/' + str(id))
+            return HttpResponseRedirect('/bands/profile/' + unicode(band_id))
 
     else:
         form = UploadSongForm()
