@@ -103,9 +103,9 @@
                   {% endif %}
 
                   {% if my_audio == 'active' %}
-                      <section  style="margin-top: 50px;">
+                      <section  style="margin-top: 10px;">
                         <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
-                            {% for song in playlist %}
+                            {% for song in band_songs %}
                                   <li class="list-group-item">
                                     <div class="pull-right m-l">
                                       <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
@@ -125,6 +125,7 @@
                             {% endfor %}
                         </ul>
                       </section>
+                    <br><br><br>
                   {% endif %}
 
 

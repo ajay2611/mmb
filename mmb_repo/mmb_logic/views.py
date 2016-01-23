@@ -112,6 +112,7 @@ def change_profile(request):
     if request.is_ajax():
         request.session['id'] = 2
         request.session['is_band'] = True
+        success = True
 
     return HttpResponse(json.dumps({'success': success}), mimetype)
 

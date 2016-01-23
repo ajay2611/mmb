@@ -69,11 +69,16 @@ def view_band(request, band_id):
         user = request.user
         band = Band.objects.get(id=band_id)
         band_members = BandMember.objects.filter(band=band_id)
+        try:
+            band_songs = Song.objects.filter(band__id=band_id)
+        except:
+            band_songs = None
     else:
         template = '404.html'
 
     return render_to_response(template,
-                              {'band': band, 'my_audio': 'active', 'band_members': band_members, 'user': user},
+                              {'band': band, 'my_audio': 'active', 'band_members': band_members,
+                               'user': user, 'band_songs': band_songs},
                               context_instance=RequestContext(request))
 
 
