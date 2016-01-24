@@ -1,6 +1,6 @@
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from functools import wraps
 from django.contrib.auth import get_user_model
 
@@ -103,15 +103,18 @@ def dec_likes(request):
     return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
 
 
-def change_profile(request):
-    success = False
-    mimetype = 'application/json'
-    if request.is_ajax():
-        request.session['id'] = 2
-        request.session['is_band'] = True
-        success = True
+def change_profile(request, id, type=None):
+    if request.method == 'GET':
+        if type == 'band':
+            request.session['id'] = id
+            request.session['is_band'] = True
+            return HttpResponseRedirect(reverse('bands:view_band', args=[str(id), ]))
+        else:
+            username = request.user.username
+            request.session['is_band'] = False
+            request.session['id'] = None
+            return HttpResponseRedirect(reverse('users:view_profile', args=[str(username), ]))
 
-    return HttpResponse(json.dumps({'success': success}), mimetype)
 
 @ajax_login_required
 def follow(request):

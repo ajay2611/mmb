@@ -1,6 +1,8 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
+{% load change_profile %}
+
 <!DOCTYPE html>
 <html lang="en" class="app">
 <head>
@@ -98,7 +100,6 @@
               </div><!-- /.modal-dialog -->
             </div>
           <a href="{% url 'bands:create_band' %}" class="btn  btn-info">MyBand</a>
-          <a href="{% url 'mmb_logic:change_profile' %}" class="btn  btn-info">As Band</a>
       </div>
 
       <!-- to be shown when user is logged in -->
@@ -147,12 +148,20 @@
               {{ request.user }} <b class="caret"></b>
             </a>
             <ul class="dropdown-menu animated fadeInRight">
+              {% change_profile request.user as bands %}
+                {% for id, band_name in bands.items %}
+                  <li>
+                    <a href="{% url 'mmb_logic:change_profile' id 'band'%}">{{ band_name }}</a>
+                  </li>
+                {% endfor%}
+              </li>
+
+               <li>
+                <a href="{% url 'mmb_logic:change_profile' request.user.id 'user' %}">Profile</a>
+              </li>
               <li>
                 <span class="arrow top"></span>
                 <a href="{% url 'users:edit_profile' %}">Settings</a>
-              </li>
-              <li>
-                <a href="{% url 'users:view_profile' request.user %}">Profile</a>
               </li>
               <li>
                 <a href="#">
