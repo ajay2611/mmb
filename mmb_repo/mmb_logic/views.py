@@ -1,12 +1,14 @@
 import json
 
-from django.http import HttpResponse
 from functools import wraps
+from django.http import HttpResponse
 from django.contrib.auth import get_user_model
+from django.views.decorators.csrf import csrf_exempt
 
 from mmb_repo.users.models import *
 from mmb_repo.mmb_data.models import *
 from mmb_repo.bands.models import *
+from mmb_repo.bands.utils import send_multiple_mails
 
 
 def ajax_login_required(view_func):
@@ -64,7 +66,6 @@ def get_location(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
-
 
 @ajax_login_required
 def inc_likes(request):
@@ -205,6 +206,29 @@ def follow_band(request):
             pass
 
     return HttpResponse(json.dumps({'success': success,'band_follow_count': band_obj.follower_count}), mimetype)
+
+@ajax_login_required
+def apply_vacancy(request):
+    mimetype = 'application/json'
+    success = False
+    if request.is_ajax():
+        print request.GET
+        band_id = int(request.GET.get('band_id'))
+        inst = request.GET.get('inst')
+        type = request.GET.get('type')
+        band_obj = Band.objects.get(id=band_id)
+        bandmember_objs = BandMember.objects.filter(band=band_id)
+        sub = 'Vacancy Applied - {}'.format(inst)
+        print request.user.username
+        msg = '{} is interested in joining your band as {}. Check your account at mmb.'.format(
+            request.user.username, inst)
+        member_list = []
+        for bm_obj in bandmember_objs:
+            member_list.append(bm_obj.member.email)
+
+        send_multiple_mails(sub, msg, '', member_list)
+
+    return HttpResponse(json.dumps({'success': success}), mimetype)
 
 
 #

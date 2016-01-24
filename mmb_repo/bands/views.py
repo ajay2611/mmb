@@ -14,7 +14,7 @@ from mmb_repo.mmb_data.models import Genre, Instrument, Song
 
 from .models import Band, BandMember, BandVacancy
 from .forms import BandForm, BandMemberForm, BaseBandFormset, BandVacancyForm
-from .utils import send_multiple_mail
+from .utils import send_multiple_mails
 
 
 def create_band(request):
@@ -56,10 +56,11 @@ def create_band(request):
                 to_list.append(member.email)
                 msg = 'Hey, You are invited to join {} at MakeMyBand to play {}, Please click link to Join this band'.format(
                     band_name, inst)
-                send_multiple_mail(sub, msg, '', to_list)
+                send_multiple_mails(sub, msg, '', to_list)
 
             return HttpResponseRedirect(reverse('bands:view_band', args=[band_obj.pk, ]))
         else:
+
             print band_form.errors, memberformset.errors
 
     else:

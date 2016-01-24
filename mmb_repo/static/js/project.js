@@ -20,45 +20,51 @@ function getCookie(name) {
     return cookieValue;
 }
 
-var csrftoken = getCookie('csrftoken');
+//var csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
+$(function () {
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
 });
+
+//$.ajaxSetup({
+//    beforeSend: function(xhr, settings) {
+//        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+//            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+//        }
+//    }
+//});
 
 
  $(function(){
+
     check_follow = $("#check_follow").val();
     $(".follow").html("Following");
     $(".unlike").hide();
+    $(".applied").hide();
     if(check_follow == "False"){
         $(".mybutton").css("display","none");
         $(".follow").html("Follow");
-        };
+    }
 
     check_follow = $("#check_band_follow").val();
     $(".band_follow").html("Following");
     if(check_follow == "False"){
         $(".mybutton").css("display","none");
         $(".band_follow").html("Follow");
-        };
-
+    }
 
 
 $(".fa-heart-o").click(function(e){
     e && e.preventDefault();
     var $this = $(e.target);
     var song_id = $(this).parent('a').attr('id');
-    console.log(song_id);
     $.ajax({
         type: "GET", //should be post
         url: '/logic/api/inc-likes/',
@@ -71,7 +77,7 @@ $(".fa-heart-o").click(function(e){
                 return;
             }
             console.log(data);
-            $("#like_count_1").html(data['like_count']);
+            $("#like_count_"+song_id).html(data['like_count']);
             $(".like").hide();
             $(".unlike").show();
 //            $this.toggleClass("fa-heart-o fa-heart text-active text-danger", 200);
@@ -102,7 +108,7 @@ $(".fa-heart").click(function(e){
                 return;
             }
             console.log(data);
-            $("#like_count_1").html(data['like_count']);
+            $("#like_count_"+ song_id).html(data['like_count']);
             $(".unlike").hide();
             $(".like").show();
 //            $this.toggleClass("fa-heart-o fa-heart text-active text-danger", 200);
@@ -209,6 +215,30 @@ $(".band_unfollow").click(function(e){
         $(".mybutton").css("display","none");
         $("#band_follow_count").html(data['band_follow_count']);
 //        $this.toggleClass("fa-eye, 200);
+        }
+    });
+});
+
+ $(".vacant").click(function(e){
+    e && e.preventDefault();
+    var $this = $(e.target);
+    var band_id = $(this).parent('li').attr('data-id');
+    var inst =  $(this).parent('li').attr('data-inst');
+    var vac_type =  $(this).parent('li').attr('data-vac-type');
+    $.ajax({
+        type: 'GET',
+        url: "/logic/api/apply-vacancy/",
+        data: {band_id: band_id, inst: inst, type: vac_type},
+        dataType: 'json',
+        contentType : "application/json",
+        success: function(data){
+            if(data.non_not_authenticated){
+                alert("Not authorized");
+                return;
+            }
+            console.log(data);
+            $(".vacant").hide();
+            $(".applied").show();
         }
     });
 });

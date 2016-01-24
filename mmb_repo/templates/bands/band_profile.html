@@ -7,6 +7,10 @@
 {% load check_band_follow %}
 {% load crispy_forms_tags %}
 
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" type="text/css">
+{% endblock %}
+
 {% block content %}
 <body class="">
   <section class="vbox">
@@ -61,18 +65,22 @@
                       <div class="panel wrapper">
                           <div class="row text-center">
                             <div class="col-xs-12">
+                            <ul>
                                 {% for vacancy in vacancies %}
-                                  <span>{{ vacancy.instrument }} - {{ vacancy.type }}</span><br>
+                                    <li data-id="{{ band.pk }}" data-inst="{{ vacancy.instrument }}" data-vac-type="{{ vacancy.type }}">
+                                        {{ vacancy.instrument }} - {{ vacancy.type }}
+                                        <i class="fa fa-square-o right vacant"></i>
+                                        <i class="fa fa-check-square-o right applied"></i>
+                                    </li>
                                 {% endfor %}
+                            </ul>
                             </div>
                           </div>
                       </div>
 
                         <div>
                           <small class="text-uc text-xs text-muted">about me</small>
-                          <p>Artist</p>
-                          <small class="text-uc text-xs text-muted">info</small>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
+                          <p>{{ band.desc }}</p>
                           <div class="line"></div>
                           <small class="text-uc text-xs text-muted">connection</small>
                           <p class="m-t-sm">
