@@ -33,7 +33,8 @@ class BandMember(models.Model):
     band = models.ForeignKey(Band)
     member = models.ForeignKey(AUTH_USER_MODEL)
     instrument = models.ForeignKey(Instrument)
-    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='perm')
+    type = models.CharField(max_length=9, choices=MEMBER_TYPE, default='Permanent')
+    added_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return '{} - {}'.format(self.band, self.member)
@@ -42,7 +43,8 @@ class BandMember(models.Model):
 class BandVacancy(models.Model):
     band = models.ForeignKey(Band)
     instrument = models.ForeignKey(Instrument)
-    type = models.CharField(max_length=4, choices=MEMBER_TYPE, default='perm')
+    type = models.CharField(max_length=9, choices=MEMBER_TYPE, default='Permanent')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Band vacancies'
@@ -51,33 +53,18 @@ class BandVacancy(models.Model):
         return '{} - {}'.format(self.band, self.instrument)
 
 
+class BandVacancyApplication(models.Model):
+    band_vacancy = models.ForeignKey(BandVacancy)
+    user = models.ForeignKey(AUTH_USER_MODEL, related_name='applicant')
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return '{} - {}'.format(self.band_vacancy.band.name, self.user.username)
+
+
 class BandFollowers(models.Model):
     follower = models.ForeignKey(AUTH_USER_MODEL, related_name='band_follower')
     following_band = models.ForeignKey(Band, related_name='band_following')
 
     def __unicode__(self):
         return '{} - {}'.format(self.follower.username, self.following.name)
-
-
-# class BandSong(models.Model):
-#     # type = models.CharField(choices=SONG_TYPES, default='Audio')
-#     band = models.ForeignKey(Band)
-#     user = models.ForeignKey(AUTH_USER_MODEL)
-#     name = models.CharField(max_length=255)
-#     tags = models.CharField(choices=SONG_TAGS, max_length=255)
-#     likes = models.IntegerField(default=0)
-#     upload = models.FileField(upload_to=get_upload_file_name)
-#     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-#     # singer = models.CharField(blank=True, max_length=255)
-#     # label = models.CharField(blank=True, max_length=255)
-#
-#     def __unicode__(self):
-#         return '{}'.format(self.name)
-#
-#
-# class BandSongLike(models.Model):
-#     band = models.ForeignKey(Band)
-#     song = models.ForeignKey(BandSong)
-#
-#     def __unicode__(self):
-#         return '{} - {}'.format(self.band.name, self.song.name)
