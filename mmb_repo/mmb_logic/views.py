@@ -103,7 +103,7 @@ def dec_likes(request):
 
     return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
 
-
+@ajax_login_required
 def change_profile(request, id, type=None):
     if request.method == 'GET':
         if type == 'band':
@@ -215,15 +215,15 @@ def apply_vacancy(request):
     mimetype = 'application/json'
     success = False
     if request.is_ajax():
-        print request.GET
         band_id = int(request.GET.get('band_id'))
         inst = request.GET.get('inst')
         type = request.GET.get('type')
-        band_obj = Band.objects.get(id=band_id)
+        inst_obj = Instrument.objects.get(instrument=inst)
+        bv_obj = BandVacancy.objects.get(band=band_id, instrument=inst_obj, type=type)
+        BandVacancyApplication.objects.create(band_vacancy=bv_obj, user=request.user)
         bandmember_objs = BandMember.objects.filter(band=band_id)
         sub = 'Vacancy Applied - {}'.format(inst)
-        print request.user.username
-        msg = '{} is interested in joining your band as {}. Check your account at mmb.'.format(
+        msg = '{} is interested in joining your band to play {}. Check your account at mmb.'.format(
             request.user.username, inst)
         member_list = []
         for bm_obj in bandmember_objs:

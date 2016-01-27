@@ -26,6 +26,7 @@ class Genre(models.Model):
 
 class Instrument(models.Model):
     instrument = models.CharField(max_length=30)
+    instrumentalist = models.CharField(max_length=33, default='123')
     # level = models.CharField(choices=SKILL_LEVEL, default='Beginner')
 
     def __unicode__(self):

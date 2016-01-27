@@ -225,6 +225,8 @@ $(".band_unfollow").click(function(e){
     var band_id = $(this).parent('li').attr('data-id');
     var inst =  $(this).parent('li').attr('data-inst');
     var vac_type =  $(this).parent('li').attr('data-vac-type');
+    $(".vacant").hide();
+    $(".applied").show();
     $.ajax({
         type: 'GET',
         url: "/logic/api/apply-vacancy/",
@@ -237,8 +239,6 @@ $(".band_unfollow").click(function(e){
                 return;
             }
             console.log(data);
-            $(".vacant").hide();
-            $(".applied").show();
         }
     });
 });
