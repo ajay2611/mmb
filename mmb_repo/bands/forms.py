@@ -15,7 +15,7 @@ from .app_settings import MEMBER_TYPE, CITIES
 
 
 class BandVacancyForm(forms.ModelForm):
-    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all())
+    instrument = forms.ModelChoiceField(queryset=((0,0),))
     type = forms.ChoiceField(choices=MEMBER_TYPE)
 
     class Meta:
@@ -24,6 +24,7 @@ class BandVacancyForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(BandVacancyForm, self).__init__(*args, **kwargs)
+        self.fields['instrument'].queryset = Instrument.objects.all()
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'instrument',
@@ -36,12 +37,14 @@ class BandVacancyForm(forms.ModelForm):
 
 
 class BandMemberForm(forms.Form):
-    member = forms.ModelChoiceField(queryset=get_user_model().objects.all())
-    instrument = forms.ModelChoiceField(queryset=Instrument.objects.all())
+    member = forms.ModelChoiceField(queryset=((0,0),))
+    instrument = forms.ModelChoiceField(queryset=((0,0),))
     type = forms.ChoiceField(choices=MEMBER_TYPE)
 
     def __init__(self, *args, **kwargs):
         super(BandMemberForm, self).__init__(*args, **kwargs)
+        self.fields['member'].queryset = get_user_model().objects.all()
+        self.fields['instrument'].queryset = Instrument.objects.all()
         self.fields['member'].widget.attrs['class'] = 'controls textInput form-control chosen'
         self.fields['instrument'].widget.attrs['class'] = 'controls textInput form-control chosen'
         self.fields['type'].widget.attrs['class'] = 'controls textInput form-control chosen'
@@ -49,7 +52,6 @@ class BandMemberForm(forms.Form):
 
 class BandForm(forms.ModelForm):
     genre = forms.MultipleChoiceField(label='Genre',
-                                      choices=[(i.genre, i.genre) for i in Genre.objects.all()],
                                       widget=forms.SelectMultiple(attrs={'class': 'controls textInput form-control chosen'}))
 
     class Meta:
@@ -58,6 +60,7 @@ class BandForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(BandForm, self).__init__(*args, **kwargs)
+        self.fields['genre'].choices = [(i.genre, i.genre) for i in Genre.objects.all()]
         self.fields['name'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
         self.fields['label'].widget = forms.TextInput(attrs={'class': 'controls textInput form-control'})
         self.fields['desc'].widget = forms.Textarea(attrs={'class': 'controls textInput form-control', 'rows': 4})

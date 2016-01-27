@@ -6,8 +6,6 @@ from .app_settings import SONG_TAGS
 
 
 def get_upload_file_name(instance, filename):
-    id = None
-    name = None
     if instance.band:
         id = instance.band.id
         name = instance.band.name
@@ -26,7 +24,7 @@ class Genre(models.Model):
 
 class Instrument(models.Model):
     instrument = models.CharField(max_length=30)
-    instrumentalist = models.CharField(max_length=33, default='123')
+    instrumentalist = models.CharField(max_length=33)
     # level = models.CharField(choices=SKILL_LEVEL, default='Beginner')
 
     def __unicode__(self):

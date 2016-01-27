@@ -29,11 +29,9 @@ class ProfileDataForm(forms.ModelForm):
                                     'invalid': "This value must contain only letters, numbers and underscores."})
 
     genre = forms.MultipleChoiceField(label='Genre',
-                                      choices=[(i.genre, i.genre) for i in Genre.objects.all()],
                                       widget=forms.SelectMultiple(attrs={'class':'chosen'}))
 
     instrument = forms.MultipleChoiceField(label='Instrument',
-                                           choices=[(i.instrument, i.instrument) for i in Instrument.objects.all()],
                                            widget=forms.SelectMultiple(attrs={'class':'chosen'}))
 
     class Meta:
@@ -42,6 +40,8 @@ class ProfileDataForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProfileDataForm, self).__init__(*args, **kwargs)
+        self.fields['genre'].choices = [(i.genre, i.genre) for i in Genre.objects.all()]
+        self.fields['instrument'].choices = [(i.instrument, i.instrument) for i in Instrument.objects.all()]
         self.fields['about_me'].widget = forms.Textarea(attrs={'rows': 4})
         self.helper = FormHelper()
         self.helper.layout = Layout(
