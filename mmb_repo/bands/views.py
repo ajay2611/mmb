@@ -43,20 +43,23 @@ def create_band(request):
             #                           instrument='',
             #                           type='perm'
             #                           )
-
+            bm_obj_list = []
             for mem in memberformset:
                 to_list = []
                 inst = mem.cleaned_data['instrument']
-                member = member=mem.cleaned_data['member']
-                BandMember.objects.create(band=band_obj,
-                                          member=member,
-                                          instrument=inst,
-                                          type=mem.cleaned_data['type']
-                                          )
+                member = mem.cleaned_data['member']
+                bm_obj_list.append(BandMember(band=band_obj,
+                                              member=member,
+                                              instrument=inst,
+                                              type=mem.cleaned_data['type']
+                                              )
+                                   )
                 to_list.append(member.email)
                 msg = 'Hey, You are invited to join {} at MakeMyBand to play {}, Please click link to Join this band'.format(
                     band_name, inst)
                 send_multiple_mails(sub, msg, '', to_list)
+
+            BandMember.objects.bulk_create(bm_obj_list)
 
             return HttpResponseRedirect(reverse('bands:view_band', args=[band_obj.pk, ]))
         else:

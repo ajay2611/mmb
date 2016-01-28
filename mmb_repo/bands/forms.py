@@ -1,9 +1,7 @@
 # __author__ = 'delhivery'
 
 from __future__ import absolute_import, unicode_literals
-import os
 from django import forms
-from django.core.exceptions import ValidationError
 from django.forms.formsets import BaseFormSet
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, MultiField, Div, Field
@@ -15,7 +13,7 @@ from .app_settings import MEMBER_TYPE, CITIES
 
 
 class BandVacancyForm(forms.ModelForm):
-    instrument = forms.ModelChoiceField(queryset=((0,0),))
+    instrument = forms.ModelChoiceField(queryset=Instrument.objects.none())
     type = forms.ChoiceField(choices=MEMBER_TYPE)
 
     class Meta:
@@ -38,7 +36,7 @@ class BandVacancyForm(forms.ModelForm):
 
 class BandMemberForm(forms.Form):
     member = forms.ModelChoiceField(queryset=((0,0),))
-    instrument = forms.ModelChoiceField(queryset=((0,0),))
+    instrument = forms.ModelChoiceField(queryset=Instrument.objects.none())
     type = forms.ChoiceField(choices=MEMBER_TYPE)
 
     def __init__(self, *args, **kwargs):
