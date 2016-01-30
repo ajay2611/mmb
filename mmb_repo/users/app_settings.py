@@ -12,3 +12,8 @@ CITIES = (
 )
 
 PHONE_REG = RegexValidator(regex=r'^[789]\d{9}$', message="Enter a valid 10 digit phone number.")
+
+USER_TYPE = [
+    ('Listener', 'Listener'),
+    ('Musician', 'Musician')
+]

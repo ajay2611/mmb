@@ -6,11 +6,12 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from mmb_repo.mmb_data.models import Genre, Instrument
-from .app_settings import CITIES, PHONE_REG
+from .app_settings import CITIES, PHONE_REG, USER_TYPE
 
 
 class User(AbstractUser):
     name = models.CharField(blank=True, max_length=255)
+    type = models.CharField(max_length=10, choices=USER_TYPE, default='Listener')
 
     def __unicode__(self):
         return self.username
@@ -21,8 +22,8 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.ForeignKey(User)
-    genre = models.ManyToManyField(Genre)
-    instrument = models.ManyToManyField(Instrument)
+    genre = models.ManyToManyField(Genre, blank=True, null=True)
+    instrument = models.ManyToManyField(Instrument, blank=True, null=True)
     # todo - need list of all colleges if possible
     college = models.CharField(max_length=100, blank=True, null=True)
     current_city = models.CharField(choices=CITIES, max_length=50, blank=True, null=True)

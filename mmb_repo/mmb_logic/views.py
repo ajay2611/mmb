@@ -137,10 +137,10 @@ def follow(request):
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success,
-                                    'followed_by_count': user_followed_profile.followed_by_count,
-                                    'following_count': user_followed_profile.following_count}),
-                        mimetype)
+        return HttpResponse(json.dumps({'success': success,
+                                        'followed_by_count': user_followed_profile.followed_by_count,
+                                        'following_count': user_followed_profile.following_count}),
+                            mimetype)
 
 
 @ajax_login_required
@@ -163,10 +163,10 @@ def unfollow(request):
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success,
-                                    'followed_by_count': user_followed_profile.followed_by_count,
-                                    'following_count': user_followed_profile.following_count}),
-                        mimetype)
+        return HttpResponse(json.dumps({'success': success,
+                                        'followed_by_count': user_followed_profile.followed_by_count,
+                                        'following_count': user_followed_profile.following_count}),
+                            mimetype)
 
 @ajax_login_required
 def unfollow_band(request):

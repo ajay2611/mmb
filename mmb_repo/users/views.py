@@ -62,6 +62,7 @@ class UserListView(LoginRequiredMixin, ListView):
 def edit_profile(request):
     template = 'users/profile_form.html'
     pk = request.user.pk
+    user = request.user
     socialaccount_obj = SocialAccount.objects.filter(user_id=pk)
     picture_url = None
     try:
@@ -81,7 +82,6 @@ def edit_profile(request):
     if request.method == 'POST':
         form = ProfileDataForm(request.POST, instance=instance)
         if form.is_valid():
-            user = get_user_model().objects.get(id=pk)
             username = form.cleaned_data['username']
             website = form.cleaned_data['website']
             phone = form.cleaned_data['phone']
@@ -90,7 +90,7 @@ def edit_profile(request):
             current_city = form.cleaned_data['current_city']
             instruments = form.cleaned_data['instrument']
             genres = form.cleaned_data['genre']
-            kwargs = {'college': college, 'website': website, 'phone': phone, \
+            kwargs = {'college': college, 'website': website, 'phone': phone,\
                       'about_me': about_me, 'current_city': current_city}
             if instance:
                 instance.genre.clear()
@@ -102,18 +102,18 @@ def edit_profile(request):
                 for i in instruments:
                     it = Instrument.objects.get(instrument=i)
                     instance.instrument.add(it)
-            else:
-
-                profile_obj = Profile(user=user, website=website, phone=phone, \
-                                      about_me=about_me, college=college, current_city=current_city,
-                                      )
-                profile_obj.save()
-                for i in genres:
-                    obj = Genre.objects.get(genre=i)
-                    profile_obj.genre.add(obj)
-                for i in instruments:
-                    it = Instrument.objects.get(instrument=i)
-                    profile_obj.instrument.add(it)
+            # else:
+            #
+            #     profile_obj = Profile(user=user, website=website, phone=phone, \
+            #                           about_me=about_me, college=college, current_city=current_city,
+            #                           )
+            #     profile_obj.save()
+            #     for i in genres:
+            #         obj = Genre.objects.get(genre=i)
+            #         profile_obj.genre.add(obj)
+            #     for i in instruments:
+            #         it = Instrument.objects.get(instrument=i)
+            #         profile_obj.instrument.add(it)
 
             user.username = username
             user.save()
@@ -133,6 +133,8 @@ def edit_profile(request):
                                             'current_city': instance.current_city})
         else:
             form = ProfileDataForm()
+            profile_obj = Profile(user=user)
+            profile_obj.save()
 
     return render_to_response(template,
                               {'form': form, 'edit_profile': "active"},
@@ -142,6 +144,7 @@ def edit_profile(request):
 
 def view_profile(request, username):
     template = 'users/profile.html'
+    active_user = request.user
     if request.method == 'GET':
         user = User.objects.get(username=username)
         details = Profile.objects.get(user__id=user.id)
@@ -151,8 +154,6 @@ def view_profile(request, username):
             playlist = None
     else:
         template = '404.html'
-    active_user = request.user
-    # import ipdb;ipdb.set_trace()
     return render_to_response(template,
                               {'my_audio': "active", 'user': user, 'playlist': playlist, \
                                'details': details, 'active_user': active_user,'STATIC_URL': STATIC_URL},

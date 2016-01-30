@@ -165,7 +165,7 @@ $(".unfollow").click(function(e){
         }
         $(".follow").html("Follow");
         $(".mybutton").css("display","none");
-        $("#band_follow_count").html(data['followed_by_count']);
+        $("#followed_by_count").html(data['followed_by_count']);
         $("#following_count").html(data['following_count']);
 //        $this.toggleClass("fa-eye, 200);
         }
