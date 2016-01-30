@@ -4,6 +4,7 @@ import os
 import validators
 
 from django import forms
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 
 from crispy_forms.helper import FormHelper
@@ -11,6 +12,8 @@ from crispy_forms.layout import Layout, ButtonHolder, Submit, Fieldset, HTML, Mu
 
 from .models import User, Profile
 from mmb_repo.mmb_data.models import Genre, Instrument, Song
+from .app_settings import USER_TYPE
+
 
 
 class UserForm(forms.ModelForm):
@@ -27,25 +30,32 @@ class ProfileDataForm(forms.ModelForm):
                                 label="Username",
                                 error_messages={
                                     'invalid': "This value must contain only letters, numbers and underscores."})
+    type = forms.CharField(label='Type',
+                           widget=forms.RadioSelect())
 
     genre = forms.MultipleChoiceField(label='Genre',
-                                      widget=forms.SelectMultiple(attrs={'class':'chosen'}))
+                                      widget=forms.SelectMultiple(attrs={'class':'chosen'}),
+                                      required=False)
 
     instrument = forms.MultipleChoiceField(label='Instrument',
-                                           widget=forms.SelectMultiple(attrs={'class':'chosen'}))
+                                           widget=forms.SelectMultiple(attrs={'class':'chosen'}),
+                                           required=False)
 
     class Meta:
         model = Profile
         fields = ("college", "current_city", "phone", "website", "about_me",)
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         super(ProfileDataForm, self).__init__(*args, **kwargs)
         self.fields['genre'].choices = [(i.genre, i.genre) for i in Genre.objects.all()]
         self.fields['instrument'].choices = [(i.instrument, i.instrument) for i in Instrument.objects.all()]
         self.fields['about_me'].widget = forms.Textarea(attrs={'rows': 4})
+        self.fields['type'].choices = USER_TYPE
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'username',
+            'type',
             'genre',
             'instrument',
             'college',
@@ -62,10 +72,18 @@ class ProfileDataForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(ProfileDataForm, self).clean()
         website = cleaned_data['website']
-
         if website and not validators.url(website):
             self._errors['website'] = self.error_class(
                 ["Please enter a valid website. For example 'http://makemyband.in'"])
+        username = cleaned_data['username']
+        try:
+            user = get_user_model().objects.get(username=username)
+            if user and (username != self.user.username):
+                self._errors['username'] = self.error_class(
+                ["Username already exists"])
+        except:
+            pass
+
         return cleaned_data
 
 

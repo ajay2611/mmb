@@ -80,7 +80,7 @@ def edit_profile(request):
         instance = None
 
     if request.method == 'POST':
-        form = ProfileDataForm(request.POST, instance=instance)
+        form = ProfileDataForm(request.POST, instance=instance, user=user)
         if form.is_valid():
             username = form.cleaned_data['username']
             website = form.cleaned_data['website']
