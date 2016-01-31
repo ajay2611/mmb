@@ -90,6 +90,7 @@ def edit_profile(request):
             current_city = form.cleaned_data['current_city']
             instruments = form.cleaned_data['instrument']
             genres = form.cleaned_data['genre']
+            user_type = form.cleaned_data['type']
             kwargs = {'college': college, 'website': website, 'phone': phone,\
                       'about_me': about_me, 'current_city': current_city}
             if instance:
@@ -116,6 +117,7 @@ def edit_profile(request):
             #         profile_obj.instrument.add(it)
 
             user.username = username
+            user.type = user_type
             user.save()
 
             return HttpResponseRedirect(reverse('users:view_profile', args=[str(username), ]))
@@ -124,6 +126,7 @@ def edit_profile(request):
 
         if instance:
             form = ProfileDataForm(initial={'username': instance.user.username,
+                                            'type': instance.user.type,
                                             'instrument': instance.instrument.get_queryset(),
                                             'genre': instance.genre.get_queryset(),
                                             'website': instance.website,

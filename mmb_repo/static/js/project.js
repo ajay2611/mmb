@@ -60,6 +60,12 @@ $(function () {
         $(".band_follow").html("Follow");
     }
 
+$('#id_type_1').change(function (event) {
+    $('#div_id_instrument').hide();
+});
+$('#id_type_2').change(function (event) {
+    $('#div_id_instrument').show();
+});
 
 $(".fa-heart-o").click(function(e){
     e && e.preventDefault();
@@ -242,5 +248,6 @@ $(".band_unfollow").click(function(e){
         }
     });
 });
+
 
 });

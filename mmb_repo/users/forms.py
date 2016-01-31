@@ -30,15 +30,16 @@ class ProfileDataForm(forms.ModelForm):
                                 label="Username",
                                 error_messages={
                                     'invalid': "This value must contain only letters, numbers and underscores."})
+
     type = forms.CharField(label='Type',
-                           widget=forms.RadioSelect())
+                           widget=forms.RadioSelect(attrs={'type': 'radio'}))
 
     genre = forms.MultipleChoiceField(label='Genre',
-                                      widget=forms.SelectMultiple(attrs={'class':'chosen'}),
+                                      widget=forms.SelectMultiple(attrs={'class': 'chosen'}),
                                       required=False)
 
     instrument = forms.MultipleChoiceField(label='Instrument',
-                                           widget=forms.SelectMultiple(attrs={'class':'chosen'}),
+                                           widget=forms.SelectMultiple(attrs={'class': 'chosen'}),
                                            required=False)
 
     class Meta:
@@ -72,10 +73,19 @@ class ProfileDataForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(ProfileDataForm, self).clean()
         website = cleaned_data['website']
+        username = cleaned_data['username']
+        type = cleaned_data['type']
+        instrument = cleaned_data['instrument']
+
         if website and not validators.url(website):
             self._errors['website'] = self.error_class(
                 ["Please enter a valid website. For example 'http://makemyband.in'"])
-        username = cleaned_data['username']
+
+        if type == u'Musician':
+            if not instrument:
+                self._errors['instrument'] = self.error_class(
+                ["This field is required"])
+
         try:
             user = get_user_model().objects.get(username=username)
             if user and (username != self.user.username):
