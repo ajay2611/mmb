@@ -17,44 +17,46 @@
             <span class="bar5 a5 bg-danger dker"></span>
           </span></h2>
           <div class="row row-sm">
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-              <div class="item">
-                <div class="pos-rlt">
-                 <div class="top">
-                    <span class="badge bg-info m-l-sm m-b-sm">03:20</span>
-                  </div>
-                  <div class="item-overlay opacity r r-2x bg-black">
-                    <div class="center text-center m-t-n">
-                      <a href="#" class="jp-play-me" data-mp3="/media/Awari.mp3" name="Awariii">
-                        <i class="icon-control-play i-2x text"></i>
-                        <i class="icon-control-pause i-2x text-active"></i>
-                      </a>
-                    </div>
-                   <div class="bottom padder m-b-sm">
-                      <a href="#" class="pull-right active like" id="1">
-                        <i class="fa fa-heart-o"></i>
-{#                        <i class="fa fa-heart text-active text-danger"></i>#}
-                      </a>
-                      <a href="#" class="pull-right active unlike" id="1">
-                        <!--<i class="fa fa-heart-o"></i>-->
-                        <i class="fa fa-heart text-active text-danger"></i>
-                      </a>
-                      <a href="#" data-toggle="class">
-                        <i class="fa fa-plus-circle text"></i>
-                        <i class="fa fa-check-circle text-active text-info"></i>
-                      </a>
-                      <span id='like_count_1' class="pull-right badge bg-white">12</span>
+            {% for song in songs %}
+              <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                  <div class="item">
+                    <div class="pos-rlt">
+                     <div class="top">
+                        <span class="badge bg-info m-l-sm m-b-sm">03:20</span>
+                      </div>
+                      <div class="item-overlay opacity r r-2x bg-black">
+                        <div class="center text-center m-t-n">
+                          <a href="#" class="jp-play-me" data-mp3="/media/Awari.mp3" name="Awariii">
+                            <i class="icon-control-play i-2x text"></i>
+                            <i class="icon-control-pause i-2x text-active"></i>
+                          </a>
+                        </div>
+                       <div class="bottom padder m-b-sm">
+                          <a href="#" class="pull-right active like" id={{ song.id }} >
+                            <i class="fa fa-heart-o"></i>
+    {#                        <i class="fa fa-heart text-active text-danger"></i>#}
+                          </a>
+                          <a href="#" class="pull-right active unlike" id={{ song.id }}>
+                            <!--<i class="fa fa-heart-o"></i>-->
+                            <i class="fa fa-heart text-active text-danger"></i>
+                          </a>
+                          <a href="#" data-toggle="class">
+                            <i class="fa fa-plus-circle text"></i>
+                            <i class="fa fa-check-circle text-active text-info"></i>
+                          </a>
+                          <span id='like_count_1' class="pull-right badge bg-white">{{ song.id }}</span>
 
+                        </div>
+                      </div>
+                      <a href="#"><img src="{% static 'images/p2.jpg' %}" alt="" class="r r-2x img-full"></a>
+                    </div>
+                    <div class="padder-v">
+                      <a href="#" class="text-ellipsis">Teri Aankho ki ye Kahani</a>
+                      <a href="#" class="text-ellipsis text-xs text-muted">Naveen</a>
                     </div>
                   </div>
-                  <a href="#"><img src="{% static 'images/p2.jpg' %}" alt="" class="r r-2x img-full"></a>
-                </div>
-                <div class="padder-v">
-                  <a href="#" class="text-ellipsis">Teri Aankho ki ye Kahani</a>
-                  <a href="#" class="text-ellipsis text-xs text-muted">Naveen</a>
-                </div>
               </div>
-            </div>
+            {% endfor %}
             <div class="clearfix visible-xs"></div>
           </div>
 

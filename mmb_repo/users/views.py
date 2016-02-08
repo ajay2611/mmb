@@ -216,3 +216,11 @@ def upload_song(request, username):
     return render_to_response(template, {'form': form, 'upload_song': "active", 'user': user, \
                                          'details': details, 'STATIC_URL': STATIC_URL},
                               context_instance=RequestContext(request))
+
+
+def base_view(request):
+    template = 'pages/home.html'
+
+    songs = Song.objects.all()
+    return render_to_response(template, {'songs': songs},
+                              context_instance=RequestContext(request))

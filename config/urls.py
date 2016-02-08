@@ -6,9 +6,11 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
+from mmb_repo.users.views import base_view
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),
+    # url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),
+    url(r'^$', view=base_view, name='home'),
     url(r'^index/$', TemplateView.as_view(template_name='pages/home.html'), name="index"),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
     url(r'^search/$', TemplateView.as_view(template_name='pages/search.html'), name="search"),
