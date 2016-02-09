@@ -2,22 +2,26 @@
 
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,dfn,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
 
+html{
+    height: 100vh;
+}
+
+
 body{
 margin:0;
 padding:0;
-background: #fff url(../images/bg.gif) top center repeat-x;
+background: #fff url(../images/bg.gif) top center repeat;
 font-family: Helvetica Neue, Helvetica, Arial;
 color: #ffffff;
+    width: 100%;
 }
 
 #wrapper{
-margin: 0 auto;
-width: 940px;
+
 }
 
 .main_content, .uppersection{
-width: 940px;
-float: left;
+margin: 0 auto;
 }
 
 .logo{
@@ -65,10 +69,17 @@ line-height: 26px;
 font-weight: 300;
 }
 
+.socialFooter{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    padding: 2%;
+}
+
 ul.social{
-margin-top: 90px;
-float: left;
-padding-left: 120px;
+margin: auto;
+    width: 60%;
 }
 
 ul.social li{
