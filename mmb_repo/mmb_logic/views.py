@@ -77,6 +77,7 @@ def inc_likes(request):
     if request.is_ajax():
         song_id = request.GET.get('song_id')
         song_obj = Song.objects.get(id=song_id)
+        SongLike.objects.create(user=request.user, song=song_obj)
         song_obj.likes += 1
         song_obj.save()
         # if not is_band:
@@ -94,6 +95,7 @@ def dec_likes(request):
         song_id = request.GET.get('song_id')
         try:
             song_obj = Song.objects.get(id=song_id)
+            #for now getting all objects and deleting it
             SongLike.objects.filter(user=request.user, song=song_obj).delete()
             song_obj.likes -= 1
             song_obj.save()

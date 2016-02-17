@@ -14,7 +14,7 @@ from django.core.exceptions import ValidationError
 
 from config.settings.common import STATIC_URL
 from allauth.socialaccount.models import SocialAccount
-from mmb_repo.mmb_data.models import Genre, Instrument, Song
+from mmb_repo.mmb_data.models import Genre, Instrument, Song, SongLike
 
 from .forms import UserForm, ProfileDataForm, ChangePasswordForm, UploadSongForm
 from .models import User, Profile
@@ -219,8 +219,32 @@ def upload_song(request, username):
 
 
 def base_view(request):
+    """
+    :param request:
+    :return:
+    """
     template = 'pages/home.html'
-
+    user = request.user
+    song_like_dict = {}
+    success = False
+    # for now getting all songs
     songs = Song.objects.all()
-    return render_to_response(template, {'songs': songs},
+
+    for song in songs:
+        try:
+            obj = SongLike.objects.get(user=user, song=song)
+
+            if obj:
+                success = True
+        except SongLike.DoesNotExist:
+            success = False
+
+        song_like_dict.update({song.id: {'success': success,
+                                         'name': song.name,
+                                         'url': song.upload.url,
+                                         'count': song.likes
+                                         }
+                               })
+
+    return render_to_response(template, {'songs': songs, 'song_like_dict': song_like_dict},
                               context_instance=RequestContext(request))

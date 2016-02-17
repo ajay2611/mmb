@@ -17,7 +17,7 @@
             <span class="bar5 a5 bg-danger dker"></span>
           </span></h2>
           <div class="row row-sm">
-            {% for song in songs %}
+            {% for id,song in song_like_dict.items %}
               <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                   <div class="item">
                     <div class="pos-rlt">
@@ -26,27 +26,28 @@
                       </div>
                       <div class="item-overlay opacity r r-2x bg-black">
                         <div class="center text-center m-t-n">
-                          <a href="#" class="jp-play-me" data-mp3="/media/Awari.mp3" name="Awariii">
+                          <a href="#" class="jp-play-me" data-mp3={{ song.url }} name={{ song.name }}>
                             <i class="icon-control-play i-2x text"></i>
                             <i class="icon-control-pause i-2x text-active"></i>
                           </a>
                         </div>
+
                        <div class="bottom padder m-b-sm">
-                          <a href="#" class="pull-right active like" id={{ song.id }} >
+                          <a href="#" class="pull-right active like" id="like_{{id}}">
                             <i class="fa fa-heart-o"></i>
-    {#                        <i class="fa fa-heart text-active text-danger"></i>#}
                           </a>
-                          <a href="#" class="pull-right active unlike" id={{ song.id }}>
-                            <!--<i class="fa fa-heart-o"></i>-->
+                          <a href="#" class="pull-right active unlike" id="unlike_{{id}}">
                             <i class="fa fa-heart text-active text-danger"></i>
                           </a>
                           <a href="#" data-toggle="class">
                             <i class="fa fa-plus-circle text"></i>
                             <i class="fa fa-check-circle text-active text-info"></i>
                           </a>
-                          <span id='like_count_1' class="pull-right badge bg-white">{{ song.id }}</span>
+                          <span id='like_count_{{id }}' class="pull-right badge bg-white">{{ song.count }}</span>
 
                         </div>
+                        <input id="check_like_{{id}}" type="hidden" name="check_like" class="check_like"
+                                       value={{ song.success }}>
                       </div>
                       <a href="#"><img src="{% static 'images/p2.jpg' %}" alt="" class="r r-2x img-full"></a>
                     </div>
