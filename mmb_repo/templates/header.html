@@ -1,0 +1,191 @@
+{% load static %}
+{% load staticfiles%}
+{% load change_profile %}
+
+<header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
+  <div class="navbar-header aside bg-info ">
+    <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
+      <i class="icon-list"></i>
+    </a>
+    <a href="javascript:void(0);" class="navbar-brand text-lt" style="height: 65px;">
+      <i class="icon-earphones"></i>
+      <img src="{% static 'images/logo.png' %}" alt="." class="hide">
+      <span class="hidden-nav-xs m-l-sm">MakeMyBand</span>
+    </a>
+    <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
+      <i class="icon-settings"></i>
+    </a>
+  </div>      <ul class="nav navbar-nav hidden-xs">
+    <li>
+      <a href="#nav,.navbar-header" data-toggle="class:nav-xs" class="text-muted">
+        <i class="fa fa-indent text"></i>
+        <i class="fa fa-dedent text-active"></i>
+      </a>
+    </li>
+  </ul>
+  <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search">
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
+        </span>
+        <!-- <input id = "search" type="text" class="form-control input-sm no-border rounded" placeholder="Search songs, albums..."> -->
+        <div class="form-group">
+          <!-- data-toggle = "ajaxModal"-->
+          <a href="{% url 'search' %}" class="btn btn-md btn-default btn-block btn-rounded" >We will be glad to help <i class = "fa fa-search"> </i></a>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="navbar-brand">
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#makemyband">MakeMyBand</button>
+      <!-- Modal -->
+        <div id ='makemyband' class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create Your Band&hellip;</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="container">
+                    <div class="col-md-8">
+{#                            {% crispy band_form  %}#}
+                        <br><br><br><br><br><br>
+{#                            <div id='form-errors'>{{ band_form_errors }}</div>#}
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Create</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div>
+      <a href="{% url 'bands:create_band' %}" class="btn  btn-info">CreateMyBand</a>
+  </div>
+
+  <!-- to be shown when user is logged in -->
+  {% if request.user.is_authenticated %}
+  <div class="navbar-right ">
+    <ul class="nav navbar-nav m-n hidden-xs nav-user user">
+      <li class="hidden-xs">
+        <a href="#" class="dropdown-toggle lt" data-toggle="dropdown">
+          <i class="icon-bell"></i>
+          <span class="badge badge-sm up bg-danger count">2</span>
+        </a>
+        <section class="dropdown-menu aside-xl animated fadeInUp">
+          <section class="panel bg-white">
+            <div class="panel-heading b-light bg-light">
+              <strong>You have <span class="count">2</span> notifications</strong>
+            </div>
+            <div class="list-group list-group-alt">
+              <a href="#" class="media list-group-item">
+                <span class="pull-left thumb-sm">
+                  <img src="{% static 'images/a0.png' %}" alt="..." class="img-circle">
+                </span>
+                <span class="media-body block m-b-none">
+                  Use awesome animate.css<br>
+                  <small class="text-muted">10 minutes ago</small>
+                </span>
+              </a>
+              <a href="#" class="media list-group-item">
+                <span class="media-body block m-b-none">
+                  1.0 initial released<br>
+                  <small class="text-muted">1 hour ago</small>
+                </span>
+              </a>
+            </div>
+            <div class="panel-footer text-sm">
+              <a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
+              <a href="#notes" data-toggle="class:show animated fadeInRight">See all the notifications</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
+          <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+            <img src="{{ STATIC_URL }}images/profile/{{ user.pk }}" alt="...">
+          </span>
+          {{ request.user }} <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu animated fadeInRight">
+          {% change_profile request.user as bands %}
+            {% for id, band_name in bands.items %}
+              <li>
+                <a href="{% url 'mmb_logic:change_profile' id 'band'%}">{{ band_name }}</a>
+              </li>
+            {% endfor%}
+          </li>
+
+           <li>
+            <a href="{% url 'mmb_logic:change_profile' request.user.id 'user' %}">Profile</a>
+          </li>
+          <li>
+            <span class="arrow top"></span>
+            <a href="{% url 'users:edit_profile' %}">Settings</a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="badge bg-danger pull-right">3</span>
+              Notifications
+            </a>
+          </li>
+          <li>
+            <a href="docs.html">Help</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="{% url 'account_logout' %}" data-toggle="ajaxModal" >Logout</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  {% else %}
+     <div class="navbar-form navbar-right input-s-lg m-t m-l-n-xs hidden-xs">
+      <!-- <ul class="nav navbar-nav m-n hidden-xs nav-user user">
+         <li class="dropdown">
+            <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
+              <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                <img src="{% static 'images/a0.png' %}" alt="...">
+              </span>
+              {{request.user}} <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu animated fadeInRight">
+              <li>
+                <span class="arrow top"></span>
+                <a href="{% url 'account_signup' %}">Sign Up</a>
+              </li>
+              <li>
+                <a href="{% url 'account_login' %}">Sign In</a>
+              </li>
+
+              <li>
+                <a href="docs.html">Help</a>
+              </li>
+
+
+            </ul>
+        </li>
+        </ul> -->
+
+          <div class="form-group">
+            <div class="input-group">
+             <!-- <input id = "search" type="text" class="form-control input-sm no-border rounded" placeholder="Search songs, albums..."> -->
+              <div class="form-group">
+                <a data-toggle = "ajaxModal" href="{% url 'account_login' %}" class="btn btn-md btn-default btn-block btn-rounded" >Login/Signup <i class = "fa fa-sign-in"> </i></a>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+  {% endif %}
+
+</header>
