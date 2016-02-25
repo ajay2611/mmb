@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 
+from mmb_repo.mmb_logic.utils import check_for_session
 from mmb_repo.users.models import *
 from mmb_repo.mmb_data.models import *
 from mmb_repo.bands.models import *
@@ -71,19 +72,27 @@ def get_location(request):
 def inc_likes(request):
     success = False
     mimetype = 'application/json'
-    print request.POST.get('song_id')
-    is_band = request.session.get('is_band')
-    band_id = request.session.get('id')
+
+    # checking for band/user
+    is_band, band_id = check_for_session(request)
+
     if request.is_ajax():
         song_id = request.GET.get('song_id')
-        song_obj = Song.objects.get(id=song_id)
-        SongLike.objects.create(user=request.user, song=song_obj)
-        song_obj.likes += 1
-        song_obj.save()
-        # if not is_band:
-        #     band_obj = Band.objects.get(id=band_id)
-        #     SongLike.objects.create(band=band_obj, song=song_obj)
-        success = True
+        try:
+            song_obj = Song.objects.get(id=song_id)
+
+            # if band then creating Songlike object for band
+            if is_band and band_id:
+                band = Band.objects.get(id=band_id)
+                SongLike.objects.create(band=band, song=song_obj)
+            else:
+                SongLike.objects.create(user=request.user, song=song_obj)
+
+            song_obj.likes += 1
+            song_obj.save()
+            success = True
+        except:
+            pass
 
     return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
 
@@ -91,19 +100,29 @@ def inc_likes(request):
 def dec_likes(request):
     success = False
     mimetype = 'application/json'
+
+    # checking for band/user
+    is_band, band_id = check_for_session(request)
+
     if request.is_ajax():
         song_id = request.GET.get('song_id')
         try:
             song_obj = Song.objects.get(id=song_id)
-            #for now getting all objects and deleting it
-            SongLike.objects.filter(user=request.user, song=song_obj).delete()
+
+            if is_band and band_id:
+                band = Band.objects.get(id=band_id)
+                # for now getting all objects and deleting it
+                SongLike.objects.filter(band=band, song=song_obj).delete()
+            else:
+                # for now getting all objects and deleting it
+                SongLike.objects.filter(user=request.user, song=song_obj).delete()
             song_obj.likes -= 1
             song_obj.save()
             success = True
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
+        return HttpResponse(json.dumps({'success': success, 'like_count': song_obj.likes}), mimetype)
 
 @ajax_login_required
 def change_profile(request, id, type=None):

@@ -74,10 +74,10 @@ def create_band(request):
 
 def view_band(request, band_id):
     template = 'bands/band_profile.html'
+    user = request.user
+    band = Band.objects.get(id=band_id)
+    band_members = BandMember.objects.filter(band=band_id)
     if request.method == 'GET':
-        user = request.user
-        band = Band.objects.get(id=band_id)
-        band_members = BandMember.objects.filter(band=band_id)
         try:
             band_songs = Song.objects.filter(band__id=band_id)
         except:

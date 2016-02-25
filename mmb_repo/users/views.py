@@ -14,6 +14,8 @@ from django.core.exceptions import ValidationError
 
 from config.settings.common import STATIC_URL
 from allauth.socialaccount.models import SocialAccount
+from mmb_repo.mmb_logic.utils import check_for_session
+from mmb_repo.bands.models import Band
 from mmb_repo.mmb_data.models import Genre, Instrument, Song, SongLike
 
 from .forms import UserForm, ProfileDataForm, ChangePasswordForm, UploadSongForm
@@ -230,12 +232,19 @@ def base_view(request):
     # for now getting all songs
     songs = Song.objects.all()
 
+    # checking for the session
+    is_band, band_id = check_for_session(request)
+
     for song in songs:
         try:
-            obj = SongLike.objects.get(user=user, song=song)
+            # if object exists then success is True
+            if is_band and band_id:
+                band = Band.objects.get(id=band_id)
+                SongLike.objects.get(band=band, song=song)
+            else:
+                SongLike.objects.get(user=user, song=song)
 
-            if obj:
-                success = True
+            success = True
         except SongLike.DoesNotExist:
             success = False
 
