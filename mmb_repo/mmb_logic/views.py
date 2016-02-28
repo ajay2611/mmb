@@ -149,12 +149,14 @@ def follow(request):
         user_followed_profile = Profile.objects.get(user=followed_user)
         user_profile = Profile.objects.get(user=user)
         try:
-            UserFollowers.objects.create(follower=user, following=followed_user)
-            user_followed_profile.followed_by_count += 1
-            user_profile.following_count += 1
-            user_profile.save()
-            user_followed_profile.save()
-            success = True
+            obj, created = UserFollowers.objects.get_or_create\
+                (follower=user, following=followed_user)
+            if created:
+                user_followed_profile.followed_by_count += 1
+                user_profile.following_count += 1
+                user_profile.save()
+                user_followed_profile.save()
+                success = True
         except:
             pass
 
@@ -208,7 +210,7 @@ def unfollow_band(request):
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success, 'band_follow_count': band_obj.follower_count}), mimetype)
+        return HttpResponse(json.dumps({'success': success, 'band_follow_count': band_obj.follower_count}), mimetype)
 
 @ajax_login_required
 def follow_band(request):
@@ -220,16 +222,18 @@ def follow_band(request):
         band_obj = Band.objects.get(id=band_id)
         user_profile = Profile.objects.get(user=user)
         try:
-            BandFollowers.objects.create(follower=user, following_band=band_obj)
-            band_obj.follower_count += 1
-            user_profile.band_follow_count += 1
-            user_profile.save()
-            band_obj.save()
-            success = True
+            obj, created = BandFollowers.objects.get_or_create\
+                            (follower=user, following_band=band_obj)
+            if created:
+                band_obj.follower_count += 1
+                user_profile.band_follow_count += 1
+                user_profile.save()
+                band_obj.save()
+                success = True
         except:
             pass
 
-    return HttpResponse(json.dumps({'success': success,'band_follow_count': band_obj.follower_count}), mimetype)
+        return HttpResponse(json.dumps({'success': success,'band_follow_count': band_obj.follower_count}), mimetype)
 
 @ajax_login_required
 def apply_vacancy(request):

@@ -242,7 +242,7 @@ def base_view(request):
                 band = Band.objects.get(id=band_id)
                 SongLike.objects.get(band=band, song=song)
             else:
-                SongLike.objects.get(user=user, song=song)
+                SongLike.objects.get(user__id=user.id, song=song)
 
             success = True
         except SongLike.DoesNotExist:
