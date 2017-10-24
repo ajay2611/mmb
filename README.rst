@@ -1,4 +1,5 @@
-makemyband - mmb
+MakeMyBand - Musicians | Bands | Blogs
+           - A portal for musicians to connect.
 ==============================
 
 LICENSE: BSD
